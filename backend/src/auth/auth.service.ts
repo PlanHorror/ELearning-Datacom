@@ -55,11 +55,7 @@ export class AuthService {
   async userSignin(user: UserSignInDto): Promise<{ accessToken: string }> {
     const { email, password } = user;
     const thisUser = await this.userRepository.findOneBy({ email });
-    console.log(await bcrypt.compare('11111111', user.password));
-    if (!thisUser) {
-      throw new UnauthorizedException('Invalid email');
-    }
-    if (thisUser && (await bcrypt.compare(password, user.password))) {
+    if (thisUser && (await bcrypt.compare(password, thisUser.password))) {
       const payload = { email: user.email, role: 'user' };
       const accessToken = this.jwtService.sign(payload);
       return { accessToken };
@@ -93,7 +89,7 @@ export class AuthService {
   ): Promise<{ accessToken: string }> {
     const { email, password } = company;
     const thisCompany = await this.companyRepository.findOneBy({ email });
-    if (thisCompany && (await bcrypt.compare(password, company.password))) {
+    if (thisCompany && (await bcrypt.compare(password, thisCompany.password))) {
       const payload = { email: company.email, role: 'company' };
       const accessToken = this.jwtService.sign(payload);
       return { accessToken };
