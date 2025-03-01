@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { EmailModule } from './email/email.module';
 import * as fs from 'fs';
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import * as fs from 'fs';
         ca: fs.readFileSync('./ca.pem').toString(),
       },
     }),
+    EmailModule,
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

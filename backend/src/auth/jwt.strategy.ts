@@ -32,21 +32,21 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       if (!customer) {
         throw new NotFoundException('User not found');
       }
-      return customer;
+      return { ...customer, role: Role.CUSTOMER };
     }
     if (role === Role.COMPANY) {
       const company = await this.companyRepository.findOneBy({ email });
       if (!company) {
         throw new NotFoundException('Company not found');
       }
-      return company;
+      return { ...company, role: Role.COMPANY };
     }
     if (role === Role.ADMIN) {
       const admin = await this.adminRepository.findOneBy({ username: name });
       if (!admin) {
         throw new NotFoundException('Admin not found');
       }
-      return admin;
+      return { ...admin, role: Role.ADMIN };
     }
   }
 }
