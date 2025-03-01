@@ -30,4 +30,16 @@ export class EmailService {
       }
     });
   }
+
+  sendVerificationEmail(email: string, token: string) {
+    const verificationLink = `${this.config.get<string>(
+      'EMAIL_VERIFICATION_LINK',
+    )}${token}`;
+    const mailOptions: EmailDto = {
+      email,
+      subject: 'Email Verification',
+      message: `Click on the link to verify your email: ${verificationLink}`,
+    };
+    this.sendEmail(mailOptions);
+  }
 }

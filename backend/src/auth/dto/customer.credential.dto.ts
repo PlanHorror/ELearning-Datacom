@@ -12,8 +12,8 @@ import {
 import { Gender } from '../enum.model';
 import { Transform } from 'class-transformer';
 
-// DTO for User sign up
-export class UserSignUpDto {
+// DTO for Customer sign up
+export class CustomerSignUpDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -43,8 +43,8 @@ export class UserSignUpDto {
   dob: Date;
 }
 
-// DTO for User sign in
-export class UserSignInDto {
+// DTO for Customer sign in
+export class CustomerSignInDto {
   @IsEmail()
   email: string;
 

@@ -1,5 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { UserSignInDto, UserSignUpDto } from './dto/user.credential.dto';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  CustomerSignInDto,
+  CustomerSignUpDto,
+} from './dto/customer.credential.dto';
 import { AuthService } from './auth.service';
 import {
   CompanySignInDto,
@@ -7,21 +10,22 @@ import {
 } from './dto/company.credential.dto';
 import { User } from './entity/user.entity';
 import { Company } from './entity/company.entity';
+import { UserVerificationDto } from './dto/user.verification.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('user/signup')
-  async signup(@Body() userDto: UserSignUpDto): Promise<User> {
-    return this.authService.userSignup(userDto);
+  async signup(@Body() userDto: CustomerSignUpDto): Promise<User> {
+    return this.authService.customerSignup(userDto);
   }
 
   @Post('user/signin')
   async signin(
-    @Body() userDto: UserSignInDto,
+    @Body() userDto: CustomerSignInDto,
   ): Promise<{ accessToken: string }> {
-    return this.authService.userSignin(userDto);
+    return this.authService.customerSignin(userDto);
   }
 
   @Post('company/signup')
@@ -38,4 +42,14 @@ export class AuthController {
 
   @Post('admin/signin')
   async adminSignin() {}
+
+  @Get('verify/:token')
+  async verify(@Param('token') token: string) {
+    return this.authService.verifyEmail(token);
+  }
+
+  @Get('resend-verification')
+  async resendVerification(@Body() dto: UserVerificationDto) {
+    return this.authService.sendVerificationEmail(dto);
+  }
 }
