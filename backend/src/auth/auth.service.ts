@@ -20,6 +20,7 @@ import {
 import {
   CompanySignInDto,
   CompanySignUpDto,
+  CompanyUpdateDto,
 } from './dto/company.credential.dto';
 import { Role, Status } from './enum.model';
 import { JwtStatusPayload } from './jwt.payload.interface';
@@ -41,6 +42,16 @@ export class AuthService {
     private jwtService: JwtService,
     private emailService: EmailService,
   ) {}
+
+  // Take all customers
+  async getAllCustomers(): Promise<Customer[]> {
+    return this.customerRepository.find();
+  }
+
+  // Take all companies
+  async getAllCompanies(): Promise<Company[]> {
+    return this.companyRepository.find();
+  }
 
   // Customer signup service
   async customerSignup(user: CustomerSignUpDto): Promise<Customer> {
@@ -111,12 +122,21 @@ export class AuthService {
     }
     Object.assign(thisCustomer, customerUpdate);
     thisCustomer.last_updated = new Date();
-    await this.customerRepository.save(thisCustomer);
+    try {
+      await this.customerRepository.save(thisCustomer);
+    } catch (error) {
+      throw error.code === '23505'
+        ? new ConflictException('Username or email already exists')
+        : new InternalServerErrorException();
+    }
     return thisCustomer;
   }
 
   // Customer delete service
-  async customerDelete() {}
+  async customerDelete(thisCustomer: Customer): Promise<{ message: string }> {
+    await this.customerRepository.remove(thisCustomer);
+    return { message: 'Account deleted successfully' };
+  }
 
   // Company signup service
   async companySignup(company: CompanySignUpDto): Promise<Company> {
@@ -165,10 +185,36 @@ export class AuthService {
   }
 
   // Company update service
-  async companyUpdate() {}
+  async companyUpdate(
+    companyUpdateDto: CompanyUpdateDto,
+    thisCompany: Company,
+    companyResetPassword?: ResetPasswordDto,
+  ) {
+    const { oldPassword, newPassword, confirmPassword } =
+      companyResetPassword || {};
+    if (oldPassword && newPassword && confirmPassword) {
+      if (newPassword !== confirmPassword) {
+        throw new UnauthorizedException('Password not match');
+      }
+      if (await bcrypt.compare(oldPassword, thisCompany.password)) {
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        thisCompany.password = hashedPassword;
+      } else {
+        throw new UnauthorizedException('Invalid old password');
+      }
+    }
+    Object.assign(thisCompany, companyUpdateDto);
+    thisCompany.last_updated = new Date();
+    await this.companyRepository.save(thisCompany);
+    return thisCompany;
+  }
 
   // Company delete service
-  async companyDelete() {}
+  async companyDelete(thisCompany: Company): Promise<{ message: string }> {
+    await this.companyRepository.remove(thisCompany);
+    return { message: 'Account deleted successfully' };
+  }
 
   // Admin signin service
   async adminSignin() {}

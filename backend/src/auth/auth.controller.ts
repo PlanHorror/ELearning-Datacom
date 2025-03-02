@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 import {
   CompanySignInDto,
   CompanySignUpDto,
+  CompanyUpdateDto,
 } from './dto/company.credential.dto';
 import { Customer } from './entity/customer.entity';
 import { Company } from './entity/company.entity';
@@ -28,6 +29,16 @@ import { Role } from './enum.model';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Get('customers')
+  async getAllCustomers(): Promise<Customer[]> {
+    return this.authService.getAllCustomers();
+  }
+
+  @Get('companies')
+  async getAllCompanies(): Promise<Company[]> {
+    return this.authService.getAllCompanies();
+  }
 
   @Post('customer/signup')
   async signup(@Body() customerDto: CustomerSignUpDto): Promise<Customer> {
@@ -48,7 +59,7 @@ export class AuthController {
     @Body() customerUpdateDto: CustomerUpdateDto,
     @GetUser() user: Customer,
     @Body() customerResetPassword?: ResetPasswordDto,
-  ) {
+  ): Promise<Customer> {
     return this.authService.customerUpdate(
       customerUpdateDto,
       user,
@@ -57,7 +68,11 @@ export class AuthController {
   }
 
   @Post('customer/delete')
-  async delete() {}
+  @Roles(Role.CUSTOMER)
+  @UseGuards(AuthGuard())
+  async delete(@GetUser() thisCustomer: Customer) {
+    return this.authService.customerDelete(thisCustomer);
+  }
 
   @Post('company/signup')
   async companySignup(@Body() companyDto: CompanySignUpDto): Promise<Company> {
@@ -71,11 +86,27 @@ export class AuthController {
     return this.authService.companySignin(companyDto);
   }
 
+  @Roles(Role.COMPANY)
+  @UseGuards(AuthGuard())
   @Post('company/update')
-  async companyUpdate() {}
+  async companyUpdate(
+    @Body() companyUpdateDto: CompanyUpdateDto,
+    @GetUser() thisCompany: Company,
+    @Body() companyResetPassword?: ResetPasswordDto,
+  ) {
+    return this.authService.companyUpdate(
+      companyUpdateDto,
+      thisCompany,
+      companyResetPassword,
+    );
+  }
 
   @Post('company/delete')
-  async companyDelete() {}
+  @Roles(Role.COMPANY)
+  @UseGuards(AuthGuard())
+  async companyDelete(@GetUser() thisCompany: Company) {
+    return this.authService.companyDelete(thisCompany);
+  }
 
   @Post('admin/signin')
   async adminSignin() {}
