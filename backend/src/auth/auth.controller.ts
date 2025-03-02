@@ -1,32 +1,63 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   CustomerSignInDto,
   CustomerSignUpDto,
+  CustomerUpdateDto,
+  ResetPasswordDto,
 } from './dto/customer.credential.dto';
 import { AuthService } from './auth.service';
 import {
   CompanySignInDto,
   CompanySignUpDto,
 } from './dto/company.credential.dto';
-import { User } from './entity/user.entity';
+import { Customer } from './entity/customer.entity';
 import { Company } from './entity/company.entity';
 import { UserVerificationDto } from './dto/user.verification.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser, Roles } from './authorized.decorator';
+import { Role } from './enum.model';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('user/signup')
-  async signup(@Body() userDto: CustomerSignUpDto): Promise<User> {
-    return this.authService.customerSignup(userDto);
+  @Post('customer/signup')
+  async signup(@Body() customerDto: CustomerSignUpDto): Promise<Customer> {
+    return this.authService.customerSignup(customerDto);
   }
 
-  @Post('user/signin')
+  @Post('customer/signin')
   async signin(
-    @Body() userDto: CustomerSignInDto,
+    @Body() customerDto: CustomerSignInDto,
   ): Promise<{ accessToken: string }> {
-    return this.authService.customerSignin(userDto);
+    return this.authService.customerSignin(customerDto);
   }
+
+  @Roles(Role.CUSTOMER)
+  @UseGuards(AuthGuard())
+  @Post('customer/update')
+  async update(
+    @Body() customerUpdateDto: CustomerUpdateDto,
+    @GetUser() user: Customer,
+    @Body() customerResetPassword?: ResetPasswordDto,
+  ) {
+    return this.authService.customerUpdate(
+      customerUpdateDto,
+      user,
+      customerResetPassword,
+    );
+  }
+
+  @Post('customer/delete')
+  async delete() {}
 
   @Post('company/signup')
   async companySignup(@Body() companyDto: CompanySignUpDto): Promise<Company> {
@@ -39,6 +70,12 @@ export class AuthController {
   ): Promise<{ accessToken: string }> {
     return this.authService.companySignin(companyDto);
   }
+
+  @Post('company/update')
+  async companyUpdate() {}
+
+  @Post('company/delete')
+  async companyDelete() {}
 
   @Post('admin/signin')
   async adminSignin() {}

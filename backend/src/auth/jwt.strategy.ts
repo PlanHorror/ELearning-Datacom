@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { User } from './entity/user.entity';
+import { Customer } from './entity/customer.entity';
 import { Repository } from 'typeorm';
 import { Company } from './entity/company.entity';
 import { Admin } from './entity/admin.entity';
@@ -13,12 +13,14 @@ import { Role } from './enum.model';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Customer)
+    private customerRepository: Repository<Customer>,
     @InjectRepository(Company) private companyRepository: Repository<Company>,
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
   ) {
+    console.log('process.env.JWT_SECRET', process.env.JWT_SECRET);
     super({
-      secretOrKey: process.env.JWT_SECRET || 'secret',
+      secretOrKey: process.env.JWT_SECRET!,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
@@ -28,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayload) {
     const { name, email, role } = payload || {};
     if (role === Role.CUSTOMER) {
-      const customer = await this.userRepository.findOneBy({ email });
+      const customer = await this.customerRepository.findOneBy({ email });
       if (!customer) {
         throw new NotFoundException('User not found');
       }

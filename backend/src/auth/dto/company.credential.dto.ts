@@ -27,3 +27,12 @@ export class CompanySignInDto {
   @MaxLength(14)
   password: string;
 }
+
+// DTO for Company update
+export class CompanyUpdateDto {
+  @IsString()
+  address: string;
+
+  @IsString()
+  company_name: string;
+}

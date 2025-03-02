@@ -3,7 +3,7 @@ import { Status } from '../enum.model';
 
 // User entity class
 @Entity()
-export class User {
+export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
