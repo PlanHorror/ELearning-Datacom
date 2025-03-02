@@ -67,7 +67,7 @@ export class AuthController {
     );
   }
 
-  @Post('customer/delete')
+  @Get('customer/delete')
   @Roles(Role.CUSTOMER)
   @UseGuards(AuthGuard())
   async delete(@GetUser() thisCustomer: Customer) {
@@ -101,7 +101,7 @@ export class AuthController {
     );
   }
 
-  @Post('company/delete')
+  @Get('company/delete')
   @Roles(Role.COMPANY)
   @UseGuards(AuthGuard())
   async companyDelete(@GetUser() thisCompany: Company) {
