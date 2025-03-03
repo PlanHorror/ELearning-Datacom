@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -67,7 +68,7 @@ export class AuthController {
     );
   }
 
-  @Get('customer/delete')
+  @Delete('customer')
   @Roles(Role.CUSTOMER)
   @UseGuards(AuthGuard())
   async delete(@GetUser() thisCustomer: Customer) {
@@ -101,7 +102,7 @@ export class AuthController {
     );
   }
 
-  @Get('company/delete')
+  @Delete('company')
   @Roles(Role.COMPANY)
   @UseGuards(AuthGuard())
   async companyDelete(@GetUser() thisCompany: Company) {
