@@ -6,10 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './email/email.module';
 import * as fs from 'fs';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
     AuthModule,
+    // Import the ScheduleModule
+    ScheduleModule.forRoot(),
+    // Import the ConfigModule
     ConfigModule.forRoot(),
+    // Import the TypeOrmModule
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_HOST,

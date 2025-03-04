@@ -74,6 +74,12 @@ export class AuthService {
         ? new ConflictException('Username or email already exists')
         : new InternalServerErrorException();
     }
+    // If after 15 minutes the customer is not verified, delete the customer
+    setTimeout(() => {
+      (async () => {
+        await this.deleteUnverifiedAccount(newUser.email, Role.CUSTOMER);
+      })();
+    }, 900000);
     return newUser;
   }
 
@@ -85,9 +91,9 @@ export class AuthService {
     const thisUser = await this.customerRepository.findOneBy({ email });
     if (thisUser && (await bcrypt.compare(password, thisUser.password))) {
       if (thisUser.status === Status.INACTIVE) {
-        throw new UnauthorizedException('User not verified');
+        throw new UnauthorizedException('Account not verified');
       } else if (thisUser.status === Status.BANNED) {
-        throw new UnauthorizedException('User is banned');
+        throw new UnauthorizedException('Account is banned');
       }
       const payload = { email: user.email, role: Role.CUSTOMER };
       const accessToken = this.jwtService.sign(payload);
@@ -159,6 +165,12 @@ export class AuthService {
         ? new ConflictException('Email already exists')
         : new InternalServerErrorException();
     }
+    // If after 15 seconds the company is not verified, delete the company
+    setTimeout(() => {
+      (async () => {
+        await this.deleteUnverifiedAccount(newCompany.email, Role.COMPANY);
+      })();
+    }, 900000);
     return newCompany;
   }
 
@@ -170,9 +182,9 @@ export class AuthService {
     const thisCompany = await this.companyRepository.findOneBy({ email });
     if (thisCompany && (await bcrypt.compare(password, thisCompany.password))) {
       if (thisCompany.status === Status.INACTIVE) {
-        throw new UnauthorizedException('Company not verified');
+        throw new UnauthorizedException('Account not verified');
       } else if (thisCompany.status === Status.BANNED) {
-        throw new UnauthorizedException('Company is banned');
+        throw new UnauthorizedException('Account is banned');
       }
       const payload = { email: company.email, role: Role.COMPANY };
       const accessToken = this.jwtService.sign(payload);
@@ -227,7 +239,7 @@ export class AuthService {
         ? await this.customerRepository.findOneBy({ email })
         : await this.companyRepository.findOneBy({ email });
     if (!user) {
-      throw new UnauthorizedException('Invalid user');
+      throw new UnauthorizedException('Invalid account');
     }
     const payload: JwtStatusPayload = { email, role, status: Status.ACTIVE };
     const userVerifyToken = this.jwtService.sign(payload, {
@@ -248,12 +260,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid token');
     }
     const payload = this.jwtService.decode(token);
-    console.log(payload);
     const { email, role, status } = payload;
     if (role === Role.CUSTOMER) {
       const user = await this.customerRepository.findOneBy({ email });
       if (!user) {
-        throw new UnauthorizedException('Invalid user');
+        throw new UnauthorizedException('Invalid account');
       }
       user.status = status;
       await this.customerRepository.save(user);
@@ -262,13 +273,34 @@ export class AuthService {
     } else if (role === Role.COMPANY) {
       const company = await this.companyRepository.findOneBy({ email });
       if (!company) {
-        throw new UnauthorizedException('Invalid company');
+        throw new UnauthorizedException('Invalid account');
       }
       company.status = status;
       await this.companyRepository.save(company);
       return { message: 'Verified successfully' };
     } else {
       throw new UnauthorizedException('Invalid');
+    }
+  }
+
+  // Delete account when not verified in 30 seconds
+  async deleteUnverifiedAccount(email: string, role: Role): Promise<void> {
+    if (role === Role.CUSTOMER) {
+      const user = await this.customerRepository.findOneBy({ email });
+      if (!user) {
+        return;
+      }
+      if (user.status == Status.INACTIVE) {
+        await this.customerRepository.remove(user);
+      }
+    } else if (role === Role.COMPANY) {
+      const company = await this.companyRepository.findOneBy({ email });
+      if (!company) {
+        return;
+      }
+      if (company.status == Status.INACTIVE) {
+        await this.companyRepository.remove(company);
+      }
     }
   }
 }
