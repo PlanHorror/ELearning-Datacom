@@ -1,0 +1,34 @@
+@use "../../../../../shared/styles/variables.scss" as *;
+@use "../../../../../shared//styles/font.scss" as *;
+
+.form_subtext {
+  width: 100%;
+  font-weight: 500;
+  color: $color-text-sub;
+  opacity: 0.8;
+  line-height: 1.5;
+  padding-bottom: 40px;
+  max-width: 380px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  align-self: center;
+}
+
+.wrapper_options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  .btn {
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 28px;
+    @extend .font_body_16r;
+    width: 100%;
+    border-radius: 4px;
+    background-color: $white_color;
+    color: $primary_color_600;
+  }
+}

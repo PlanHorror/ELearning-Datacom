@@ -1,0 +1,39 @@
+@use "../../../../../shared/styles/variables.scss" as *;
+@use "../../../../../shared//styles/font.scss" as *;
+
+.wrapper_btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16.8px;
+  text-align: left;
+}
+
+.input_group {
+  text-align: start;
+  padding: 0 20px;
+  input {
+    border-radius: 8px;
+    width: 100%;
+  }
+}
+
+.btn {
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 28px;
+  @extend .font_body_16r;
+  width: 150px;
+  border-radius: 4px;
+}
+
+.form_text_forgot_password {
+  text-align: right;
+  margin-top: -22px;
+  padding: 0 20px;
+}
