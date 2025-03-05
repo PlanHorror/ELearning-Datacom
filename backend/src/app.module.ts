@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './email/email.module';
 import * as fs from 'fs';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CouponModule } from './coupon/coupon.module';
 @Module({
   imports: [
     AuthModule,
@@ -31,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     EmailModule,
     ConfigModule.forRoot(),
+    CouponModule,
   ],
   controllers: [AppController],
   providers: [AppService],

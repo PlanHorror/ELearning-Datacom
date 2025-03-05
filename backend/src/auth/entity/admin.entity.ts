@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { CouponLabel } from 'src/coupon/entity/coupon-label.entity';
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 // Admin entity class
 @Entity()
@@ -11,4 +12,9 @@ export class Admin {
 
   @Column()
   password: string;
+
+  @OneToMany((_type) => CouponLabel, (couponLabel) => couponLabel.admin, {
+    eager: true,
+  })
+  couponLabels: CouponLabel[];
 }
