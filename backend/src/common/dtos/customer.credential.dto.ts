@@ -11,7 +11,7 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { Gender } from '../enum.model';
+import { Gender } from 'src/common/enums';
 import { Transform } from 'class-transformer';
 
 // DTO for Customer sign up

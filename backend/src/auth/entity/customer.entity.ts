@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Status } from '../enum.model';
+import { Status } from 'src/common/enums';
 
 // User entity class
 @Entity()

@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum } from 'class-validator';
-import { Role } from '../enum.model';
+import { Role } from 'src/common/enums';
 
 // DTO for user verification
 export class UserVerificationDto {

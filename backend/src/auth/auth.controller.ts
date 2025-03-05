@@ -13,19 +13,17 @@ import {
   CustomerSignUpDto,
   CustomerUpdateDto,
   ResetPasswordDto,
-} from './dto/customer.credential.dto';
-import { AuthService } from './auth.service';
-import {
   CompanySignInDto,
   CompanySignUpDto,
   CompanyUpdateDto,
-} from './dto/company.credential.dto';
+  UserVerificationDto,
+} from 'src/common/dtos';
+import { AuthService } from './auth.service';
 import { Customer } from './entity/customer.entity';
 import { Company } from './entity/company.entity';
-import { UserVerificationDto } from './dto/user.verification.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser, Roles } from './authorized.decorator';
-import { Role } from './enum.model';
+import { GetUser, Roles } from 'src/common/decorators';
+import { Role } from 'src/common/enums';
 
 @Controller('auth')
 export class AuthController {

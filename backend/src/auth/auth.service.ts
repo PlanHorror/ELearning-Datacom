@@ -16,16 +16,14 @@ import {
   CustomerSignUpDto,
   CustomerUpdateDto,
   ResetPasswordDto,
-} from './dto/customer.credential.dto';
-import {
   CompanySignInDto,
   CompanySignUpDto,
   CompanyUpdateDto,
-} from './dto/company.credential.dto';
-import { Role, Status } from './enum.model';
-import { JwtStatusPayload } from './jwt.payload.interface';
+  UserVerificationDto,
+} from 'src/common/dtos';
+import { Role, Status } from 'src/common/enums';
+import { JwtStatusPayload } from 'src/common/interfaces';
 import { EmailService } from 'src/email/email.service';
-import { UserVerificationDto } from './dto/user.verification.dto';
 
 @Injectable()
 export class AuthService {
