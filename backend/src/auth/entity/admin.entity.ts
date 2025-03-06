@@ -1,4 +1,4 @@
-import { CouponLabel } from 'src/coupon/entity/coupon-label.entity';
+import { CouponLabel } from 'src/coupon-label/entity/coupon-label.entity';
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 // Admin entity class

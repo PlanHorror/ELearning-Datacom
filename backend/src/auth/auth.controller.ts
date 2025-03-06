@@ -24,6 +24,7 @@ import { Company } from './entity/company.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
+import { RolesGuard } from 'src/common/guards/authorized.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -52,7 +53,7 @@ export class AuthController {
   }
 
   @Roles(Role.CUSTOMER)
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @Post('customer/update')
   async update(
     @Body() customerUpdateDto: CustomerUpdateDto,
@@ -68,7 +69,7 @@ export class AuthController {
 
   @Delete('customer')
   @Roles(Role.CUSTOMER)
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   async delete(@GetUser() thisCustomer: Customer) {
     return this.authService.customerDelete(thisCustomer);
   }
@@ -86,7 +87,7 @@ export class AuthController {
   }
 
   @Roles(Role.COMPANY)
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @Post('company/update')
   async companyUpdate(
     @Body() companyUpdateDto: CompanyUpdateDto,
@@ -102,7 +103,7 @@ export class AuthController {
 
   @Delete('company')
   @Roles(Role.COMPANY)
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   async companyDelete(@GetUser() thisCompany: Company) {
     return this.authService.companyDelete(thisCompany);
   }
