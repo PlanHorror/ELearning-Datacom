@@ -28,6 +28,9 @@ export class Customer {
   @Column()
   dob: Date;
 
+  @Column({ default: 0 })
+  points: number;
+
   @Column({ default: new Date() })
   created_at: Date;
 

@@ -40,13 +40,9 @@ export class CouponLabelService {
   }
 
   // Create label
-  async createLabel(
-    admin: Admin,
-    label: LabelCouponCreateDto,
-  ): Promise<CouponLabel> {
+  async createLabel(label: LabelCouponCreateDto): Promise<CouponLabel> {
     const newLabel = this.couponLabel.create({
       ...label,
-      admin,
       created_at: new Date(),
       last_updated: new Date(),
     });

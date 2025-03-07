@@ -3,10 +3,10 @@ import {
   Injectable,
   InternalServerErrorException,
   MethodNotAllowedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Coupon } from './entity/coupon.entity';
-import { CouponLabel } from '../coupon-label/entity/coupon-label.entity';
 import { Repository } from 'typeorm';
 import { CouponDto } from 'src/common/dtos';
 import { Company } from 'src/auth/entity/company.entity';
@@ -29,55 +29,68 @@ export class CouponService {
 
   // Get coupon by id
   async getCouponById(id: string): Promise<Coupon> {
-    const coupon = await this.coupon.findOneBy({ id });
+    let coupon;
+    try {
+      coupon = await this.coupon.findOneBy({ id });
+    } catch (error) {
+      throw new NotFoundException('Coupon not found');
+    }
     if (!coupon) {
-      throw new Error('Coupon not found');
+      throw new NotFoundException('Coupon not found');
     }
     return coupon;
   }
 
+  // Get coupons by company
+  async getCouponsByCompany(company: Company): Promise<Coupon[]> {
+    return await this.coupon.find({ where: { company } });
+  }
+
   // Create coupon
-  // async createCoupon(
-  //   company: Company,
-  //   couponDto: CouponDto,
-  //   image: Express.Multer.File,
-  // ): Promise<Coupon> {
-  //   const newCoupon = this.coupon.create({
-  //     ...couponDto,
-  //     company,
-  //     created_at: new Date(),
-  //     last_updated: new Date(),
-  //   });
-  //   const label = await this.labelService.getLabelByName(couponDto.label);
-  //   const imageFilename = this.saveCouponImage(image);
-  //   newCoupon.image = imageFilename;
-  //   try {
-  //     await this.coupon.save(newCoupon);
-  //     const filePath = process.env.COUPON_IMAGE_URL + imageFilename;
-  //     fs.writeFile(filePath, image.buffer, (err) => {
-  //       if (err) {
-  //         throw new InternalServerErrorException();
-  //       }
-  //     });
-  //   } catch (error) {
-  //     throw error.code === '23505'
-  //       ? new ConflictException('Coupon code exists')
-  //       : new InternalServerErrorException();
-  //   }
-  //   return newCoupon;
-  // }
+  async createCoupon(
+    company: Company,
+    couponDto: CouponDto,
+    image: Express.Multer.File,
+  ): Promise<Coupon> {
+    const { label, ...newCouponInfo } = couponDto;
+    const labelEntity = await this.labelService.getLabelByName(label);
+    const newCoupon = this.coupon.create({
+      ...newCouponInfo,
+      company,
+      label: labelEntity,
+      image: this.saveCouponImage(image),
+      created_at: new Date(),
+      last_updated: new Date(),
+    });
+    try {
+      await this.coupon.save(newCoupon);
+      const filePath = process.env.COUPON_IMAGE_URL + newCoupon.image;
+      fs.writeFile(filePath, image.buffer, (err) => {
+        if (err) {
+          throw new InternalServerErrorException();
+        }
+      });
+    } catch (error) {
+      throw error.code === '23505'
+        ? new ConflictException('Coupon code already exists')
+        : new InternalServerErrorException();
+    }
+    return newCoupon;
+  }
 
   // Update coupon
   async updateCoupon(
     company: Company,
     id: string,
     updateCoupon: CouponDto,
+    image?: Express.Multer.File,
   ): Promise<Coupon> {
     const { label, ...newCouponInfo } = updateCoupon;
     const coupon = await this.getCouponById(id);
     if (!coupon) {
       throw new Error('Coupon not found');
     }
+    const oldImage = coupon.image;
     if (coupon.company.id !== company.id) {
       throw new MethodNotAllowedException(
         'You are not allowed to update this coupon',
@@ -91,9 +104,26 @@ export class CouponService {
     updatedCoupon.last_updated = new Date();
     try {
       await this.coupon.save(updatedCoupon);
+      if (image) {
+        const imageFilename = this.saveCouponImage(image);
+        updatedCoupon.image = imageFilename;
+        const filePath = process.env.COUPON_IMAGE_URL + imageFilename;
+        fs.writeFile(filePath, image.buffer, (err) => {
+          if (err) {
+            throw new InternalServerErrorException();
+          }
+        });
+        const oldImagePath = process.env.COUPON_IMAGE_URL + oldImage;
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            throw new InternalServerErrorException();
+          }
+        });
+      }
+      await this.coupon.save(updatedCoupon);
     } catch (error) {
       throw error.code === '23505'
-        ? new ConflictException('Coupon already exists')
+        ? new ConflictException('Coupon code already exists')
         : new InternalServerErrorException();
     }
     return updatedCoupon;

@@ -32,6 +32,6 @@ export class Company {
   @Column({ type: 'enum', enum: Status, default: Status.INACTIVE })
   status: Status;
 
-  @OneToMany((_type) => Coupon, (coupon) => coupon.company, { eager: true })
+  @OneToMany((_type) => Coupon, (coupon) => coupon.company)
   coupons: Coupon[];
 }

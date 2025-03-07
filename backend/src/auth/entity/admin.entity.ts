@@ -13,8 +13,4 @@ export class Admin {
   @Column()
   password: string;
 
-  @OneToMany((_type) => CouponLabel, (couponLabel) => couponLabel.admin, {
-    eager: true,
-  })
-  couponLabels: CouponLabel[];
 }

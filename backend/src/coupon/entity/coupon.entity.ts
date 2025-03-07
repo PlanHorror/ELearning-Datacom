@@ -19,6 +19,7 @@ export class Coupon {
 
   @ManyToOne(() => Company, (company) => company.coupons, {
     onDelete: 'CASCADE',
+    eager: true,
   })
   company: Company;
 
@@ -60,6 +61,7 @@ export class Coupon {
 
   @ManyToOne(() => CouponLabel, (couponLabel) => couponLabel.coupons, {
     onDelete: 'SET NULL',
+    eager: true,
   })
   label: CouponLabel;
 }

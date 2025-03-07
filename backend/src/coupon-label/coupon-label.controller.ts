@@ -46,11 +46,8 @@ export class CouponLabelController {
   @Post()
   @Roles(Role.ADMIN)
   @UseGuards(AuthGuard(), RolesGuard)
-  createLabel(
-    @GetUser() admin: Admin,
-    @Body() label: LabelCouponCreateDto,
-  ): Promise<CouponLabel> {
-    return this.couponLabelService.createLabel(admin, label);
+  createLabel(@Body() label: LabelCouponCreateDto): Promise<CouponLabel> {
+    return this.couponLabelService.createLabel(label);
   }
 
   @Patch('/:id')

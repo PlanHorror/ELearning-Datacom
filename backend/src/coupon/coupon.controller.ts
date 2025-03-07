@@ -1,7 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   ForbiddenException,
+  Get,
+  Param,
+  Patch,
   Post,
   UploadedFile,
   UseGuards,
@@ -16,10 +20,21 @@ import { Role } from 'src/common/enums';
 import { Company } from 'src/auth/entity/company.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
+import { Coupon } from './entity/coupon.entity';
 
 @Controller('coupon')
 export class CouponController {
   constructor(private couponService: CouponService) {}
+
+  @Get()
+  getCoupons(): Promise<Coupon[]> {
+    return this.couponService.getCoupons();
+  }
+
+  @Get('/:id')
+  getCoupon(@Param('id') id: string): Promise<Coupon> {
+    return this.couponService.getCouponById(id);
+  }
 
   @Post()
   @Roles(Role.COMPANY)
@@ -29,10 +44,30 @@ export class CouponController {
     @Body() couponDto: CouponDto,
     @UploadedFile() file: Express.Multer.File,
     @GetUser() user: Company,
-  ) {
+  ): Promise<Coupon> {
     if (!file) {
       throw new ForbiddenException('Image is required');
     }
-    // return this.couponService.createCoupon(user, couponDto, file);
+    return this.couponService.createCoupon(user, couponDto, file);
+  }
+
+  @Patch('/:id')
+  @Roles(Role.COMPANY)
+  @UseGuards(AuthGuard(), RolesGuard)
+  @UseInterceptors(FileInterceptor('image', CouponImageOption))
+  updateCoupon(
+    @Body() couponDto: CouponDto,
+    @Param('id') id: string,
+    @GetUser() user: Company,
+    @UploadedFile() file?: Express.Multer.File,
+  ): Promise<Coupon> {
+    return this.couponService.updateCoupon(user, id, couponDto, file);
+  }
+
+  @Delete('/:id')
+  @Roles(Role.COMPANY)
+  @UseGuards(AuthGuard(), RolesGuard)
+  deleteCoupon(@GetUser() company: Company, @Body('id') id: string) {
+    return this.couponService.deleteCoupon(id, company);
   }
 }

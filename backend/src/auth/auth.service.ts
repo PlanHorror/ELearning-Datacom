@@ -20,6 +20,7 @@ import {
   CompanySignUpDto,
   CompanyUpdateDto,
   UserVerificationDto,
+  AdminSignInDto,
 } from 'src/common/dtos';
 import { Role, Status } from 'src/common/enums';
 import { JwtStatusPayload } from 'src/common/interfaces';
@@ -227,7 +228,17 @@ export class AuthService {
   }
 
   // Admin signin service
-  async adminSignin() {}
+  async adminSignin(adminDto: AdminSignInDto) {
+    const { username, password } = adminDto;
+    const admin = await this.adminRepository.findOneBy({ username });
+    if (admin && (await bcrypt.compare(password, admin.password))) {
+      const payload = { username, role: Role.ADMIN };
+      const accessToken = this.jwtService.sign(payload);
+      return { accessToken };
+    } else {
+      throw new UnauthorizedException('Invalid username or password');
+    }
+  }
 
   // Send verification email service
   async sendVerificationEmail(dto: UserVerificationDto): Promise<void> {
@@ -300,5 +311,24 @@ export class AuthService {
         await this.companyRepository.remove(company);
       }
     }
+  }
+
+  // Add admin account
+  async addAdmin(adminDto: AdminSignInDto): Promise<Admin> {
+    const { username, password } = adminDto;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newAdmin = this.adminRepository.create({
+      username,
+      password: hashedPassword,
+    });
+    try {
+      await this.adminRepository.save(newAdmin);
+    } catch (error) {
+      throw error.code === '23505'
+        ? new ConflictException('Username already exists')
+        : new InternalServerErrorException();
+    }
+    return newAdmin;
   }
 }

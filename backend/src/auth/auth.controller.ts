@@ -17,6 +17,7 @@ import {
   CompanySignUpDto,
   CompanyUpdateDto,
   UserVerificationDto,
+  AdminSignInDto,
 } from 'src/common/dtos';
 import { AuthService } from './auth.service';
 import { Customer } from './entity/customer.entity';
@@ -109,7 +110,14 @@ export class AuthController {
   }
 
   @Post('admin/signin')
-  async adminSignin() {}
+  async adminSignin(@Body() adminDto: AdminSignInDto) {
+    return this.authService.adminSignin(adminDto);
+  }
+
+  @Post('admin/signup')
+  async adminSignup(@Body() adminDto: AdminSignInDto) {
+    return this.authService.addAdmin(adminDto);
+  }
 
   @Get('verify/:token')
   async verify(@Param('token') token: string) {

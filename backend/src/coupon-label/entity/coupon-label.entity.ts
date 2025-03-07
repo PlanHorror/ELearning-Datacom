@@ -23,12 +23,6 @@ export class CouponLabel {
   @Column()
   last_updated: Date;
 
-  @ManyToOne((_type) => Admin, (admin) => admin.couponLabels, {
-    onDelete: 'CASCADE',
-    eager: false,
-  })
-  admin: Admin;
-
-  @OneToMany((_type) => Coupon, (coupon) => coupon.label, { eager: true })
+  @OneToMany((_type) => Coupon, (coupon) => coupon.label)
   coupons: Coupon[];
 }
