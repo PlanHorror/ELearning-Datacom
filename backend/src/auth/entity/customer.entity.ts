@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from 'src/common/enums';
+import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
 
 // User entity class
 @Entity()
@@ -42,4 +43,7 @@ export class Customer {
 
   @Column({ type: 'enum', enum: Status, default: Status.INACTIVE })
   status: Status;
+
+  @OneToMany((_type) => CouponFavourite, (favourite) => favourite.customer)
+  favourites: CouponFavourite[];
 }

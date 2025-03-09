@@ -2,14 +2,17 @@ import { Company } from 'src/auth/entity/company.entity';
 import { Classification, CouponStatus } from 'src/common/enums';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 import { CouponLabel } from '../../coupon-label/entity/coupon-label.entity';
+import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
 
 @Entity()
 @Unique(['use_code', 'company'])
@@ -50,10 +53,10 @@ export class Coupon {
   @Column({ nullable: true })
   detail: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   last_updated: Date;
 
   @Column({ type: 'enum', enum: CouponStatus, default: CouponStatus.ACTIVE })
@@ -64,4 +67,7 @@ export class Coupon {
     eager: true,
   })
   label: CouponLabel;
+
+  @OneToMany(() => CouponFavourite, (couponFavourite) => couponFavourite.coupon)
+  favourites: CouponFavourite[];
 }
