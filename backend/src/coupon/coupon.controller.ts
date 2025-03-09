@@ -21,6 +21,7 @@ import { Company } from 'src/auth/entity/company.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Coupon } from './entity/coupon.entity';
+import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 
 @Controller('coupon')
 export class CouponController {
@@ -56,7 +57,7 @@ export class CouponController {
   @UseGuards(AuthGuard(), RolesGuard)
   @UseInterceptors(FileInterceptor('image', CouponImageOption))
   updateCoupon(
-    @Body() couponDto: CouponDto,
+    @Body() couponDto: CouponUpdateDto,
     @Param('id') id: string,
     @GetUser() user: Company,
     @UploadedFile() file?: Express.Multer.File,

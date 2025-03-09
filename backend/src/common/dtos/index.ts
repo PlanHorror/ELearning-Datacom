@@ -5,3 +5,4 @@ export * from './customer.credential.dto';
 export * from './user.verification.dto';
 export * from './label-coupon.dto';
 export * from './coupon.dto';
+export * from './coupon-favourite.dto';

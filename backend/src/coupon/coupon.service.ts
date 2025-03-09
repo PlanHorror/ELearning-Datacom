@@ -15,6 +15,8 @@ import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 import { CouponLabelService } from 'src/coupon-label/coupon-label.service';
+import { CouponStatus } from 'src/common/enums';
+import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 @Injectable()
 export class CouponService {
   constructor(
@@ -59,8 +61,6 @@ export class CouponService {
       company,
       label: labelEntity,
       image: this.saveCouponImage(image),
-      created_at: new Date(),
-      last_updated: new Date(),
     });
     try {
       await this.coupon.save(newCoupon);
@@ -82,7 +82,7 @@ export class CouponService {
   async updateCoupon(
     company: Company,
     id: string,
-    updateCoupon: CouponDto,
+    updateCoupon: CouponUpdateDto,
     image?: Express.Multer.File,
   ): Promise<Coupon> {
     const { label, ...newCouponInfo } = updateCoupon;
@@ -97,11 +97,11 @@ export class CouponService {
       );
     }
     const updatedCoupon = this.coupon.merge(coupon, newCouponInfo);
+    updatedCoupon.status = this.getCouponStatus(updatedCoupon.period_start);
     if (label) {
       const labelEntity = await this.labelService.getLabelByName(label);
       updatedCoupon.label = labelEntity;
     }
-    updatedCoupon.last_updated = new Date();
     try {
       await this.coupon.save(updatedCoupon);
       if (image) {
@@ -151,5 +151,39 @@ export class CouponService {
     const filename = `${name}-${uuidv4()}${ext}`;
 
     return filename;
+  }
+
+  // Validate coupon
+  validateCoupon(coupon: Coupon): boolean {
+    if (
+      coupon.status === CouponStatus.EXPIRED ||
+      coupon.status === CouponStatus.CLAIMED ||
+      coupon.period_end < new Date()
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  // Get coupon status
+  getCouponStatus(period_end: Date): CouponStatus {
+    const currentDate = new Date();
+    if (currentDate <= period_end) {
+      return CouponStatus.ACTIVE;
+    } else {
+      return CouponStatus.EXPIRED;
+    }
+  }
+
+  // Set coupon status
+  async setCouponStatus(coupon: Coupon): Promise<Coupon> {
+    if (
+      coupon.status === CouponStatus.EXPIRED ||
+      coupon.status === CouponStatus.CLAIMED
+    ) {
+      return coupon;
+    }
+    coupon.status = this.getCouponStatus(coupon.period_end);
+    return await this.coupon.save(coupon);
   }
 }

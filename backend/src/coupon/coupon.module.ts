@@ -19,5 +19,6 @@ import { CouponLabelModule } from 'src/coupon-label/coupon-label.module';
   ],
   providers: [CouponService],
   controllers: [CouponController],
+  exports: [CouponService],
 })
 export class CouponModule {}

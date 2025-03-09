@@ -9,6 +9,8 @@ import * as fs from 'fs';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CouponModule } from './coupon/coupon.module';
 import { CouponLabelModule } from './coupon-label/coupon-label.module';
+import { CouponUseageModule } from './coupon-useage/coupon-useage.module';
+import { CouponFavouriteModule } from './coupon-favourite/coupon-favourite.module';
 @Module({
   imports: [
     AuthModule,
@@ -35,6 +37,8 @@ import { CouponLabelModule } from './coupon-label/coupon-label.module';
     ConfigModule.forRoot(),
     CouponModule,
     CouponLabelModule,
+    CouponUseageModule,
+    CouponFavouriteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
