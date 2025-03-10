@@ -60,7 +60,7 @@ export class CouponLabelController {
     return this.couponLabelService.updateLabel(id, label);
   }
 
-  @Delete('/:id/')
+  @Delete('/:id')
   @Roles(Role.ADMIN)
   @UseGuards(AuthGuard(), RolesGuard)
   deleteLabel(@Param('id') id: string): Promise<void> {

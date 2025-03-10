@@ -15,6 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { CustomerStrategyInterface } from 'src/common/interfaces';
 import { CouponFavourite } from './entity/coupon-favourite.entity';
+import { CouponFavouriteDto } from 'src/common/dtos';
 
 @Controller('coupon-favourite')
 export class CouponFavouriteController {
@@ -36,10 +37,11 @@ export class CouponFavouriteController {
   @Roles(Role.CUSTOMER)
   @UseGuards(AuthGuard(), RolesGuard)
   async createCouponFavourite(
-    @GetUser() customerStrategy: CustomerStrategyInterface,
-    @Body() couponId: string,
+    @GetUser() customer: Customer,
+    @Body() couponFavouriteDto: CouponFavouriteDto,
   ): Promise<CouponFavourite> {
-    const { customer } = customerStrategy;
+    const { couponId } = couponFavouriteDto;
+    console.log(customer, 'customer');
     return this.couponFavouriteService.createCouponFavourite(
       customer,
       couponId,

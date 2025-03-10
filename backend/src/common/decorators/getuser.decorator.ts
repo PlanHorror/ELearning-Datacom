@@ -5,6 +5,5 @@ import { Admin } from 'src/auth/entity/admin.entity';
 
 // Get user decorator
 export const GetUser = createParamDecorator(
-  (data, ctx: ExecutionContext): Customer | Company | Admin =>
-    ctx.switchToHttp().getRequest().user,
+  (data, ctx: ExecutionContext) => ctx.switchToHttp().getRequest().user,
 );

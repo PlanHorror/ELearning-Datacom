@@ -23,11 +23,15 @@ export class CouponLabelService {
 
   // Get label by id
   async getLabelById(id: string): Promise<CouponLabel> {
-    const label = await this.couponLabel.findOneBy({ id });
-    if (!label) {
+    try {
+      const label = await this.couponLabel.findOneBy({ id });
+      if (!label) {
+        throw new NotFoundException('Label not found');
+      }
+      return label;
+    } catch (error) {
       throw new NotFoundException('Label not found');
     }
-    return label;
   }
 
   // Get label by name

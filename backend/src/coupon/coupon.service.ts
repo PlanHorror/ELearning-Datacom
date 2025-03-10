@@ -31,9 +31,12 @@ export class CouponService {
 
   // Get coupon by id
   async getCouponById(id: string): Promise<Coupon> {
+    if (!id) {
+      throw new NotFoundException('Coupon not found');
+    }
     let coupon;
     try {
-      coupon = await this.coupon.findOneBy({ id });
+      coupon = await this.coupon.findOne({ where: { id: id } });
     } catch (error) {
       throw new NotFoundException('Coupon not found');
     }
@@ -141,6 +144,16 @@ export class CouponService {
       );
     } else {
       await this.coupon.remove(coupon);
+      try {
+        const filePath = process.env.COUPON_IMAGE_URL + coupon.image;
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            throw new InternalServerErrorException();
+          }
+        });
+      } catch (error) {
+        throw new InternalServerErrorException();
+      }
     }
   }
 
