@@ -1,10 +1,11 @@
-// import { LoginPayload } from "@/modules/auth/domain/dto/login.dto";
-import { Button, Form, Input as InputAntd } from "antd";
+import { Button, Form, Input as InputAntd, message } from "antd";
 import styles from "./company-signup-form.module.scss";
 import { RouterPath } from "@/shared/constants/router.const";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { CompanySignUpPayLoad } from "@/modules/auth/domain/register.dto";
+import { companySignUp } from "@/modules/auth/services/authService";
 
 interface Props {
   onSubmit: () => void;
@@ -14,24 +15,36 @@ interface Props {
 
 const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
   const router = useRouter();
+  const [form] = Form.useForm();
 
-  const handleClick = () => {
-    router.push(RouterPath.HOME);
+  const handleSubmit = async (values: CompanySignUpPayLoad) => {
+    try {
+      const res = await companySignUp(values);
+      if (res && res.data.success) {
+        message.success("Sign up successfully!");
+        onSubmit();
+        router.push(RouterPath.SIGNIN);
+      }
+    } catch (error) {
+      message.error("Sign up failed!");
+      console.log(error);
+    }
   };
 
   return (
     <>
       <Form
+        form={form}
         name="register"
         initialValues={{ remember: true }}
-        onFinish={onSubmit}
+        onFinish={handleSubmit}
         disabled={isLoading}
         layout="vertical"
       >
         <div className={styles.input_group}>
           <Form.Item
             label={<p className={styles.label}>Company Name</p>}
-            name="name"
+            name="company_name"
             rules={[
               {
                 type: "string",
@@ -106,7 +119,12 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
             <ArrowLeftOutlined /> {""}
             Return
           </Button>
-          <Button className={styles.btn} type="link" onClick={handleClick}>
+          <Button
+            className={styles.btn}
+            type="link"
+            loading={isLoading}
+            htmlType="submit"
+          >
             Sign Up
             <ArrowRightOutlined />
           </Button>

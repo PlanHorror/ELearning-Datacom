@@ -1,11 +1,18 @@
-// import { LoginPayload } from "@/modules/auth/domain/dto/login.dto";
-import { Button, DatePicker, Form, Input as InputAntd, Select } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input as InputAntd,
+  message,
+  Select,
+} from "antd";
 import styles from "./user_signup_form.module.scss";
 import { RouterPath } from "@/shared/constants/router.const";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import dayjs from 'dayjs';
+import { userSignUp } from "@/modules/auth/services/authService";
+import { UserSignUpPayLoad } from "@/modules/auth/domain/register.dto";
 
 interface Props {
   onSubmit: () => void;
@@ -13,21 +20,31 @@ interface Props {
   isLoading: boolean;
 }
 
-const dateFormat = 'YYYY/MM/DD';
-
 const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
   const router = useRouter();
+  const [form] = Form.useForm();
 
-  const handleClick = () => {
-    router.push(RouterPath.HOME);
+  const handleSubmit = async (values: UserSignUpPayLoad) => {
+    try {
+      const res = await userSignUp(values);
+      if (res && res.data.success) {
+        message.success("Sign up successfully!");
+        onSubmit();
+        router.push(RouterPath.SIGNIN);
+      }
+    } catch (error) {
+      message.error("Sign up failed!");
+      console.log(error);
+    }
   };
 
   return (
     <>
       <Form
+        form={form}
         name="register"
         initialValues={{ remember: true }}
-        onFinish={onSubmit}
+        onFinish={handleSubmit}
         disabled={isLoading}
         layout="vertical"
       >
@@ -41,6 +58,7 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
                 required: true,
                 message: "Please input username!",
               },
+              { min: 3, message: "Username must be at least 3 characters!" },
             ]}
           >
             <InputAntd placeholder="Username" />
@@ -50,10 +68,10 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
         <div className={styles.input_group}>
           <Form.Item
             label={<p className={styles.label}>Postal code</p>}
-            name="postalCode"
+            name="postal_code"
             rules={[
               {
-                type: "number",
+                type: "string",
                 required: true,
                 message: "Please input your postal code!",
               },
@@ -66,7 +84,7 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
         <div className={styles.input_group}>
           <Form.Item
             label={<p className={styles.label}>Address</p>}
-            name="address"
+            name="prefecture"
             rules={[
               {
                 type: "string",
@@ -81,24 +99,30 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
 
         <div className={styles.wrapper_select}>
           <div className={styles.wrapper_select_item}>
-            <p>Gender</p>
-            <Select
-              defaultValue=""
-              style={{ width: 120 }}
-              options={[
-                { value: "male", label: "Male" },
-                { value: "female", label: "Female" },
-                { value: "others", label: "Others" },
-              ]}
-            />
+            <Form.Item
+              label={<p>Gender</p>}
+              name="gender"
+              rules={[{ required: true, message: "Please choose your gender!" }]}
+            >
+              <Select
+                style={{ width: 120 }}
+                options={[
+                  { value: "Male", label: "Male" },
+                  { value: "Female", label: "Female" },
+                  { value: "Other", label: "Other" },
+                ]}
+              />
+            </Form.Item>
           </div>
-          <div className={styles.wrapper_select_item}>
-            <p>DOB</p>
-            <DatePicker
-              defaultValue={dayjs()}
-              format={dateFormat}
-            />
-          </div>
+          <Form.Item
+            label={<p>DOB</p>}
+            name="dob"
+            rules={[
+              { required: true, message: "Please input your date of birth!" },
+            ]}
+          >
+            <DatePicker format="YYYY/MM/DD" />
+          </Form.Item>
         </div>
 
         <div className={styles.input_group}>
@@ -144,7 +168,12 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
             <ArrowLeftOutlined /> {""}
             Return
           </Button>
-          <Button className={styles.btn} type="link" onClick={handleClick}>
+          <Button
+            className={styles.btn}
+            type="link"
+            loading={isLoading}
+            htmlType="submit"
+          >
             Sign Up
             <ArrowRightOutlined />
           </Button>

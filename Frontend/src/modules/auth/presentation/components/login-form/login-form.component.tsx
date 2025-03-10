@@ -1,36 +1,41 @@
-import { Form, Input as InputAntd } from "antd";
+import { Form, Input as InputAntd, message } from "antd";
 import styles from "./login-form.module.scss";
 import { RouterPath } from "@/shared/constants/router.const";
 import { Button } from "@/shared/components/button/button.component";
 import Link from "next/link";
+import { LoginPayLoad } from "@/modules/auth/domain/login.dto";
+import { signin } from "@/modules/auth/services/authService";
+import { useRouter } from "next/navigation";
 
 interface Props {
-    onSubmit: () => void;
-    isLoading: boolean;
+  onSubmit: () => void;
+  isLoading: boolean;
 }
 
-
-
 const LoginForm = ({ onSubmit, isLoading }: Props) => {
-  const Submit = async () => {
-    onSubmit();
-    // onSubmit(values);
-    // console.log(values);
-    // const { email, password } = values;
-    // await signIn("credentials", {
-    //   email,
-    //   password,
-    //   redirectTo: RouterPath.HOME,
-    // });
+  const router = useRouter();
+  const [form] = Form.useForm();
+
+  const handleSubmit = async (values: LoginPayLoad) => {
+    try {
+      const res = await signin(values);
+      if (res && res.data.success) {
+        message.success("Login successfully!");
+        onSubmit();
+        router.push(RouterPath.SIGNIN);
+      }
+    } catch (error) {
+      message.error("Login failed!");
+      console.log(error);
+    }
   };
+
   return (
     <Form
       name="login"
-      // labelCol={{ span: 8 }}
-      // wrapperCol={{ span: 16 }}
-      // style={{ maxWidth: 600 }}
+      form={form}
       initialValues={{ remember: true }}
-      onFinish={Submit}
+      onFinish={handleSubmit}
       disabled={isLoading}
       layout="vertical"
       // className={styles.form_container}
@@ -72,8 +77,7 @@ const LoginForm = ({ onSubmit, isLoading }: Props) => {
       />
       <p className={styles.form_text}>
         Don&apos;t have an account yet?
-        <Link href={RouterPath.SIGNUP}> Register</Link>{" "}
-        here
+        <Link href={RouterPath.SIGNUP}> Register</Link> here
       </p>
     </Form>
   );

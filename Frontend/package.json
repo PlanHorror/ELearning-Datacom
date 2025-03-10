@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "antd": "^5.24.2",
+    "axios": "^1.8.1",
     "next": "15.1.7",
     "next-auth": "^5.0.0-beta.25",
     "react": "^18.2.0",
