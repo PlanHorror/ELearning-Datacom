@@ -6,19 +6,18 @@ import { Customer } from './entity/customer.entity';
 import { Repository } from 'typeorm';
 import { Company } from './entity/company.entity';
 import { Admin } from './entity/admin.entity';
-import { JwtPayload } from './jwt.payload.interface';
-import { Role } from './enum.model';
+import { JwtPayload } from 'src/common/interfaces';
+import { Role } from 'src/common/enums';
 
 // JwtStrategy class a custom strategy that extends the PassportStrategy class to validate the JWT token.
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @InjectRepository(Customer)
     private customerRepository: Repository<Customer>,
     @InjectRepository(Company) private companyRepository: Repository<Company>,
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
   ) {
-    console.log('process.env.JWT_SECRET', process.env.JWT_SECRET);
     super({
       secretOrKey: process.env.JWT_SECRET!,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { CouponLabel } from 'src/coupon-label/entity/coupon-label.entity';
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 // Admin entity class
 @Entity()
@@ -11,4 +12,5 @@ export class Admin {
 
   @Column()
   password: string;
+
 }

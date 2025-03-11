@@ -7,6 +7,11 @@ import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './email/email.module';
 import * as fs from 'fs';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CouponModule } from './coupon/coupon.module';
+import { CouponLabelModule } from './coupon-label/coupon-label.module';
+import { CouponUseageModule } from './coupon-useage/coupon-useage.module';
+import { CouponFavouriteModule } from './coupon-favourite/coupon-favourite.module';
+import { PointsHistoryModule } from './points-history/points-history.module';
 @Module({
   imports: [
     AuthModule,
@@ -31,6 +36,11 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     EmailModule,
     ConfigModule.forRoot(),
+    CouponModule,
+    CouponLabelModule,
+    CouponUseageModule,
+    CouponFavouriteModule,
+    PointsHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

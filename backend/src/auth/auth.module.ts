@@ -8,22 +8,24 @@ import { Admin } from './entity/admin.entity';
 import { Company } from './entity/company.entity';
 import { PassportModule } from '@nestjs/passport';
 import { EmailModule } from 'src/email/email.module';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtAccessTokenStrategy } from './access-token.strategy';
 import { ConfigModule } from '@nestjs/config';
 import * as dotenv from 'dotenv';
+import { JwtRefreshTokenStrategy } from './refresh-token.strategy';
 dotenv.config();
 @Module({
   imports: [
     TypeOrmModule.forFeature([Admin, Company, Customer]),
     JwtModule.register({
       secret: process.env.JWT_SECRET!,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '60m' },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     EmailModule,
     ConfigModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtAccessTokenStrategy, JwtRefreshTokenStrategy],
+  exports: [JwtAccessTokenStrategy, PassportModule, AuthService],
 })
 export class AuthModule {}

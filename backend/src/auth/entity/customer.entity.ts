@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Status } from '../enum.model';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Status } from 'src/common/enums';
+import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { PointsHistory } from 'src/points-history/entity/points-history.entity';
 
 // User entity class
 @Entity()
@@ -28,6 +30,9 @@ export class Customer {
   @Column()
   dob: Date;
 
+  @Column({ default: 0 })
+  points: number;
+
   @Column({ default: new Date() })
   created_at: Date;
 
@@ -39,4 +44,13 @@ export class Customer {
 
   @Column({ type: 'enum', enum: Status, default: Status.INACTIVE })
   status: Status;
+
+  @OneToMany((_type) => CouponFavourite, (favourite) => favourite.customer)
+  favourites: CouponFavourite[];
+
+  @OneToMany((_type) => CouponFavourite, (favourite) => favourite.customer)
+  couponUsages: CouponFavourite[];
+
+  @OneToMany((_type) => PointsHistory, (history) => history.customer)
+  couponHistories: PointsHistory[];
 }
