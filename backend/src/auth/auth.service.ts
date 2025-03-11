@@ -143,6 +143,16 @@ export class AuthService {
     return { message: 'Account deleted successfully' };
   }
 
+  // Customer subtract points service
+  async subtractPoints(thisCustomer: Customer, points: number) {
+    if (thisCustomer.points >= points) {
+      thisCustomer.points -= points;
+      await this.customerRepository.save(thisCustomer);
+    } else {
+      throw new UnauthorizedException('Not enough points');
+    }
+  }
+
   // Company signup service
   async companySignup(company: CompanySignUpDto): Promise<Company> {
     const { password, ...companyInformation } = company;
@@ -164,7 +174,7 @@ export class AuthService {
         ? new ConflictException('Email already exists')
         : new InternalServerErrorException();
     }
-    // If after 15 seconds the company is not verified, delete the company
+    // If after 15 minutes the company is not verified, delete the company
     setTimeout(() => {
       (async () => {
         await this.deleteUnverifiedAccount(newCompany.email, Role.COMPANY);
@@ -277,7 +287,6 @@ export class AuthService {
       }
       user.status = status;
       await this.customerRepository.save(user);
-      console.log(user);
       return { message: 'Verified successfully' };
     } else if (role === Role.COMPANY) {
       const company = await this.companyRepository.findOneBy({ email });

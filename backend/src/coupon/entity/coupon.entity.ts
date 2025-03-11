@@ -7,6 +7,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -70,4 +71,9 @@ export class Coupon {
 
   @OneToMany(() => CouponFavourite, (couponFavourite) => couponFavourite.coupon)
   favourites: CouponFavourite[];
+
+  @OneToOne(() => Coupon, (coupon) => coupon.coupon_usage, {
+    onDelete: 'SET NULL',
+  })
+  coupon_usage: Coupon;
 }

@@ -11,6 +11,7 @@ import { CouponModule } from './coupon/coupon.module';
 import { CouponLabelModule } from './coupon-label/coupon-label.module';
 import { CouponUseageModule } from './coupon-useage/coupon-useage.module';
 import { CouponFavouriteModule } from './coupon-favourite/coupon-favourite.module';
+import { PointsHistoryModule } from './points-history/points-history.module';
 @Module({
   imports: [
     AuthModule,
@@ -39,6 +40,7 @@ import { CouponFavouriteModule } from './coupon-favourite/coupon-favourite.modul
     CouponLabelModule,
     CouponUseageModule,
     CouponFavouriteModule,
+    PointsHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

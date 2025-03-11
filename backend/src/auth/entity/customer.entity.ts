@@ -46,4 +46,7 @@ export class Customer {
 
   @OneToMany((_type) => CouponFavourite, (favourite) => favourite.customer)
   favourites: CouponFavourite[];
+
+  @OneToMany((_type) => CouponFavourite, (favourite) => favourite.customer)
+  couponUsages: CouponFavourite[];
 }

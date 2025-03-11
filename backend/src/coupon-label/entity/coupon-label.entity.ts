@@ -1,6 +1,7 @@
 import { Admin } from 'src/auth/entity/admin.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
@@ -17,7 +18,7 @@ export class CouponLabel {
   @Column({ unique: true })
   label: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
   @Column()
