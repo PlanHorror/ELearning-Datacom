@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -47,9 +48,31 @@ export class AuthService {
     return this.customerRepository.find();
   }
 
+  async getCustomerByEmail(email: string): Promise<Customer> {
+    if (!email) {
+      throw new NotFoundException('Account not exists');
+    }
+    const customer = await this.customerRepository.findOneBy({ email });
+    if (!customer) {
+      throw new NotFoundException('Account not exists');
+    }
+    return customer;
+  }
+
   // Take all companies
   async getAllCompanies(): Promise<Company[]> {
     return this.companyRepository.find();
+  }
+
+  async getCompanyByEmail(email: string): Promise<Company> {
+    if (!email) {
+      throw new NotFoundException('Account not exists');
+    }
+    const company = await this.companyRepository.findOneBy({ email });
+    if (!company) {
+      throw new NotFoundException('Account not exists');
+    }
+    return company;
   }
 
   // Customer signup service
@@ -85,7 +108,7 @@ export class AuthService {
   // Customer signin service
   async customerSignin(
     user: CustomerSignInDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const { email, password } = user;
     const thisUser = await this.customerRepository.findOneBy({ email });
     if (thisUser && (await bcrypt.compare(password, thisUser.password))) {
@@ -96,11 +119,39 @@ export class AuthService {
       }
       const payload = { email: user.email, role: Role.CUSTOMER };
       const accessToken = this.jwtService.sign(payload);
+      const refreshToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_REFRESH_SECRET,
+        expiresIn: '7d',
+      });
       thisUser.last_login = new Date();
       await this.customerRepository.save(thisUser);
-      return { accessToken };
+      return { accessToken, refreshToken };
     } else {
       throw new UnauthorizedException('Invalid email or password');
+    }
+  }
+
+  async refreshToken(
+    customer?: Customer,
+    company?: Company,
+    admin?: Admin,
+  ): Promise<{ accessToken: string }> {
+    if (customer) {
+      const customerData = await this.getCustomerByEmail(customer.email);
+      const payload = { email: customerData.email, role: Role.CUSTOMER };
+      const accessToken = this.jwtService.sign(payload);
+      return { accessToken };
+    } else if (company) {
+      const companyData = await this.getCompanyByEmail(company.email);
+      const payload = { email: companyData.email, role: Role.COMPANY };
+      const accessToken = this.jwtService.sign(payload);
+      return { accessToken };
+    } else if (admin) {
+      const payload = { name: admin.username, role: Role.ADMIN };
+      const accessToken = this.jwtService.sign(payload);
+      return { accessToken };
+    } else {
+      throw new UnauthorizedException('Invalid account');
     }
   }
 
@@ -110,7 +161,6 @@ export class AuthService {
     thisCustomer: Customer,
     customerPassword?: ResetPasswordDto,
   ): Promise<Customer> {
-    console.log(customerUpdate);
     const { oldPassword, newPassword, confirmPassword } =
       customerPassword || {};
     if (oldPassword && newPassword && confirmPassword) {
@@ -186,7 +236,7 @@ export class AuthService {
   // Company signin service
   async companySignin(
     company: CompanySignInDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const { email, password } = company;
     const thisCompany = await this.companyRepository.findOneBy({ email });
     if (thisCompany && (await bcrypt.compare(password, thisCompany.password))) {
@@ -197,9 +247,13 @@ export class AuthService {
       }
       const payload = { email: company.email, role: Role.COMPANY };
       const accessToken = this.jwtService.sign(payload);
+      const refreshToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_REFRESH_SECRET,
+        expiresIn: '7d',
+      });
       thisCompany.last_login = new Date();
       await this.companyRepository.save(thisCompany);
-      return { accessToken };
+      return { accessToken, refreshToken };
     } else {
       throw new UnauthorizedException('Invalid email or password');
     }
@@ -238,13 +292,20 @@ export class AuthService {
   }
 
   // Admin signin service
-  async adminSignin(adminDto: AdminSignInDto) {
+  async adminSignin(adminDto: AdminSignInDto): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const { username, password } = adminDto;
     const admin = await this.adminRepository.findOneBy({ username });
     if (admin && (await bcrypt.compare(password, admin.password))) {
       const payload = { username, role: Role.ADMIN };
       const accessToken = this.jwtService.sign(payload);
-      return { accessToken };
+      const refreshToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_REFRESH_SECRET,
+        expiresIn: '7d',
+      });
+      return { accessToken, refreshToken };
     } else {
       throw new UnauthorizedException('Invalid username or password');
     }

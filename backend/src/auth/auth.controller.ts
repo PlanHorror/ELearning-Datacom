@@ -26,6 +26,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
+import { RefreshTokenGuard } from 'src/common/guards/refresh-token.guard';
+import { Admin } from './entity/admin.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -49,8 +51,15 @@ export class AuthController {
   @Post('customer/signin')
   async signin(
     @Body() customerDto: CustomerSignInDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     return this.authService.customerSignin(customerDto);
+  }
+
+  @Post('customer/refresh-token')
+  @Roles(Role.CUSTOMER)
+  @UseGuards(RefreshTokenGuard, RolesGuard)
+  async refreshToken(@GetUser() user: Customer) {
+    return await this.authService.refreshToken(user);
   }
 
   @Roles(Role.CUSTOMER)
@@ -83,8 +92,15 @@ export class AuthController {
   @Post('company/signin')
   async companySignin(
     @Body() companyDto: CompanySignInDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     return this.authService.companySignin(companyDto);
+  }
+
+  @Post('company/refresh-token')
+  @Roles(Role.COMPANY)
+  @UseGuards(RefreshTokenGuard, RolesGuard)
+  async companyRefreshToken(@GetUser() user: Company) {
+    return await this.authService.refreshToken(undefined, user);
   }
 
   @Roles(Role.COMPANY)
@@ -110,13 +126,22 @@ export class AuthController {
   }
 
   @Post('admin/signin')
-  async adminSignin(@Body() adminDto: AdminSignInDto) {
+  async adminSignin(
+    @Body() adminDto: AdminSignInDto,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     return this.authService.adminSignin(adminDto);
   }
 
   @Post('admin/signup')
   async adminSignup(@Body() adminDto: AdminSignInDto) {
     return this.authService.addAdmin(adminDto);
+  }
+
+  @Post('admin/refresh-token')
+  @Roles(Role.ADMIN)
+  @UseGuards(RefreshTokenGuard, RolesGuard)
+  async adminRefreshToken(@GetUser() user: Admin) {
+    return await this.authService.refreshToken(undefined, undefined, user);
   }
 
   @Get('verify/:token')

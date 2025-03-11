@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CouponUseageService } from './coupon-useage.service';
 import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Customer } from 'src/auth/entity/customer.entity';
 import { CouponUsage } from './entity/coupon-usage.entity';
+import { IdDto } from 'src/common/dtos';
 
 @Controller('coupon-useage')
 export class CouponUseageController {
@@ -25,8 +26,9 @@ export class CouponUseageController {
   @UseGuards(AuthGuard(), RolesGuard)
   async getCouponUsageById(
     @GetUser() customer: Customer,
-    id: string,
+    @Body() idString: IdDto,
   ): Promise<CouponUsage> {
+    const { id } = idString;
     return this.couponUseageService.getCouponUsageById(customer, id);
   }
 
@@ -35,8 +37,9 @@ export class CouponUseageController {
   @UseGuards(AuthGuard(), RolesGuard)
   async useCoupon(
     @GetUser() customer: Customer,
-    couponId: string,
+    idString: IdDto,
   ): Promise<CouponUsage> {
+    const { id: couponId } = idString;
     return this.couponUseageService.createCouponUsage(customer, couponId);
   }
 }

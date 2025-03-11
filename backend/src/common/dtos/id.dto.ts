@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class CouponFavouriteDto {
+export class IdDto {
   @IsString()
-  couponId: string;
+  id: string;
 }
