@@ -9,6 +9,8 @@ import { Repository } from 'typeorm';
 import { Customer } from 'src/auth/entity/customer.entity';
 import { CouponService } from 'src/coupon/coupon.service';
 import { AuthService } from 'src/auth/auth.service';
+import { PointsHistoryService } from 'src/points-history/points-history.service';
+import { CouponHistoryType } from 'src/common/enums';
 
 @Injectable()
 export class CouponUseageService {
@@ -17,6 +19,7 @@ export class CouponUseageService {
     private couponUsageRepository: Repository<CouponUsage>,
     private couponService: CouponService,
     private authSercive: AuthService,
+    private pointsHistoryService: PointsHistoryService,
   ) {}
 
   // Get coupon usage by id
@@ -74,8 +77,9 @@ export class CouponUseageService {
       await this.couponService.setCouponStatus(coupon);
       throw new NotFoundException('Coupon expired or has been used');
     }
-    await this.authSercive.subtractPoints(customer, coupon.use_point);
-    // Add subtracted points to customer points history in here
+    if (coupon.use_point > customer.points) {
+      throw new NotFoundException('Not enough points to redeem this coupon');
+    }
 
     const newCouponUsage = this.couponUsageRepository.create({
       customer,
@@ -83,6 +87,13 @@ export class CouponUseageService {
     });
     try {
       await this.couponUsageRepository.save(newCouponUsage);
+      await this.authSercive.subtractPoints(customer, coupon.use_point);
+      await this.pointsHistoryService.createPointsHistory(
+        customer,
+        coupon.use_point,
+        'Redeem coupon',
+        CouponHistoryType.SUBTRACT,
+      );
       return newCouponUsage;
     } catch (error) {
       throw error.code === '23505'

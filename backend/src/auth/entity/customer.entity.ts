@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Status } from 'src/common/enums';
 import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { PointsHistory } from 'src/points-history/entity/points-history.entity';
 
 // User entity class
 @Entity()
@@ -49,4 +50,7 @@ export class Customer {
 
   @OneToMany((_type) => CouponFavourite, (favourite) => favourite.customer)
   couponUsages: CouponFavourite[];
+
+  @OneToMany((_type) => PointsHistory, (history) => history.customer)
+  couponHistories: PointsHistory[];
 }

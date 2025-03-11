@@ -48,6 +48,7 @@ export class AuthService {
     return this.customerRepository.find();
   }
 
+  // Get customer by email
   async getCustomerByEmail(email: string): Promise<Customer> {
     if (!email) {
       throw new NotFoundException('Account not exists');
@@ -59,16 +60,41 @@ export class AuthService {
     return customer;
   }
 
+  // Get customer by id
+  async getCustomerById(id: string): Promise<Customer> {
+    if (!id) {
+      throw new NotFoundException('Account not exists');
+    }
+    const customer = await this.customerRepository.findOneBy({ id });
+    if (!customer) {
+      throw new NotFoundException('Account not exists');
+    }
+    return customer;
+  }
+
   // Take all companies
   async getAllCompanies(): Promise<Company[]> {
     return this.companyRepository.find();
   }
 
+  // Get company by email
   async getCompanyByEmail(email: string): Promise<Company> {
     if (!email) {
       throw new NotFoundException('Account not exists');
     }
     const company = await this.companyRepository.findOneBy({ email });
+    if (!company) {
+      throw new NotFoundException('Account not exists');
+    }
+    return company;
+  }
+
+  // Get company by id
+  async getCompanyById(id: string): Promise<Company> {
+    if (!id) {
+      throw new NotFoundException('Account not exists');
+    }
+    const company = await this.companyRepository.findOneBy({ id });
     if (!company) {
       throw new NotFoundException('Account not exists');
     }
