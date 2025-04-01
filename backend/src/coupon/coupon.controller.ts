@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -22,6 +23,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Coupon } from './entity/coupon.entity';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
+import { Response } from 'express';
+import { of } from 'rxjs';
 
 @Controller('coupon')
 export class CouponController {
@@ -70,5 +73,15 @@ export class CouponController {
   @UseGuards(AuthGuard(), RolesGuard)
   deleteCoupon(@GetUser() company: Company, @Body('id') id: string) {
     return this.couponService.deleteCoupon(id, company);
+  }
+
+  // Coupon image
+  @Get('image/:filename')
+  getImage(@Param('filename') filename: string, @Res() res: Response) {
+    return of(
+      res.sendFile(
+        process.cwd() + '\\' + process.env.COUPON_IMAGE_URL + filename,
+      ),
+    );
   }
 }
