@@ -27,53 +27,65 @@ export class CustomerSignUpDto {
   password: string;
 
   @IsString()
+  @IsNotEmpty()
   username: string;
 
   @IsString()
+  @IsNotEmpty()
   postal_code: string;
 
   @IsString()
+  @IsNotEmpty()
   prefecture: string;
 
   @IsEnum(Gender)
+  @IsNotEmpty()
   gender: Gender;
 
   @Transform(({ value }) => new Date(value))
   @MaxDate(new Date(new Date().setFullYear(new Date().getFullYear() - 5)))
   @MinDate(new Date(new Date().setFullYear(new Date().getFullYear() - 100)))
   @IsDate()
+  @IsNotEmpty()
   dob: Date;
 }
 
 // DTO for Customer sign in
 export class CustomerSignInDto {
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
   @MinLength(8)
   @MaxLength(14)
+  @IsNotEmpty()
   password: string;
 }
 
 // DTO for Customer update
 export class CustomerUpdateDto {
   @IsString()
+  @IsNotEmpty()
   username: string;
 
   @IsString()
+  @IsNotEmpty()
   postal_code: string;
 
   @IsString()
+  @IsNotEmpty()
   prefecture: string;
 
   @IsEnum(Gender)
+  @IsNotEmpty()
   gender: Gender;
 
   @Transform(({ value }) => new Date(value))
   @MaxDate(new Date(new Date().setFullYear(new Date().getFullYear() - 5)))
   @MinDate(new Date(new Date().setFullYear(new Date().getFullYear() - 100)))
   @IsDate()
+  @IsNotEmpty()
   dob: Date;
 }
 
@@ -83,17 +95,20 @@ export class ResetPasswordDto {
   @IsString()
   @MinLength(8)
   @MaxLength(14)
+  @IsNotEmpty()
   oldPassword: string;
 
   @ValidateIf((o) => !!o.oldPassword)
   @IsString()
   @MinLength(8)
   @MaxLength(14)
+  @IsNotEmpty()
   newPassword: string;
 
   @ValidateIf((o) => !!o.newPassword)
   @IsString()
   @MinLength(8)
   @MaxLength(14)
+  @IsNotEmpty()
   confirmPassword: string;
 }

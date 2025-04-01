@@ -1,8 +1,15 @@
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 // DTO for Company sign up
 export class CompanySignUpDto {
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
@@ -11,15 +18,18 @@ export class CompanySignUpDto {
   password: string;
 
   @IsString()
+  @IsNotEmpty()
   address: string;
 
   @IsString()
+  @IsNotEmpty()
   company_name: string;
 }
 
 // DTO for Company sign in
 export class CompanySignInDto {
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
@@ -31,8 +41,10 @@ export class CompanySignInDto {
 // DTO for Company update
 export class CompanyUpdateDto {
   @IsString()
+  @IsNotEmpty()
   address: string;
 
   @IsString()
+  @IsNotEmpty()
   company_name: string;
 }
