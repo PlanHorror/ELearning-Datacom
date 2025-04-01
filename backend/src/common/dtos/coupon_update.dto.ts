@@ -3,6 +3,7 @@ import {
   IsDate,
   IsEnum,
   IsIn,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -13,28 +14,34 @@ import { Classification } from '../enums';
 
 export class CouponUpdateDto {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @MinDate(new Date())
   @IsDate()
+  @IsNotEmpty()
   period_start: Date;
 
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
   @IsAfter('period_start')
+  @IsNotEmpty()
   period_end: Date;
 
   @IsEnum(Classification)
+  @IsNotEmpty()
   classification: Classification;
 
   @Transform(({ value }) => Number(value))
   @IsNumber()
+  @IsNotEmpty()
   use_point: number;
 
   @IsString()
+  @IsNotEmpty()
   use_code: string;
 
   @IsString()
