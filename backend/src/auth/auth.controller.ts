@@ -28,6 +28,8 @@ import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refresh-token.guard';
 import { Admin } from './entity/admin.entity';
+import { CustomerDelete } from './entity/customer-delete.entity';
+import { CompanyDelete } from './entity/comany-delete.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -41,6 +43,30 @@ export class AuthController {
   @Get('companies')
   async getAllCompanies(): Promise<Company[]> {
     return this.authService.getAllCompanies();
+  }
+
+  @Get('customers/deleted')
+  async getAllDeletedCustomers(): Promise<CustomerDelete[]> {
+    return this.authService.getAllDeletedCustomers();
+  }
+
+  @Get('companies/deleted')
+  async getAllDeletedCompanies(): Promise<CompanyDelete[]> {
+    return this.authService.getAllDeletedCompanies();
+  }
+
+  @Get('customer/profile')
+  @Roles(Role.CUSTOMER)
+  @UseGuards(AuthGuard(), RolesGuard)
+  async getCustomerProfile(@GetUser() user: Customer): Promise<Customer> {
+    return this.authService.getCustomerById(user.id);
+  }
+
+  @Get('company/profile')
+  @Roles(Role.COMPANY)
+  @UseGuards(AuthGuard(), RolesGuard)
+  async getCompanyProfile(@GetUser() user: Company): Promise<Company> {
+    return this.authService.getCompanyById(user.id);
   }
 
   @Post('customer/signup')

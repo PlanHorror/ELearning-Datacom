@@ -12,10 +12,18 @@ import { JwtAccessTokenStrategy } from './access-token.strategy';
 import { ConfigModule } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import { JwtRefreshTokenStrategy } from './refresh-token.strategy';
+import { CustomerDelete } from './entity/customer-delete.entity';
+import { CompanyDelete } from './entity/comany-delete.entity';
 dotenv.config();
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Admin, Company, Customer]),
+    TypeOrmModule.forFeature([
+      Admin,
+      Company,
+      Customer,
+      CustomerDelete,
+      CompanyDelete,
+    ]),
     JwtModule.register({
       secret: process.env.JWT_SECRET!,
       signOptions: { expiresIn: '60m' },

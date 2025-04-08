@@ -26,6 +26,8 @@ import {
 import { Role, Status } from 'src/common/enums';
 import { JwtStatusPayload } from 'src/common/interfaces';
 import { EmailService } from 'src/email/email.service';
+import { CompanyDelete } from './entity/comany-delete.entity';
+import { CustomerDelete } from './entity/customer-delete.entity';
 
 @Injectable()
 export class AuthService {
@@ -38,6 +40,12 @@ export class AuthService {
 
     @InjectRepository(Company)
     private companyRepository: Repository<Company>,
+
+    @InjectRepository(CompanyDelete)
+    private companyDeleteRepository: Repository<CompanyDelete>,
+
+    @InjectRepository(CustomerDelete)
+    private customerDeleteRepository: Repository<CustomerDelete>,
 
     private jwtService: JwtService,
     private emailService: EmailService,
@@ -65,11 +73,18 @@ export class AuthService {
     if (!id) {
       throw new NotFoundException('Account not exists');
     }
-    const customer = await this.customerRepository.findOneBy({ id });
-    if (!customer) {
+    try {
+      const customer = await this.customerRepository.findOne({
+        where: { id },
+        relations: ['favourites', 'couponUsages', 'couponHistories'],
+      });
+      if (!customer) {
+        throw new NotFoundException('Account not exists');
+      }
+      return customer;
+    } catch (error) {
       throw new NotFoundException('Account not exists');
     }
-    return customer;
   }
 
   // Take all companies
@@ -94,11 +109,18 @@ export class AuthService {
     if (!id) {
       throw new NotFoundException('Account not exists');
     }
-    const company = await this.companyRepository.findOneBy({ id });
-    if (!company) {
+    try {
+      const company = await this.companyRepository.findOne({
+        where: { id },
+        relations: ['coupons'],
+      });
+      if (!company) {
+        throw new NotFoundException('Account not exists');
+      }
+      return company;
+    } catch (error) {
       throw new NotFoundException('Account not exists');
     }
-    return company;
   }
 
   // Customer signup service
@@ -215,7 +237,35 @@ export class AuthService {
 
   // Customer delete service
   async customerDelete(thisCustomer: Customer): Promise<{ message: string }> {
+    const {
+      id,
+      email,
+      password,
+      username,
+      postal_code,
+      prefecture,
+      gender,
+      dob,
+      points,
+      created_at,
+      last_updated,
+      last_login,
+    } = thisCustomer;
     await this.customerRepository.remove(thisCustomer);
+    await this.customerDeleteRepository.save({
+      old_id: id,
+      email,
+      password,
+      username,
+      postal_code,
+      prefecture,
+      gender,
+      dob,
+      points,
+      created_at,
+      last_updated,
+      last_login,
+    });
     return { message: 'Account deleted successfully' };
   }
 
@@ -311,9 +361,28 @@ export class AuthService {
     return thisCompany;
   }
 
-  // Company delete service
+  // Company delete service for company
   async companyDelete(thisCompany: Company): Promise<{ message: string }> {
+    const {
+      id,
+      email,
+      address,
+      company_name,
+      created_at,
+      last_updated,
+      last_login,
+    } = thisCompany;
     await this.companyRepository.remove(thisCompany);
+    const companyDelete = this.companyDeleteRepository.create({
+      old_id: id,
+      email,
+      address,
+      company_name,
+      created_at,
+      last_updated,
+      last_login,
+    });
+    await this.companyDeleteRepository.save(companyDelete);
     return { message: 'Account deleted successfully' };
   }
 
@@ -426,5 +495,14 @@ export class AuthService {
         : new InternalServerErrorException();
     }
     return newAdmin;
+  }
+
+  // Get all deleted customers
+  async getAllDeletedCustomers(): Promise<CustomerDelete[]> {
+    return this.customerDeleteRepository.find();
+  }
+  // Get all deleted companies
+  async getAllDeletedCompanies(): Promise<CompanyDelete[]> {
+    return this.companyDeleteRepository.find();
   }
 }
