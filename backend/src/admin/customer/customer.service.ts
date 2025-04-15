@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from 'src/auth/entity/customer.entity';
 import { CustomerEntityDto } from 'src/common/dtos/admin';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CustomerService {
@@ -109,7 +110,13 @@ export class CustomerService {
     if (!data) {
       throw new BadRequestException('Not enough data provided');
     }
-    return await this.createCustomer(data);
+    const { password, ...rest } = data;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return await this.createCustomer({
+      ...rest,
+      password: hashedPassword,
+    });
   }
 
   // Update a customer in the database
@@ -118,7 +125,16 @@ export class CustomerService {
       throw new BadRequestException('Not enough data provided');
     }
     await this.getCustomerById(id); // Check if customer exists
-    return await this.updateCustomer(data, id);
+    const { password, ...rest } = data;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return await this.updateCustomer(
+      {
+        ...rest,
+        password: hashedPassword,
+      },
+      id,
+    );
   }
 
   // Delete a customer from the database

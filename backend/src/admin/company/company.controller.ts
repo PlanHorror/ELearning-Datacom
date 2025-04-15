@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -14,6 +15,7 @@ import { Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { CompanyEntityDto } from 'src/common/dtos/admin';
+import { Company } from 'src/auth/entity/company.entity';
 
 @Controller('admin/company')
 @UseGuards(AuthGuard(), RolesGuard)
@@ -22,25 +24,28 @@ export class CompanyController {
   constructor(private companyService: CompanyService) {}
 
   @Get()
-  async getCompany(@Query('id') id?: string, @Query('email') email?: string) {
+  async getCompany(
+    @Query('id') id?: string,
+    @Query('email') email?: string,
+  ): Promise<Company[] | Company> {
     return await this.companyService.getCompaniesService(id, email);
   }
 
   @Post()
-  async createCompany(@Query() data: CompanyEntityDto) {
+  async createCompany(@Body() data: CompanyEntityDto): Promise<Company> {
     return await this.companyService.createService(data);
   }
 
   @Patch('/:id')
   async updateCompany(
     @Param('id') id: string,
-    @Query() data: CompanyEntityDto,
-  ) {
+    @Body() data: CompanyEntityDto,
+  ): Promise<Company> {
     return await this.companyService.updateService(data, id);
   }
 
   @Delete('/:id')
-  async deleteCompany(@Param('id') id: string) {
+  async deleteCompany(@Param('id') id: string): Promise<void> {
     return await this.companyService.deleteService(id);
   }
 }

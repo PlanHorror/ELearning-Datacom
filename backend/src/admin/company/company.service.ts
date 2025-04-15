@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Company } from 'src/auth/entity/company.entity';
 import { CompanyEntityDto } from 'src/common/dtos/admin';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CompanyService {
@@ -107,7 +108,12 @@ export class CompanyService {
     if (!data) {
       throw new BadRequestException('Not enough data provided');
     }
-    return await this.createCompany(data);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    return await this.createCompany({
+      ...data,
+      password: hashedPassword,
+    });
   }
 
   // Update a company service
@@ -116,7 +122,15 @@ export class CompanyService {
       throw new BadRequestException('Not enough data provided');
     }
     await this.getCompanyById(id);
-    return await this.updateCompany(data, id);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    return await this.updateCompany(
+      {
+        ...data,
+        password: hashedPassword,
+      },
+      id,
+    );
   }
 
   // Delete a company service
