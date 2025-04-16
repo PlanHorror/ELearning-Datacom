@@ -1,21 +1,20 @@
 import {
   CompanySignUpPayLoad,
   UserSignUpPayLoad,
-} from "./../domain/register.dto";
+} from "../domain/dto/register.dto";
 import axios from "axios";
-import { LoginPayLoad } from "../domain/login.dto";
+import { LoginPayLoad } from "../domain/dto/login.dto";
 
-export const signin = async (data: LoginPayLoad) => {
-  console.log("Check data: ", data);
-  return axios.post(`/api/auth/customer/signin`, data);
-};
+export class AuthService {
+  async signin(data: LoginPayLoad) {
+    return await axios.post(`/api/auth/customer/signin`, data);
+  }
 
-export const userSignUp = async (data: UserSignUpPayLoad) => {
-  console.log("Check data: ", data);
-  return axios.post(`/api/auth/customer/signup`, data);
-};
+  async userSignUp(data: UserSignUpPayLoad) {
+    return await axios.post(`/api/auth/customer/signup`, data);
+  }
 
-export const companySignUp = async (data: CompanySignUpPayLoad) => {
-  console.log("Check data: ", data);
-  return axios.post(`/api/auth/company/signup`, data);
-};
+  async companySignUp(data: CompanySignUpPayLoad) {
+    return await axios.post(`/api/auth/company/signup`, data);
+  }
+}

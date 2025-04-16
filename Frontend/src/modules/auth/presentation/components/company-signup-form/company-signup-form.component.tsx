@@ -1,11 +1,13 @@
+"use client";
+
 import { Button, Form, Input as InputAntd, message } from "antd";
 import styles from "./company-signup-form.module.scss";
 import { RouterPath } from "@/shared/constants/router.const";
 import React from "react";
-import { useRouter } from "next/navigation";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { CompanySignUpPayLoad } from "@/modules/auth/domain/register.dto";
-import { companySignUp } from "@/modules/auth/services/authService";
+import { CompanySignUpPayLoad } from "@/modules/auth/domain/dto/register.dto";
+import { AuthUseCase } from "@/modules/auth/domain/usecases/auth.usecase";
+import { useRouter } from "@/i18n/navigation";
 
 interface Props {
   onSubmit: () => void;
@@ -14,16 +16,19 @@ interface Props {
 }
 
 const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
+  const authUseCase = new AuthUseCase();
   const router = useRouter();
   const [form] = Form.useForm();
 
   const handleSubmit = async (values: CompanySignUpPayLoad) => {
     try {
-      const res = await companySignUp(values);
-      if (res && res.data.success) {
+      const res = await authUseCase.companySignUp(values);
+
+      if (res && res.data.status === "Inactive") {
+        sessionStorage.setItem("email", values.email);
         message.success("Sign up successfully!");
         onSubmit();
-        router.push(RouterPath.SIGNIN);
+        router.push(RouterPath.VERIFY_ACCOUNT);
       }
     } catch (error) {
       message.error("Sign up failed!");
@@ -40,7 +45,10 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
         onFinish={handleSubmit}
         disabled={isLoading}
         layout="vertical"
+        style={{ width: 450 }}
       >
+        <h1 className={styles.form_title}>Create a new account for business</h1>
+
         <div className={styles.input_group}>
           <Form.Item
             label={<p className={styles.label}>Company Name</p>}
@@ -99,29 +107,14 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
           </Form.Item>
         </div>
 
-        <div className={styles.input_group}>
-          <Form.Item
-            label={<p className={styles.label}>Confirm Password</p>}
-            name="Confirm Password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your confirm password!",
-              },
-            ]}
-          >
-            <InputAntd.Password placeholder="Confirm Password" />
-          </Form.Item>
-        </div>
-
         <div className={styles.wrapper_btn}>
-          <Button className={styles.btn} onClick={goBack} type="link">
+          <Button className={styles.btn} onClick={goBack} type="default">
             <ArrowLeftOutlined /> {""}
             Return
           </Button>
           <Button
             className={styles.btn}
-            type="link"
+            type="default"
             loading={isLoading}
             htmlType="submit"
           >

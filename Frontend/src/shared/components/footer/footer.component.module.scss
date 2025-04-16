@@ -1,0 +1,264 @@
+@use "../../styles/variables.scss" as *;
+
+.footer_container {
+  background-color: $primary_color_600;
+  border-top: 1px solid #99a2bc;
+  padding-top: 40px;
+  box-sizing: border-box;
+  .footer_wrapper {
+    margin: 0 100px;
+    display: flex;
+    box-sizing: border-box;
+    padding: 30px 0 30px;
+    .footer_information_wrapper {
+      position: relative;
+      width: 100%;
+      padding-right: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+      .title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 700;
+        line-height: 1.4;
+        box-sizing: border-box;
+      }
+      .contact_infor {
+        .item {
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+          font-size: 13px;
+          margin-bottom: 12px;
+          position: relative;
+          box-sizing: border-box;
+        }
+      }
+    }
+    .footer_instruction_wrapper {
+      position: relative;
+      width: 100%;
+      padding-right: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+      .title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .item_wrapper {
+        .item {
+          font-size: 13px;
+          display: block;
+          padding: 5px 0;
+          color: #231f20;
+          text-decoration: none;
+          background-color: transparent;
+          box-sizing: border-box;
+        }
+        .item:hover {
+          color: $primary_color_900;
+        }
+      }
+    }
+    .footer_policy_wrapper {
+      position: relative;
+      width: 100%;
+      padding-right: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+
+      .title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .item_wrapper {
+        .item {
+          font-size: 13px;
+          display: block;
+          padding: 5px 0;
+          color: #231f20;
+          text-decoration: none;
+          background-color: transparent;
+          box-sizing: border-box;
+        }
+        .item:hover {
+          color: $primary_color_900;
+        }
+      }
+    }
+    .footer_connection_wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+      gap: 50px;
+      position: relative;
+      width: 100%;
+      padding-right: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+
+      .social_media {
+        .title {
+          font-size: 16px;
+          margin-bottom: 15px;
+          position: relative;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+        .item_container {
+          .item_wrapper {
+            display: flex;
+            gap: 20px;
+          }
+        }
+
+        .pay_method {
+          .title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            position: relative;
+            text-transform: uppercase;
+            font-weight: 700;
+          }
+          .item_container {
+            .item_wrapper {
+              display: inline-block;
+              .item {
+                display: inline-block;
+                margin-right: 8px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* From Uiverse.io by Zain-Muhammad */ 
+.tooltip_wrapper {
+  --clr-btn: rgb(2 22 36);
+  --clr-dropdown: rgb(2 22 36);
+  --clr-nav-hover: rgb(2 22 36);
+  --clr-dropdown-hov: rgb(2 22 36);
+  --clr-dropdown-link-hov: rgb(2 22 36);
+  --clr-light: #ffffff;
+}
+.nav_link {
+  position: relative;
+}
+.tooltip_wrapper > .tooltip_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.tooltip_container,
+.tooltip_menu_with_icon {
+  list-style: none;
+}
+.nav_link > .tooltip_tab {
+  color: var(--clr-light);
+  background: var(--clr-btn);
+  padding: 0.8rem 1rem;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  justify-content: space-between;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid #00c1d5;
+  transition: 0.3s ease-in-out;
+}
+.nav_link > .tooltip_tab:hover svg {
+  transform: rotate(360deg);
+  transition: 0.3s ease-in-out;
+}
+.tooltip_links {
+  text-decoration: none;
+}
+.nav_link svg {
+  fill: #fff;
+}
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 12rem;
+  max-width: 15rem;
+  transform: translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+  padding: 15px 0px 0px 0px;
+}
+.tooltip::after {
+  content: "";
+  width: 15px;
+  height: 15px;
+  background: #00c1d5 no-repeat -30px -50px fixed;
+  top: 0px;
+  left: 6%;
+  position: absolute;
+  display: inline-block;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  transform: rotate(360deg);
+  z-index: -1;
+  box-shadow: 0px 6px 30px rgb(2 22 36);
+}
+.tooltip .tooltip_menu_with_icon {
+  padding: 10px 0px;
+  background-color: var(--clr-dropdown);
+  border: 1px solid #00c1d5;
+  position: relative;
+}
+.tooltip_link {
+  position: relative;
+}
+.tooltip_link:not(:nth-last-child(2)) {
+  border-bottom: 1px solid var(--clr-dropdown);
+}
+.tooltip_link > a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 10px;
+  background-color: var(--clr-dropdown);
+  color: var(--clr-light);
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  transition: 0.3s;
+}
+.tooltip_menu_with_icon svg {
+  height: 20px;
+  margin-left: 0px;
+}
+.nav_link:hover > .tooltip_tab {
+  transform: scale(1.1);
+}
+.nav_link:hover > .tooltip,
+.tooltip_link:hover > .tooltip {
+  transform: translate(0, 0);
+  opacity: 1;
+  pointer-events: auto;
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+}
+.nav_link:hover > .tooltip_tab {
+  transform: scale(1);
+  background-color: var(--clr-nav-hover);
+}

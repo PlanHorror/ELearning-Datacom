@@ -95,7 +95,11 @@ export class AuthService {
       } else if (thisUser.status === Status.BANNED) {
         throw new UnauthorizedException('Account is banned');
       }
-      const payload = { email: user.email, role: Role.CUSTOMER };
+      const payload = {
+        email: user.email,
+        role: Role.CUSTOMER,
+        username: thisUser.username,
+      };
       const accessToken = this.jwtService.sign(payload);
       thisUser.last_login = new Date();
       await this.customerRepository.save(thisUser);

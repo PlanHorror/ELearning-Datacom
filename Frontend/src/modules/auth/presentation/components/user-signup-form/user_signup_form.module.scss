@@ -1,10 +1,16 @@
 @use "../../../../../shared/styles/variables.scss" as *;
 @use "../../../../../shared//styles/font.scss" as *;
 
+.form_title {
+  color: #2f2f2f;
+  padding-bottom: 50px;
+}
+
 .wrapper_btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px;
 }
 
 .label {
@@ -17,38 +23,28 @@
 .input_group {
   text-align: start;
   padding: 0 20px;
-  input {
-    border-radius: 8px;
-    width: 100%;
-  }
+}
+
+.input_groups {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  padding: 0 20px;
+  gap: 10px;
 }
 
 .btn {
-  border: none;
   margin-top: 20px;
   margin-bottom: 28px;
   @extend .font_body_16r;
-  width: 150px;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
-.form_text_forgot_password {
-  text-align: right;
-  margin-top: -22px;
-  padding: 0 20px;
+.btn:hover {
+  background-color: $primary_color_300 !important;
+  color: $white_color !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.wrapper_select {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 20px 15px 20px;
-  gap: 10px;
-
-  .wrapper_select_item {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 5px;
-  }
+.datepicker_input {
+  width: 100%;
 }

@@ -1,0 +1,39 @@
+@use "../../../../../shared/styles/variables.scss" as *;
+
+.page_container {
+  margin: 50px 0;
+  .page_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .page_title {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+      font-weight: 600;
+    }
+    .page_describe {
+      display: flex;
+      justify-content: center;
+      padding: 0 500px;
+      flex-wrap: wrap;
+      color: #515255;
+      gap: 7px;
+    }
+    .page_sub_content_wrapper {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    //   gap: 5px;
+      .page_sub_content {
+        width: 700px;
+        border-top: 1px solid #d3d7e4;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        padding-top: 20px;
+      }
+    }
+  }
+}

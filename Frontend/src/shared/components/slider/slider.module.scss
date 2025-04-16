@@ -1,0 +1,13 @@
+@use "../../styles/variables.scss" as *;
+
+.swiper_container {
+  height: 700px;
+  background-color: $primary_color_900;
+  .swiper_slide_wrapper {
+    display: flex;
+    width: inherit;
+    height: inherit;
+    justify-content: center;
+    align-items: center;
+  }
+}

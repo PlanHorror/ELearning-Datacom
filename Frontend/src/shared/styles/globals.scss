@@ -1,7 +1,9 @@
 @use "./reset.scss" as *;
 // @use './variables.scss';
 // @use './mixins.scss';
-
+@use "swiper/scss";
+@use "swiper/scss/navigation";
+@use "swiper/scss/pagination";
 html {
   font-family: "Lato", serif;
 }
@@ -9,3 +11,13 @@ html {
 // .full_height {
 //     height: 100% !important;
 // }
+
+.main-content {
+  min-height: calc(100vh - 200px); // Adjust based on header/footer height
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+
+  &.loading {
+    opacity: 0;
+  }
+}
