@@ -1,0 +1,25 @@
+{
+  "header": {
+    "home": "Home",
+    "lessons": "Lessons",
+    "about": "About",
+    "coupons": "Coupons",
+    "points": "Points",
+    "search": "Search",
+    "signup": "Signup",
+    "signin": "Signin",
+    "english": "US",
+    "japanese": "JP"
+  },
+  "profile": {
+    "profile": "Profile",
+    "progress": "Progress",
+    "points": "Points",
+    "coupons": "Coupons",
+    "setting": "Setting",
+    "logout": "Logout"
+  },
+  "page_loading": {
+    "content": "Loading"
+  }
+}

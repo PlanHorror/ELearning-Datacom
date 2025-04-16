@@ -1,0 +1,24 @@
+@use "../../../../../shared/styles/variables.scss" as *;
+
+.page_container {
+//   margin: 20px 100px;
+  .page_wrapper {
+    .title_wrapper {
+      margin-bottom: 50px;
+      height: 100px;
+      padding: 0 150px;
+      font-weight: 600;
+      background-color: $primary_color_900;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      .title {
+        color: $white_color;
+      }
+      .sub_title {
+        color: $color_text_sub;
+      }
+    }
+  }
+}

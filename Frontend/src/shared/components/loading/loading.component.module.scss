@@ -1,0 +1,60 @@
+.loading_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.loading_content {
+  text-align: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease-in-out;
+}
+
+.spin {
+  .ant-spin-dot {
+    font-size: 2.5rem;
+  }
+
+  .ant-spin-text {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #666;
+  }
+}
+
+.spin_content {
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+} 

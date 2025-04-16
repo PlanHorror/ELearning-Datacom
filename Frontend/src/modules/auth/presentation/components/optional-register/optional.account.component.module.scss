@@ -1,0 +1,80 @@
+@use "../../../../../shared/styles/variables.scss" as *;
+@use "../../../../../shared//styles/font.scss" as *;
+
+.form_title {
+  padding-bottom: 50px;
+}
+
+.form_sub_title {
+  font-weight: 700;
+  color: rgb(129, 55, 32);
+}
+
+.card_container {
+  display: flex;
+  gap: 50px;
+  margin: 50px 0;
+}
+
+.card_wrapper {
+  position: relative;
+  width: 190px;
+  height: 254px;
+  transition: 200ms;
+}
+
+.card_wrapper:active {
+  width: 180px;
+  height: 245px;
+}
+
+.card_main {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 20px;
+  transition: 700ms;
+  background: linear-gradient(
+    43deg,
+    rgb(219, 206, 206) 0%,
+    #f8e2ca 46%,
+    rgb(211, 108, 77) 100%
+  );
+}
+
+.card_main {
+  opacity: 1;
+}
+
+.card_main {
+  transition: 300ms;
+  filter: brightness(1.1);
+}
+
+.card_wrapper:hover .card_main::before {
+  transition: 200ms;
+  content: "";
+  opacity: 80%;
+}
+
+.card_main::before {
+  content: "";
+  background: linear-gradient(
+    43deg,
+    rgb(212, 214, 223) 0%,
+    rgb(230, 90, 71) 46%,
+    rgb(248, 248, 248) 100%
+  );
+  filter: blur(2rem);
+  opacity: 30%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  transition: 200ms;
+}
