@@ -17,7 +17,7 @@ export class CompanyDelete {
   @Column('uuid')
   old_id: string;
 
-  @Column({ unique: true })
+  @Column()
   email: string;
 
   @Column()

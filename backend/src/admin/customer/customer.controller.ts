@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Query,
@@ -37,14 +38,14 @@ export class CustomerController {
 
   @Patch('/:id')
   async updateCustomer(
-    @Query('id') id: string,
+    @Param('id') id: string,
     @Body() data: CustomerEntityDto,
   ): Promise<Customer> {
     return await this.customerService.updateService(data, id);
   }
 
   @Delete('/:id')
-  async deleteCustomer(@Query('id') id: string) {
+  async deleteCustomer(@Param('id') id: string) {
     return await this.customerService.deleteService(id);
   }
 }

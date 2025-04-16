@@ -1,9 +1,9 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Status } from 'src/common/enums';
 
 export class CompanyDeletedEntityDto {
-  @IsString()
+  @IsUUID()
   @IsNotEmpty()
   old_id: string;
 

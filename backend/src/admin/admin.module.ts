@@ -20,21 +20,8 @@ import { CustomerDeletedService } from './customer-deleted/customer-deleted.serv
 import { CustomerDeletedModule } from './customer-deleted/customer-deleted.module';
 
 @Module({
-  providers: [
-    AdminService,
-
-    CouponService,
-    CouponFavouriteService,
-    CompanyDeletedService,
-    CustomerDeletedService,
-  ],
-  controllers: [
-    AdminController,
-
-    CouponController,
-    CouponFavouriteController,
-    CompanyDeletedController,
-  ],
+  providers: [AdminService],
+  controllers: [AdminController],
   imports: [
     CustomerModule,
     CompanyModule,
