@@ -5,11 +5,12 @@ import {
   IsNotEmpty,
   IsNumberString,
   IsString,
+  IsUUID,
 } from 'class-validator';
 import { Gender, Status } from 'src/common/enums';
 
 export class CustomerDeletedEntityDto {
-  @IsString()
+  @IsUUID()
   @IsNotEmpty()
   old_id: string;
 
@@ -20,6 +21,10 @@ export class CustomerDeletedEntityDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 
   @IsString()
   @IsNotEmpty()
