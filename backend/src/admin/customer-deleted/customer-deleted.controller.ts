@@ -7,11 +7,18 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CustomerDeletedService } from './customer-deleted.service';
 import { CustomerDeletedEntityDto } from 'src/common/dtos/admin';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/common/guards/authorized.guard';
+import { Roles } from 'src/common/decorators';
+import { Role } from 'src/common/enums';
 
 @Controller('admin/customer-deleted')
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(Role.ADMIN)
 export class CustomerDeletedController {
   constructor(private customerDeletedService: CustomerDeletedService) {}
 

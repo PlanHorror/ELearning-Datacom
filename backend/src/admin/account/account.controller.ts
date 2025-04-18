@@ -14,9 +14,9 @@ import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { AccountService } from './account.service';
 import { Admin } from 'src/auth/entity/admin.entity';
-import { AccountDto } from 'src/common/dtos/admin/account.dto';
+import { AccountDto } from 'src/common/dtos/admin';
 
-@Controller('account')
+@Controller('admin/account')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
 export class AccountController {
