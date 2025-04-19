@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('coupon-usage-admin')
+@Controller('admin/coupon-usage')
 export class CouponUsageAdminController {}

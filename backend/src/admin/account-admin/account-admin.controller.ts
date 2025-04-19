@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -39,6 +40,11 @@ export class AccountAdminController {
     @Query('username') username: string,
   ): Promise<Admin[] | Admin> {
     return await this.accountService.getAdminsService(id, username);
+  }
+
+  @Post()
+  async createAccount(@Body() data: AccountDto): Promise<Admin> {
+    return await this.accountService.createService(data);
   }
 
   @Patch('/:id')
