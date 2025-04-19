@@ -10,7 +10,7 @@ import { AccountDto } from 'src/common/dtos/admin';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class AccountService {
+export class AccountAdminService {
   constructor(
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
   ) {}

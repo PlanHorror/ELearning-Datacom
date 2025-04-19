@@ -1,39 +1,29 @@
 import { Module } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
-import { CustomerModule } from './customer/customer.module';
-import { CompanyModule } from './company/company.module';
-import { AccountModule } from './account/account.module';
-import { CouponService } from './coupon/coupon.service';
-import { CouponController } from './coupon/coupon.controller';
-import { CouponModule } from './coupon/coupon.module';
-import { CouponLabelModule } from './coupon-label/coupon-label.module';
-import { CouponFavouriteService } from './coupon-favourite/coupon-favourite.service';
-import { CouponFavouriteController } from './coupon-favourite/coupon-favourite.controller';
-import { CouponFavouriteModule } from './coupon-favourite/coupon-favourite.module';
-import { CouponUsageModule } from './coupon-usage/coupon-usage.module';
-import { PointsHistoryModule } from './points-history/points-history.module';
-import { CompanyDeletedController } from './company-deleted/company-deleted.controller';
-import { CompanyDeletedService } from './company-deleted/company-deleted.service';
-import { CompanyDeletedModule } from './company-deleted/company-deleted.module';
-import { CustomerDeletedService } from './customer-deleted/customer-deleted.service';
-import { CustomerDeletedModule } from './customer-deleted/customer-deleted.module';
+import { CustomeAdminrModule } from './customer-admin/customer-admin.module';
+import { AccountAdminModule } from './account/account.module';
+import { CustomerDeletedAdminModule } from './customer-deleted-admin/customer-deleted-admin.module';
+import { CouponFavouriteAdminModule } from './coupon-favourite-admin/coupon-favourite-admin.module';
+import { CouponLabelAdminModule } from './coupon-label-admin/coupon-label-admin.module';
+import { CompanyAdminModule } from './company-admin/company-admin.module';
+import { CompanyDeletedAdminModule } from './company-deleted-admin/company-deleted-admin.module';
+import { CouponUsageAdminModule } from './coupon-usage-admin/coupon-usage-admin.module';
+import { PointsHistoryAdminModule } from './points-history-admin/points-history-admin.module';
 
 @Module({
   providers: [AdminService],
   controllers: [AdminController],
   imports: [
-    CustomerModule,
-    CompanyModule,
-
-    AccountModule,
-    CouponModule,
-    CouponLabelModule,
-    CouponFavouriteModule,
-    CouponUsageModule,
-    PointsHistoryModule,
-    CompanyDeletedModule,
-    CustomerDeletedModule,
+    CustomeAdminrModule,
+    AccountAdminModule,
+    CustomerDeletedAdminModule,
+    CouponFavouriteAdminModule,
+    CouponLabelAdminModule,
+    CompanyAdminModule,
+    CompanyDeletedAdminModule,
+    CouponUsageAdminModule,
+    PointsHistoryAdminModule,
   ],
 })
 export class AdminModule {}

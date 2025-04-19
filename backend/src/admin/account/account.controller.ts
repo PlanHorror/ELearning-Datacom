@@ -12,15 +12,15 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
-import { AccountService } from './account.service';
+import { AccountAdminService } from './account.service';
 import { Admin } from 'src/auth/entity/admin.entity';
 import { AccountDto } from 'src/common/dtos/admin';
 
 @Controller('admin/account')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
-export class AccountController {
-  constructor(private accountService: AccountService) {}
+export class AccountAdminController {
+  constructor(private accountService: AccountAdminService) {}
 
   @Get()
   async getAccount(
