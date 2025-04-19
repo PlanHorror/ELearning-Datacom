@@ -10,3 +10,4 @@ export * from './filter-coupon-favourite.dto';
 export * from './coupon-favourite.dto';
 export * from './coupon-label.dto';
 export * from './account-admin.dto';
+export * from './points-history.dto';

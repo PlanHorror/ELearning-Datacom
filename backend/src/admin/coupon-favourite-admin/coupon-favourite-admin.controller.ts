@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CouponFavouriteAdminService } from './coupon-favourite-admin.service';
 import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
@@ -15,7 +16,13 @@ import {
   FilterCouponFavouriteDto,
 } from 'src/common/dtos/admin';
 import { ApiQuery } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/common/guards/authorized.guard';
+import { Roles } from 'src/common/decorators';
+import { Role } from 'src/common/enums';
 
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(Role.ADMIN)
 @Controller('admin/coupon-favourite')
 export class CouponFavouriteAdminController {
   constructor(private couponFavouriteService: CouponFavouriteAdminService) {}

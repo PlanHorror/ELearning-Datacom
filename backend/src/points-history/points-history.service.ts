@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Customer } from 'src/auth/entity/customer.entity';
 import { CouponHistoryDto } from 'src/common/dtos/coupon-history.dto';
 import { AuthService } from 'src/auth/auth.service';
-import { CouponHistoryType } from 'src/common/enums';
+import { PointsHistoryType } from 'src/common/enums';
 
 @Injectable()
 export class PointsHistoryService {
@@ -56,7 +56,7 @@ export class PointsHistoryService {
     customer: Customer,
     points: number,
     description: string,
-    type: CouponHistoryType,
+    type: PointsHistoryType,
   ): Promise<PointsHistory> {
     const newPointsHistory = this.couponHistoryRepository.create({
       points,

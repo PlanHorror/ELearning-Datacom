@@ -8,6 +8,7 @@ import { Customer } from 'src/auth/entity/customer.entity';
 import { CustomerEntityDto } from 'src/common/dtos/admin';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { PointsHistoryType } from 'src/common/enums';
 
 @Injectable()
 export class CustomerAdminService {
@@ -72,6 +73,27 @@ export class CustomerAdminService {
         throw new BadRequestException('Customer already exists');
       }
       throw new BadRequestException('Error updating customer');
+    }
+  }
+
+  // Update customer points in the database
+  async updateCustomerPoints(
+    id: string,
+    points: number,
+    type: PointsHistoryType,
+  ): Promise<Customer> {
+    try {
+      const customer = await this.getCustomerById(id);
+      const newPoints =
+        type === PointsHistoryType.ADD
+          ? Number(customer.points) + Number(points)
+          : Number(customer.points) - Number(points);
+      return await this.customerRepository.save({
+        id,
+        points: newPoints,
+      });
+    } catch (error) {
+      throw new NotFoundException('Customer not found');
     }
   }
 

@@ -1,5 +1,12 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 import { Status } from 'src/common/enums';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -73,6 +80,7 @@ export class CompanyDeletedEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   deleted_at: Date;
 }

@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumberString,
+  IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
@@ -123,6 +124,7 @@ export class CustomerDeletedEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   deleted_at: Date;
 }

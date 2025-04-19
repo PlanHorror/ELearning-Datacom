@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumberString,
+  IsOptional,
   IsString,
 } from 'class-validator';
 import { Gender, Status } from 'src/common/enums';
@@ -93,6 +94,7 @@ export class CustomerEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   created_at: Date;
 
@@ -103,6 +105,7 @@ export class CustomerEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   last_updated: Date;
 
@@ -113,6 +116,7 @@ export class CustomerEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   last_login: Date;
 }

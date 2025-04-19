@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Status } from 'src/common/enums';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -52,6 +58,7 @@ export class CompanyEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   created_at: Date;
 
@@ -62,6 +69,7 @@ export class CompanyEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   last_updated: Date;
 
@@ -72,6 +80,7 @@ export class CompanyEntityDto {
   })
   @IsDate()
   @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => new Date(value))
   last_login: Date;
 }

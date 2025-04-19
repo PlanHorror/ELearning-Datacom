@@ -1,5 +1,5 @@
 import { IsEnum, IsString } from 'class-validator';
-import { CouponHistoryType } from '../enums';
+import { PointsHistoryType } from '../enums';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CouponHistoryDto {
@@ -12,11 +12,11 @@ export class CouponHistoryDto {
 
   @ApiProperty({
     description: 'Type of coupon history record',
-    enum: CouponHistoryType,
+    enum: PointsHistoryType,
     example: 'USED',
   })
-  @IsEnum(CouponHistoryType)
-  type: CouponHistoryType;
+  @IsEnum(PointsHistoryType)
+  type: PointsHistoryType;
 
   @ApiProperty({
     description: 'Description of the coupon history event',

@@ -10,7 +10,7 @@ import { Customer } from 'src/auth/entity/customer.entity';
 import { CouponService } from 'src/coupon/coupon.service';
 import { AuthService } from 'src/auth/auth.service';
 import { PointsHistoryService } from 'src/points-history/points-history.service';
-import { CouponHistoryType } from 'src/common/enums';
+import { PointsHistoryType } from 'src/common/enums';
 
 @Injectable()
 export class CouponUseageService {
@@ -92,7 +92,7 @@ export class CouponUseageService {
         customer,
         coupon.use_point,
         'Redeem coupon',
-        CouponHistoryType.SUBTRACT,
+        PointsHistoryType.SUBTRACT,
       );
       return newCouponUsage;
     } catch (error) {

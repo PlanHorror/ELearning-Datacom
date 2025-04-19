@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Status } from 'src/common/enums';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 
@@ -20,10 +27,10 @@ export class Company {
   @Column()
   company_name: string;
 
-  @Column({ default: new Date() })
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column({ default: new Date() })
+  @UpdateDateColumn()
   last_updated: Date;
 
   @Column({ nullable: true })

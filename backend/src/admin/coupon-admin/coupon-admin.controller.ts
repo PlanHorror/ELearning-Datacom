@@ -8,6 +8,7 @@ import {
   Post,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CouponAdminService } from './coupon-admin.service';
@@ -16,7 +17,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CouponImageOption } from 'src/common/interceptors';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 import { ApiQuery } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/common/guards/authorized.guard';
+import { Roles } from 'src/common/decorators';
+import { Role } from 'src/common/enums';
 
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(Role.ADMIN)
 @Controller('admin/coupon')
 export class CouponAdminController {
   constructor(private couponService: CouponAdminService) {}
