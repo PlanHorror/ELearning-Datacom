@@ -15,6 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/customer-deleted')
 @UseGuards(AuthGuard(), RolesGuard)
@@ -23,6 +24,21 @@ export class CustomerDeletedAdminController {
   constructor(private customerDeletedService: CustomerDeletedAdminService) {}
 
   @Get()
+  @ApiQuery({
+    name: 'id',
+    required: false,
+    description: 'ID of the deleted customer',
+  })
+  @ApiQuery({
+    name: 'old_id',
+    required: false,
+    description: 'Old ID of the deleted customer',
+  })
+  @ApiQuery({
+    name: 'email',
+    required: false,
+    description: 'Email of the deleted customer',
+  })
   async getDeletedCustomers(
     @Query('id') id?: string,
     @Query('email') email?: string,

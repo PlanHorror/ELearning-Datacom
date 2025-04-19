@@ -84,7 +84,9 @@ export class AuthController {
   @Post('customer/refresh-token')
   @Roles(Role.CUSTOMER)
   @UseGuards(RefreshTokenGuard, RolesGuard)
-  async refreshToken(@GetUser() user: Customer) {
+  async refreshToken(
+    @GetUser() user: Customer,
+  ): Promise<{ accessToken: string }> {
     return await this.authService.refreshToken(user);
   }
 
@@ -106,7 +108,9 @@ export class AuthController {
   @Delete('customer')
   @Roles(Role.CUSTOMER)
   @UseGuards(AuthGuard(), RolesGuard)
-  async delete(@GetUser() thisCustomer: Customer) {
+  async delete(
+    @GetUser() thisCustomer: Customer,
+  ): Promise<{ message: string }> {
     return this.authService.customerDelete(thisCustomer);
   }
 

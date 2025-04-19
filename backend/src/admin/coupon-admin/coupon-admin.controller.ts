@@ -15,13 +15,19 @@ import { CouponDto, FilterCouponDto } from 'src/common/dtos/admin';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CouponImageOption } from 'src/common/interceptors';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/coupon')
 export class CouponAdminController {
   constructor(private couponService: CouponAdminService) {}
 
   @Get()
-  async getCoupons(@Query('id') id: string) {
+  @ApiQuery({
+    name: 'id',
+    required: false,
+    description: 'ID of the coupon',
+  })
+  async getCoupons(@Query('id') id?: string) {
     return await this.couponService.getCouponsService(id);
   }
 

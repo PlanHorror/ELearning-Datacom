@@ -16,14 +16,25 @@ import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { CompanyEntityDto } from 'src/common/dtos/admin';
 import { Company } from 'src/auth/entity/company.entity';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/company')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
-export class CompanyController {
+export class CompanyAdminController {
   constructor(private companyService: CompanyAdminService) {}
 
   @Get()
+  @ApiQuery({
+    name: 'id',
+    required: false,
+    description: 'ID of the company',
+  })
+  @ApiQuery({
+    name: 'email',
+    required: false,
+    description: 'Email of the company',
+  })
   async getCompany(
     @Query('id') id?: string,
     @Query('email') email?: string,

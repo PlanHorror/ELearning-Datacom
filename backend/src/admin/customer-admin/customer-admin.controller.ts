@@ -16,6 +16,7 @@ import { Roles } from 'src/common/decorators';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Role } from 'src/common/enums';
 import { Customer } from 'src/auth/entity/customer.entity';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/customer')
 @UseGuards(AuthGuard(), RolesGuard)
@@ -24,6 +25,16 @@ export class CustomerAdminController {
   constructor(private customerService: CustomerAdminService) {}
 
   @Get()
+  @ApiQuery({
+    name: 'id',
+    required: false,
+    description: 'ID of the customer',
+  })
+  @ApiQuery({
+    name: 'email',
+    required: false,
+    description: 'Email of the customer',
+  })
   async getCustomers(
     @Query('id') id?: string,
     @Query('email') email?: string,
