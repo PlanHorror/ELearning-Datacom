@@ -15,7 +15,7 @@ import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { AccountAdminService } from './account-admin.service';
 import { Admin } from 'src/auth/entity/admin.entity';
-import { AccountDto } from 'src/common/dtos/admin';
+import { AccountAdminDto } from 'src/common/dtos/admin';
 import { ApiPropertyOptional, ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/account')
@@ -43,14 +43,14 @@ export class AccountAdminController {
   }
 
   @Post()
-  async createAccount(@Body() data: AccountDto): Promise<Admin> {
+  async createAccount(@Body() data: AccountAdminDto): Promise<Admin> {
     return await this.accountService.createService(data);
   }
 
   @Patch('/:id')
   async updateAccount(
     @Param('id') id: string,
-    @Body() data: AccountDto,
+    @Body() data: AccountAdminDto,
   ): Promise<Admin> {
     return await this.accountService.updateService(data, id);
   }

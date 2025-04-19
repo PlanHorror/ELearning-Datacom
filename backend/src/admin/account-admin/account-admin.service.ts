@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from 'src/auth/entity/admin.entity';
-import { AccountDto } from 'src/common/dtos/admin';
+import { AccountAdminDto } from 'src/common/dtos/admin';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class AccountAdminService {
   }
 
   // Create a new admin in the database
-  async createAdmin(data: AccountDto): Promise<Admin> {
+  async createAdmin(data: AccountAdminDto): Promise<Admin> {
     try {
       const admin = this.adminRepository.create(data);
       return await this.adminRepository.save(admin);
@@ -62,7 +62,7 @@ export class AccountAdminService {
   }
 
   // Update a admin in the database
-  async updateAdmin(data: AccountDto, id: string): Promise<Admin> {
+  async updateAdmin(data: AccountAdminDto, id: string): Promise<Admin> {
     try {
       return await this.adminRepository.save({
         ...data,
@@ -101,7 +101,7 @@ export class AccountAdminService {
   }
 
   // Create a new admin in the database
-  async createService(data: AccountDto): Promise<Admin> {
+  async createService(data: AccountAdminDto): Promise<Admin> {
     if (!data) {
       throw new BadRequestException('Not enough data provided');
     }
@@ -115,7 +115,7 @@ export class AccountAdminService {
   }
 
   // Update a admin in the database
-  async updateService(data: AccountDto, id: string): Promise<Admin> {
+  async updateService(data: AccountAdminDto, id: string): Promise<Admin> {
     if (!data) {
       throw new BadRequestException('Not enough data provided');
     }

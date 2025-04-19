@@ -9,5 +9,6 @@ import { CouponLabel } from 'src/coupon-label/entity/coupon-label.entity';
   controllers: [CouponLabelAdminController],
   providers: [CouponLabelAdminService],
   imports: [AuthModule, TypeOrmModule.forFeature([CouponLabel])],
+  exports: [CouponLabelAdminService],
 })
 export class CouponLabelAdminModule {}

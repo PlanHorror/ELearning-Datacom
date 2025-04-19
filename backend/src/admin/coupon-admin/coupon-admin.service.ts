@@ -1,16 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CouponDto, FilterCouponDto } from 'src/common/dtos/admin';
+import { CouponAdminDto, FilterCouponDto } from 'src/common/dtos/admin';
 import { createImageName, removeImage, saveImage } from 'src/common/utils';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 import { Repository } from 'typeorm';
 import { CompanyAdminService } from '../company-admin/company-admin.service';
+import { CouponLabelAdminService } from '../coupon-label-admin/coupon-label-admin.service';
 
 @Injectable()
 export class CouponAdminService {
   constructor(
     @InjectRepository(Coupon) private couponRepository: Repository<Coupon>,
     private companyService: CompanyAdminService,
+    private couponLabelService: CouponLabelAdminService,
   ) {}
 
   /*
@@ -35,12 +37,19 @@ export class CouponAdminService {
   }
 
   // Create a new coupon in the database
-  async createCoupon(coupon: CouponDto, imageName: string): Promise<Coupon> {
+  async createCoupon(
+    coupon: CouponAdminDto,
+    imageName: string,
+  ): Promise<Coupon> {
     const { company_id, label_id, ...data } = coupon;
+    const company = await this.companyService.getCompanyById(company_id);
+    const label = await this.couponLabelService.getCouponLabelById(label_id);
     try {
       return await this.couponRepository.save({
-        ...coupon,
+        ...data,
         image: imageName,
+        company: company,
+        label: label,
       });
     } catch (error) {
       throw new BadRequestException('Error when creating coupon');
@@ -49,20 +58,27 @@ export class CouponAdminService {
 
   // Update an existing coupon in the database
   async updateCoupon(
-    coupon: CouponDto,
+    coupon: CouponAdminDto,
     id: string,
     imageName?: string,
   ): Promise<Coupon> {
     try {
+      const { company_id, label_id, ...data } = coupon;
+      const company = await this.companyService.getCompanyById(company_id);
+      const label = await this.couponLabelService.getCouponLabelById(label_id);
       if (imageName) {
         return await this.couponRepository.save({
-          ...coupon,
+          ...data,
+          company: company,
+          label: label,
           id: id,
           image: imageName,
         });
       }
       return await this.couponRepository.save({
         ...coupon,
+        company: company,
+        label: label,
         id: id,
       });
     } catch (error) {
@@ -110,7 +126,10 @@ export class CouponAdminService {
   }
 
   // Create a new coupon in the database
-  async createCouponService(couponData: CouponDto, image: Express.Multer.File) {
+  async createCouponService(
+    couponData: CouponAdminDto,
+    image: Express.Multer.File,
+  ) {
     if (!couponData || !image) {
       throw new BadRequestException('Not enough data provided');
     }
@@ -126,7 +145,7 @@ export class CouponAdminService {
 
   // Update an existing coupon in the database
   async updateCouponService(
-    couponData: CouponDto,
+    couponData: CouponAdminDto,
     id: string,
     image?: Express.Multer.File,
   ) {

@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CouponAdminService } from './coupon-admin.service';
-import { CouponDto, FilterCouponDto } from 'src/common/dtos/admin';
+import { CouponAdminDto, FilterCouponDto } from 'src/common/dtos/admin';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CouponImageOption } from 'src/common/interceptors';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
@@ -41,7 +41,7 @@ export class CouponAdminController {
   @Post()
   @UseInterceptors(FileInterceptor('image', CouponImageOption))
   async createCoupon(
-    @Body() data: CouponDto,
+    @Body() data: CouponAdminDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
     return await this.couponService.createCouponService(data, image);
@@ -50,7 +50,7 @@ export class CouponAdminController {
   @Patch('/:id')
   @UseInterceptors(FileInterceptor('image', CouponImageOption))
   async updateCoupon(
-    @Body() data: CouponDto,
+    @Body() data: CouponAdminDto,
     @Param('id') id: string,
     @UploadedFile() image?: Express.Multer.File,
   ) {

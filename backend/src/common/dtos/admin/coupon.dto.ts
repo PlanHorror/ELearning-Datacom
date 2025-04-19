@@ -12,7 +12,7 @@ import { Classification, CouponStatus } from 'src/common/enums';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CouponDto {
+export class CouponAdminDto {
   @ApiProperty({
     description: 'Unique identifier for the coupon',
     example: '123e4567-e89b-12d3-a456-426614174000',

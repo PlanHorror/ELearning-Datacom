@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
-import { CustomeAdminrModule } from './customer-admin/customer-admin.module';
+import { CustomerAdminModule } from './customer-admin/customer-admin.module';
 import { AccountAdminModule } from './account-admin/account-admin.module';
 import { CustomerDeletedAdminModule } from './customer-deleted-admin/customer-deleted-admin.module';
 import { CouponFavouriteAdminModule } from './coupon-favourite-admin/coupon-favourite-admin.module';
@@ -15,7 +15,7 @@ import { PointsHistoryAdminModule } from './points-history-admin/points-history-
   providers: [AdminService],
   controllers: [AdminController],
   imports: [
-    CustomeAdminrModule,
+    CustomerAdminModule,
     AccountAdminModule,
     CustomerDeletedAdminModule,
     CouponFavouriteAdminModule,

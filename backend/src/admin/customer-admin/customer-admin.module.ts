@@ -9,5 +9,6 @@ import { Customer } from 'src/auth/entity/customer.entity';
   controllers: [CustomerAdminController],
   providers: [CustomerAdminService],
   imports: [AuthModule, TypeOrmModule.forFeature([Customer])],
+  exports: [CustomerAdminService],
 })
-export class CustomeAdminrModule {}
+export class CustomerAdminModule {}
