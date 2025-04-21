@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Company } from 'src/auth/entity/company.entity';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Company } from 'src/company/entity/company.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { Admin } from 'src/auth/entity/admin.entity';
 
 // Get user decorator

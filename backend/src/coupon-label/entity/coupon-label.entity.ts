@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Coupon } from '../../coupon/entity/coupon.entity';
 
@@ -21,7 +22,7 @@ export class CouponLabel {
   @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   last_updated: Date;
 
   @OneToMany((_type) => Coupon, (coupon) => coupon.label)

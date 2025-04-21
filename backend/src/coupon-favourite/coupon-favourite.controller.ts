@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CouponFavouriteService } from './coupon-favourite.service';
 import { GetUser, Roles } from 'src/common/decorators';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { Role } from 'src/common/enums';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';

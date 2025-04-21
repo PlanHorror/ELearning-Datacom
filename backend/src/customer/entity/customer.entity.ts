@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Status } from 'src/common/enums';
 import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
 import { PointsHistory } from 'src/points-history/entity/points-history.entity';
@@ -33,10 +40,10 @@ export class Customer {
   @Column({ default: 0 })
   points: number;
 
-  @Column({ default: new Date() })
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column({ default: new Date() })
+  @UpdateDateColumn()
   last_updated: Date;
 
   @Column({ nullable: true })
@@ -52,5 +59,5 @@ export class Customer {
   couponUsages: CouponFavourite[];
 
   @OneToMany((_type) => PointsHistory, (history) => history.customer)
-  couponHistories: PointsHistory[];
+  pointsHistories: PointsHistory[];
 }

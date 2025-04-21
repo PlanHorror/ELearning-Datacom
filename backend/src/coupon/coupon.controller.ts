@@ -18,7 +18,7 @@ import { CouponImageOption } from 'src/common/interceptors';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
-import { Company } from 'src/auth/entity/company.entity';
+import { Company } from 'src/company/entity/company.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Coupon } from './entity/coupon.entity';
