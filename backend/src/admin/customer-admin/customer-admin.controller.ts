@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/common/decorators';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { Role } from 'src/common/enums';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/customer')

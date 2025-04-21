@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsNumberString,
   IsOptional,
   IsString,
   MaxDate,
@@ -11,7 +12,7 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { Gender } from 'src/common/enums';
+import { Gender, Status } from 'src/common/enums';
 import { Transform } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -152,6 +153,43 @@ export class CustomerUpdateDto {
   @IsDate()
   @IsNotEmpty()
   dob: Date;
+
+  @ApiPropertyOptional({
+    description: 'Old customer password',
+    example: 'oldpassword123',
+    minLength: 8,
+    maxLength: 14,
+  })
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  old_password: string;
+
+  @ApiPropertyOptional({
+    description: 'Updated customer password',
+    example: 'newpassword123',
+    minLength: 8,
+    maxLength: 14,
+  })
+  @ValidateIf((o) => !!o.old_password)
+  @IsString()
+  @MinLength(8)
+  @MaxLength(14)
+  @IsNotEmpty()
+  new_password: string;
+
+  @ApiPropertyOptional({
+    description: 'Confirm new password',
+    example: 'newpassword123',
+    minLength: 8,
+    maxLength: 14,
+  })
+  @ValidateIf((o) => !!o.new_password)
+  @IsString()
+  @MinLength(8)
+  @MaxLength(14)
+  @IsNotEmpty()
+  confirm_password: string;
 }
 
 // DTO for reset password
@@ -194,4 +232,42 @@ export class ResetPasswordDto {
   @MaxLength(14)
   @IsNotEmpty()
   confirmPassword: string;
+}
+
+export class CustomerRawDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @IsString()
+  @IsNotEmpty()
+  postal_code: string;
+
+  @IsString()
+  @IsNotEmpty()
+  prefecture: string;
+
+  @IsEnum(Gender)
+  @IsNotEmpty()
+  gender: Gender;
+
+  @IsDate()
+  @Transform(({ value }) => new Date(value))
+  dob: Date;
+
+  @IsNumberString()
+  @IsNotEmpty()
+  points: number;
+
+  @IsEnum(Status)
+  @IsNotEmpty()
+  status: Status;
 }

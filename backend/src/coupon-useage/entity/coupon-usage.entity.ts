@@ -1,4 +1,4 @@
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { CouponUsageStatus } from 'src/common/enums';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 import {

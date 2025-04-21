@@ -1,4 +1,4 @@
-import { Company } from 'src/auth/entity/company.entity';
+import { Company } from 'src/company/entity/company.entity';
 import { Classification, CouponStatus } from 'src/common/enums';
 import {
   Column,

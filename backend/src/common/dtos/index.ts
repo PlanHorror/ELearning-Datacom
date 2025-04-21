@@ -6,3 +6,4 @@ export * from './user.verification.dto';
 export * from './label-coupon.dto';
 export * from './coupon.dto';
 export * from './id.dto';
+export * from './signin.dto';

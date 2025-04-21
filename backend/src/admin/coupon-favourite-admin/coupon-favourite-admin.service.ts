@@ -13,7 +13,7 @@ import {
   FilterCouponFavouriteDto,
 } from 'src/common/dtos/admin';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 
 @Injectable()
 export class CouponFavouriteAdminService {

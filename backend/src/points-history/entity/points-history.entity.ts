@@ -1,4 +1,4 @@
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { PointsHistoryType } from 'src/common/enums';
 import {
   Column,
@@ -29,7 +29,7 @@ export class PointsHistory {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Customer, (customer) => customer.couponHistories, {
+  @ManyToOne(() => Customer, (customer) => customer.pointsHistories, {
     onDelete: 'CASCADE',
   })
   customer: Customer;

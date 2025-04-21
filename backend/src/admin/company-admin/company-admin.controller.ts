@@ -15,7 +15,7 @@ import { Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { CompanyEntityDto } from 'src/common/dtos/admin';
-import { Company } from 'src/auth/entity/company.entity';
+import { Company } from 'src/company/entity/company.entity';
 import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('admin/company')

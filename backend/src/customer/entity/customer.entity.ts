@@ -59,5 +59,5 @@ export class Customer {
   couponUsages: CouponFavourite[];
 
   @OneToMany((_type) => PointsHistory, (history) => history.customer)
-  couponHistories: PointsHistory[];
+  pointsHistories: PointsHistory[];
 }

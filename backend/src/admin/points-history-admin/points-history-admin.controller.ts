@@ -7,12 +7,19 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PointsHistoryAdminService } from './points-history-admin.service';
 import { ApiQuery } from '@nestjs/swagger';
 import { PointsHistory } from 'src/points-history/entity/points-history.entity';
 import { PointsHistoryDto } from 'src/common/dtos/admin';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/common/guards/authorized.guard';
+import { Roles } from 'src/common/decorators';
+import { Role } from 'src/common/enums';
 
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(Role.ADMIN)
 @Controller('admin/points-history')
 export class PointsHistoryAdminController {
   constructor(private pointsHistoryAdminService: PointsHistoryAdminService) {}

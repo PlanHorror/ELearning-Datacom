@@ -3,7 +3,7 @@ import { CustomerDeletedAdminController } from './customer-deleted-admin.control
 import { CustomerDeletedAdminService } from './customer-deleted-admin.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CustomerDelete } from 'src/auth/entity/customer-delete.entity';
+import { CustomerDelete } from 'src/customer/entity/customer-delete.entity';
 
 @Module({
   controllers: [CustomerDeletedAdminController],

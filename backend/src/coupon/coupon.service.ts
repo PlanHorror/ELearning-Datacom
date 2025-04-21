@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Coupon } from './entity/coupon.entity';
 import { Repository } from 'typeorm';
 import { CouponDto } from 'src/common/dtos';
-import { Company } from 'src/auth/entity/company.entity';
+import { Company } from 'src/company/entity/company.entity';
 import { Express } from 'express';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';

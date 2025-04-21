@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { CustomerEntityDto } from 'src/common/dtos/admin';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';

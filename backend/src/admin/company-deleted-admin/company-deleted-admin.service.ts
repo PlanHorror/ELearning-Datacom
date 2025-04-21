@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CompanyDelete } from 'src/auth/entity/comany-delete.entity';
+import { CompanyDelete } from 'src/company/entity/comany-delete.entity';
 import { CompanyDeletedEntityDto } from 'src/common/dtos/admin';
 import { Repository } from 'typeorm';
 

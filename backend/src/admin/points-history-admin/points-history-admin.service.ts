@@ -4,7 +4,7 @@ import { PointsHistory } from 'src/points-history/entity/points-history.entity';
 import { Repository } from 'typeorm';
 import { CustomerAdminService } from '../customer-admin/customer-admin.service';
 import { PointsHistoryDto } from 'src/common/dtos/admin';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 
 @Injectable()
 export class PointsHistoryAdminService {

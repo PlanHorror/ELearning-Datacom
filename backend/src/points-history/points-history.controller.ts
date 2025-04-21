@@ -5,7 +5,7 @@ import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
 import { PointsHistory } from './entity/points-history.entity';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 
 @Controller('points-history')
 export class PointsHistoryController {

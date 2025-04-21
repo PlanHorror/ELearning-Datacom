@@ -4,7 +4,7 @@ import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { CouponUsage } from './entity/coupon-usage.entity';
 import { IdDto } from 'src/common/dtos';
 

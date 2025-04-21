@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PointsHistory } from './entity/points-history.entity';
 import { Repository } from 'typeorm';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { CouponHistoryDto } from 'src/common/dtos/coupon-history.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { PointsHistoryType } from 'src/common/enums';
