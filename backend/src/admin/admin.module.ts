@@ -10,6 +10,7 @@ import { CompanyAdminModule } from './company-admin/company-admin.module';
 import { CompanyDeletedAdminModule } from './company-deleted-admin/company-deleted-admin.module';
 import { CouponUsageAdminModule } from './coupon-usage-admin/coupon-usage-admin.module';
 import { PointsHistoryAdminModule } from './points-history-admin/points-history-admin.module';
+import { LearningStatusAdminModule } from './learning-status-admin/learning-status-admin.module';
 
 @Module({
   providers: [AdminService],
@@ -24,6 +25,7 @@ import { PointsHistoryAdminModule } from './points-history-admin/points-history-
     CompanyDeletedAdminModule,
     CouponUsageAdminModule,
     PointsHistoryAdminModule,
+    LearningStatusAdminModule,
   ],
 })
 export class AdminModule {}

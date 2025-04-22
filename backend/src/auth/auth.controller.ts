@@ -1,27 +1,13 @@
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
-import {
-  CustomerSignInDto,
   CustomerSignUpDto,
-  ResetPasswordDto,
   CompanySignUpDto,
-  CompanyUpdateDto,
   UserVerificationDto,
-  AdminSignInDto,
   SignInDto,
 } from 'src/common/dtos';
 import { AuthService } from './auth.service';
 import { Customer } from '../customer/entity/customer.entity';
 import { Company } from '../company/entity/company.entity';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser, Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { RolesGuard } from 'src/common/guards/authorized.guard';
