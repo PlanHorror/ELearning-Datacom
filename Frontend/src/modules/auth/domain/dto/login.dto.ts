@@ -5,5 +5,5 @@ export interface LoginPayLoad {
 
 export interface LoginResponse {
     accessToken: string;
-    // refreshToken: string;
+    refreshToken: string;
 }

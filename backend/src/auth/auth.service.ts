@@ -166,10 +166,12 @@ export class AuthService {
         throw new UnauthorizedException('Account is banned');
       }
       const payload = {
+        _id: thisUser.id,
         email: user.email,
         role: Role.CUSTOMER,
         username: thisUser.username,
       };
+      console.log('Check: ', payload);
       const accessToken = this.jwtService.sign(payload);
       const refreshToken = this.jwtService.sign(payload, {
         secret: process.env.JWT_REFRESH_SECRET,

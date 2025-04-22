@@ -1,17 +1,74 @@
 "use client";
 
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Progress, Tooltip, Badge } from "antd";
 import styles from "./profile.component.module.scss";
 import UserIconComponent from "@/shared/icons/user-icon/user.icon.component";
-import { EditOutlined, MailOutlined, RiseOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  MailOutlined,
+  RiseOutlined,
+  TrophyOutlined,
+  GiftOutlined,
+  StarOutlined,
+  ClockCircleOutlined,
+} from "@ant-design/icons";
 import { useSession } from "next-auth/react";
-import { Calendar, Code, Medal, Tickets, VenusAndMars } from "lucide-react";
-import { useState } from "react";
+import {
+  Calendar,
+  Code,
+  Medal,
+  Tickets,
+  VenusAndMars,
+  Award,
+  Target,
+  BookOpen,
+  GraduationCap,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 import ModalUpdateInformation from "../modal-update-information/modal.update.information.component";
+import { CustomerUseCase } from "@/modules/customers/domain/usecases/customer.usecase";
+import { toast } from "sonner";
+import { GetCustomerByIdResponse } from "../../../domain/dto/getCustomer.dto";
+import { LoadingComponent } from "@/shared/components/loading/loading.component";
+import dayjs from "dayjs";
 
 const ProfileComponent = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profile, setProfile] = useState<GetCustomerByIdResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchProfile = async () => {
+    try {
+      setIsLoading(true);
+      const customerUseCase = new CustomerUseCase();
+      const res = await customerUseCase.getCustomerById();
+      if (res.status === 200) {
+        setProfile(res.data);
+      } else {
+        toast.error("Get customer profile failed!");
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      toast.error("Get customer profile failed!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      fetchProfile();
+    }
+  }, [status]);
+
+  const handleProfileUpdate = async () => {
+    await fetchProfile();
+  };
+
+  if (status === "loading" || isLoading) {
+    return <LoadingComponent />;
+  }
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -24,6 +81,48 @@ const ProfileComponent = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const achievements = [
+    {
+      icon: <TrophyOutlined />,
+      title: "First Course",
+      description: "Completed your first course",
+      progress: 100,
+    },
+    {
+      icon: <StarOutlined />,
+      title: "Fast Learner",
+      description: "Completed 5 courses in a month",
+      progress: 60,
+    },
+    {
+      icon: <GiftOutlined />,
+      title: "Point Collector",
+      description: "Earned 1000 points",
+      progress: 75,
+    },
+  ];
+
+  const recentActivities = [
+    {
+      icon: <BookOpen size={20} />,
+      title: "Started new course",
+      description: "Introduction to Programming",
+      time: "2 hours ago",
+    },
+    {
+      icon: <GraduationCap size={20} />,
+      title: "Course completed",
+      description: "Web Development Basics",
+      time: "1 day ago",
+    },
+    {
+      icon: <Award size={20} />,
+      title: "Achievement unlocked",
+      description: "Fast Learner",
+      time: "2 days ago",
+    },
+  ];
 
   return (
     <div className={styles.component_container}>
@@ -40,15 +139,23 @@ const ProfileComponent = () => {
           <Card hoverable={true}>
             <div className={styles.card_wrapper}>
               <div className={styles.title_wrapper}>
-                <UserIconComponent username={""} role={""} />
-                {/* just allow to change avatar or username */}
-                <EditOutlined />
+                <UserIconComponent
+                  username={profile?.username || ""}
+                  role={session?.user?.role || ""}
+                />
+                <EditOutlined onClick={showModal} />
               </div>
               <div className={styles.user_wrapper}>
-                <p className={styles.user_username}>
-                  {session?.user?.username}
-                </p>
+                <p className={styles.user_username}>{profile?.username}</p>
                 <p className={styles.user_role}>@{session?.user?.role}</p>
+                <div className={styles.user_stats}>
+                  <Tooltip title="Member since">
+                    <span>
+                      <ClockCircleOutlined />{" "}
+                      {dayjs(profile?.createdAt).format("MMM YYYY")}
+                    </span>
+                  </Tooltip>
+                </div>
               </div>
             </div>
           </Card>
@@ -56,24 +163,24 @@ const ProfileComponent = () => {
             <div className={styles.card_wrapper}>
               <div className={styles.title_wrapper}>
                 <h2>Personal Information</h2>
-                <EditOutlined onClick={showModal}/>
+                <EditOutlined onClick={showModal} />
               </div>
               <div className={styles.information_wrapper}>
                 <div className={styles.information}>
                   <MailOutlined />
-                  <p>Email</p>
+                  <p>{profile?.email}</p>
                 </div>
                 <div className={styles.information}>
                   <Code size={15} />
-                  <p>Postal Code</p>
+                  <p>{profile?.postal_code}</p>
                 </div>
                 <div className={styles.information}>
                   <VenusAndMars size={15} />
-                  <p>Gender</p>
+                  <p>{profile?.gender}</p>
                 </div>
                 <div className={styles.information}>
                   <Calendar size={15} />
-                  <p>Dob</p>
+                  <p>{dayjs(profile?.dob).format("YYYY/MM/DD")}</p>
                 </div>
               </div>
             </div>
@@ -90,17 +197,93 @@ const ProfileComponent = () => {
         >
           <Card hoverable={true}>
             <div className={styles.right_card_wrapper}>
-              <RiseOutlined /> <p className={styles.text}>Progress</p>
+              <RiseOutlined />
+              <div className={styles.progress_info}>
+                <p className={styles.text}>Learning Progress</p>
+                <Progress percent={65} status="active" />
+                <span className={styles.progress_text}>
+                  12 courses completed
+                </span>
+              </div>
             </div>
           </Card>
           <Card hoverable={true}>
             <div className={styles.right_card_wrapper}>
-              <Medal size={15} /> <p className={styles.text}>Points</p>
+              <Medal size={24} />
+              <div className={styles.points_info}>
+                <p className={styles.text}>Points</p>
+                <span className={styles.points_value}>
+                {/* {profile?.points} */}
+                750
+                </span>
+                <Badge count="+100" style={{ backgroundColor: "#52c41a" }} />
+              </div>
             </div>
           </Card>
           <Card hoverable={true}>
             <div className={styles.right_card_wrapper}>
-              <Tickets size={15} /> <p className={styles.text}>Coupons</p>
+              <Tickets size={24} />
+              <div className={styles.coupons_info}>
+                <p className={styles.text}>Available Coupons</p>
+                <span className={styles.coupons_count}>3</span>
+                <Badge count="New" style={{ backgroundColor: "#1890ff" }} />
+              </div>
+            </div>
+          </Card>
+          <Card
+            hoverable={true}
+            title="Recent Activities"
+            className={styles.ant_card}
+            headStyle={{
+              borderBottom: "1px solid #f0f0f0",
+              padding: "16px 24px",
+            }}
+            bodyStyle={{ padding: "24px" }}
+          >
+            <div className={styles.activities_wrapper}>
+              {recentActivities.map((activity, index) => (
+                <div key={index} className={styles.activity_item}>
+                  <div className={styles.activity_icon}>{activity.icon}</div>
+                  <div className={styles.activity_content}>
+                    <p className={styles.activity_title}>{activity.title}</p>
+                    <p className={styles.activity_description}>
+                      {activity.description}
+                    </p>
+                    <span className={styles.activity_time}>
+                      {activity.time}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+          <Card
+            hoverable={true}
+            title="Achievements"
+            className={styles.ant_card}
+            headStyle={{
+              borderBottom: "1px solid #f0f0f0",
+              padding: "16px 24px",
+            }}
+            bodyStyle={{ padding: "24px" }}
+          >
+            <div className={styles.achievements_wrapper}>
+              {achievements.map((achievement, index) => (
+                <div key={index} className={styles.achievement_item}>
+                  <div className={styles.achievement_icon}>
+                    {achievement.icon}
+                  </div>
+                  <div className={styles.achievement_content}>
+                    <p className={styles.achievement_title}>
+                      {achievement.title}
+                    </p>
+                    <p className={styles.achievement_description}>
+                      {achievement.description}
+                    </p>
+                    <Progress percent={achievement.progress} size="small" />
+                  </div>
+                </div>
+              ))}
             </div>
           </Card>
         </Col>
@@ -109,6 +292,8 @@ const ProfileComponent = () => {
         isShowModal={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
+        profile={profile}
+        onProfileUpdate={handleProfileUpdate}
       />
     </div>
   );

@@ -9,119 +9,633 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    .slider_wrapper {
-      .footer_slider {
-        height: 72px;
-        background-color: $primary_color_900;
-      }
-    }
-    .body_wrapper {
+    .hero_section {
+      position: relative;
+      min-height: 600px;
       display: flex;
       flex-direction: column;
-      gap: 100px;
-      margin: 50px 100px;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 0;
+      background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+      overflow: hidden;
 
-      .introduction_wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .introduction_title {
-          padding: 0 0 10px 0;
-        }
-        .introduction_describe {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 5px;
-        }
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("/pattern.svg") repeat;
+        opacity: 0.1;
+        z-index: 0;
       }
-      .lesson_wrapper {
-        .title {
-          margin-bottom: 50px;
+
+      .hero_content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 800px;
+        padding: 0 20px;
+
+        .hero_title {
+          font-size: 48px;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 20px;
+          line-height: 1.2;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        // .list {
-        //   margin: 50px 0 0 0;
-        //   display: flex;
-        //   justify-content: space-around;
-        //   .item1 {
-        //     display: flex;
-        //     width: 150px;
-        //     height: 150px;
-        //     background-color: blue;
-        //     border-radius: 100%;
-        //     justify-content: center;
-        //     align-items: center;
-        //   }
-        //   .item2 {
-        //     display: flex;
-        //     width: 150px;
-        //     height: 150px;
-        //     background-color: red;
-        //     border-radius: 100%;
-        //     justify-content: center;
-        //     align-items: center;
-        //   }
-        //   .item3 {
-        //     display: flex;
-        //     width: 150px;
-        //     height: 150px;
-        //     background-color: green;
-        //     border-radius: 100%;
-        //     justify-content: center;
-        //     align-items: center;
-        //   }
-        //   .item4 {
-        //     display: flex;
-        //     width: 150px;
-        //     height: 150px;
-        //     background-color: yellow;
-        //     border-radius: 100%;
-        //     justify-content: center;
-        //     align-items: center;
-        //   }
-        //   .item5 {
-        //     display: flex;
-        //     width: 150px;
-        //     height: 150px;
-        //     background-color: rgb(118, 211, 55);
-        //     border-radius: 100%;
-        //     justify-content: center;
-        //     align-items: center;
-        //   }
-        // }
-      }
-      .popular_coupons_wrapper {
-        .button_wrapper {
-          margin: 20px 0 0 0;
+
+        .hero_description {
+          font-size: 18px;
+          color: rgba(255, 255, 255, 0.9);
+          margin-bottom: 40px;
+          line-height: 1.6;
+        }
+
+        .hero_buttons {
           display: flex;
-          gap: 16px;
+          gap: 20px;
           justify-content: center;
-          align-items: center;
-          .button_item {
-            padding: 10px 24px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            border: 2px solid #ff8662;
-            background: transparent;
-            color: #ff8662;
+
+          .primary_button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            &:hover {
-              background: #ff8662;
-              color: white;
-            }
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 
-            &.active {
-              background: #ff8662;
-              color: white;
+            &:hover {
+              background-color: #ff5252;
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            }
+          }
+
+          .secondary_button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.1);
+              transform: translateY(-2px);
+            }
+          }
+        }
+
+        .scroll_hint {
+          margin-top: 40px;
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 16px;
+
+          p {
+            margin-bottom: 5px;
+          }
+
+          .chevron_icon {
+            animation: bounce 2s infinite;
+            font-size: 24px;
+          }
+
+          @keyframes bounce {
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+              transform: translateY(0);
+            }
+            40% {
+              transform: translateY(-10px);
+            }
+            60% {
+              transform: translateY(-5px);
             }
           }
         }
       }
-      .counterparty_wrapper {
+
+      .features_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+        width: 100%;
+        max-width: 1000px;
+        margin-top: 60px;
+        padding: 0 20px;
+
+        .feature_card {
+          background: rgba(255, 255, 255, 0.95);
+          padding: 30px;
+          border-radius: 15px;
+          text-align: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          }
+
+          .feature_icon {
+            font-size: 2.5rem;
+            color: #1a237e;
+            margin-bottom: 20px;
+          }
+
+          .feature_title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 10px;
+          }
+
+          .feature_description {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.5;
+          }
+        }
+      }
+    }
+
+    // Rewards Section - Fixed
+    .rewards_section {
+      padding: 40px 20px;
+      margin-bottom: 40px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+      .rewards_header {
+        text-align: center;
+        margin-bottom: 40px;
+
+        .rewards_title {
+          font-size: 36px;
+          font-weight: 700;
+          color: #333;
+          margin-bottom: 10px;
+        }
+
+        .rewards_subtitle {
+          font-size: 18px;
+          color: #666;
+        }
+      }
+
+      .rewards_tabs {
+        margin-bottom: 30px;
+      }
+
+      /* Override Ant Design Tab Styles */
+      .rewards_tabs :global(.ant-tabs-nav) {
+        margin-bottom: 30px;
+      }
+
+      .rewards_tabs :global(.ant-tabs-tab) {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+
+      .rewards_tabs :global(.ant-tabs-tab:hover) {
+        color: #ff6b6b;
+      }
+
+      .rewards_tabs :global(.ant-tabs-tab-active) {
+        font-weight: 600;
+      }
+
+      .rewards_tabs :global(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+        color: #ff6b6b !important;
+      }
+
+      .rewards_tabs :global(.ant-tabs-ink-bar) {
+        background-color: #ff6b6b;
+      }
+
+      .rewards_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+
+        .reward_card {
+          height: 100%;
+          transition: all 0.3s ease;
+        }
+
+        /* Override Ant Design Badge Styles */
+        .reward_card :global(.ant-ribbon) {
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .reward_card_inner {
+          border-radius: 12px;
+          overflow: hidden;
+          height: 100%;
+        }
+
+        .reward_card_inner :global(.ant-card-cover) {
+          height: 200px;
+          overflow: hidden;
+        }
+
+        .reward_image_container {
+          height: 200px;
+          overflow: hidden;
+
+          .reward_image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+        }
+
+        .reward_provider {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+          font-size: 14px;
+          color: #666;
+        }
+
+        .reward_name {
+          margin-bottom: 15px;
+          color: #333;
+        }
+
+        .reward_expiry {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          color: #777;
+        }
+
+        .reward_divider {
+          margin: 15px 0;
+        }
+
+        .linked_course {
+          background-color: #f8f8f8;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 15px;
+
+          h5 {
+            color: #333;
+            margin-bottom: 10px;
+          }
+
+          .course_name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            color: #0d47a1;
+          }
+
+          .points_progress {
+            margin-bottom: 15px;
+          }
+
+          .points_progress :global(.ant-progress-text) {
+            font-size: 13px;
+          }
+
+          .points_away {
+            display: block;
+            margin-top: 8px;
+            color: #ff6b6b;
+            font-weight: 500;
+          }
+
+          .start_course_button {
+            width: 100%;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #0d47a1;
+              transform: translateY(-2px);
+            }
+          }
+        }
+      }
+    }
+
+    .body_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+      margin: 80px 0;
+
+      // Trust Section
+      .trust_section {
+        background-color: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+        .section_title {
+          font-size: 32px;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 10px;
+          color: #333;
+        }
+
+        .section_description {
+          text-align: center;
+          color: #666;
+          margin-bottom: 40px;
+        }
+
+        .testimonials_container {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 30px;
+          margin-bottom: 50px;
+
+          .testimonial_card {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+
+            .testimonial_header {
+              display: flex;
+              gap: 15px;
+              margin-bottom: 15px;
+
+              .testimonial_author {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+              }
+            }
+
+            .testimonial_content {
+              color: #444;
+              font-style: italic;
+              line-height: 1.6;
+            }
+          }
+        }
+
+        .stats_wrapper {
+          margin: 40px 0;
+
+          .stats_title {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+          }
+
+          .stats_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+
+            .stat_card {
+              background-color: #fff;
+              border-radius: 12px;
+              padding: 25px;
+              text-align: center;
+              box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+              transition: all 0.3s ease;
+
+              &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+              }
+
+              .stat_icon {
+                font-size: 2.5rem;
+                color: #1a237e;
+                margin-bottom: 15px;
+              }
+
+              .stat_number {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #ff6b6b;
+                margin-bottom: 5px;
+              }
+
+              .stat_label {
+                color: #666;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+
+        .recent_activity {
+          margin-top: 40px;
+
+          .activity_title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+          }
+
+          .activity_list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .activity_item {
+              display: flex;
+              align-items: center;
+              gap: 15px;
+              background-color: #f9f9f9;
+              padding: 15px;
+              border-radius: 8px;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
+
+              .activity_icon {
+                font-size: 1.5rem;
+                color: #ff6b6b;
+              }
+
+              .activity_content {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+              }
+            }
+          }
+        }
+      }
+
+      .lesson_wrapper {
+        background-color: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+        .title {
+          font-size: 32px;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 40px;
+          color: #333;
+        }
+      }
+
+      // Footer & Support - Fixed
+      .footer_support {
+        padding: 40px;
+        background-color: #1a237e;
+        border-radius: 15px;
+        color: white;
+        margin-bottom: 40px;
+
+        .footer_grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 40px;
+
+          .footer_section {
+            h3 {
+              font-size: 20px;
+              margin-bottom: 20px;
+              font-weight: 600;
+              position: relative;
+
+              &:after {
+                content: "";
+                position: absolute;
+                bottom: -8px;
+                left: 0;
+                width: 40px;
+                height: 3px;
+                background-color: #ff6b6b;
+              }
+            }
+
+            .language_switcher {
+              display: flex;
+              gap: 10px;
+
+              .lang_button {
+                padding: 8px 16px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border: none;
+                border-radius: 6px;
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover {
+                  background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                &.active {
+                  background-color: #ff6b6b;
+                }
+              }
+            }
+
+            .footer_links {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+
+              li {
+                margin-bottom: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                &:hover {
+                  color: #ff6b6b;
+                }
+              }
+            }
+
+            .newsletter_form {
+              display: flex;
+              gap: 10px;
+
+              .newsletter_input {
+                flex: 1;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 6px;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: white;
+
+                &::placeholder {
+                  color: rgba(255, 255, 255, 0.7);
+                }
+
+                &:focus {
+                  outline: none;
+                  background-color: rgba(255, 255, 255, 0.15);
+                }
+              }
+
+              .newsletter_button {
+                background-color: #ff6b6b;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 15px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover {
+                  background-color: #ff5252;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -276,6 +790,127 @@
 
       &:hover {
         background-color: #f8f9fa;
+      }
+    }
+  }
+}
+
+.coupons_wrapper {
+  padding: 40px 0;
+  background-color: $white_color;
+  .section_title {
+    text-align: center;
+    margin-bottom: 32px;
+    color: #1890ff;
+  }
+}
+
+.coupons_section {
+  margin: 40px 0;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  .coupons_header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    .coupons_title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #1a237e;
+      margin-bottom: 10px;
+    }
+
+    .coupons_subtitle {
+      font-size: 18px;
+      color: #666;
+    }
+  }
+
+  .coupons_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .coupon_card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    .coupon_content {
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px dashed #e0e0e0;
+
+      .coupon_discount {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 80px;
+        padding: 15px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+        border-radius: 10px;
+        color: white;
+
+        .discount_value {
+          font-size: 24px;
+          font-weight: 700;
+        }
+
+        .discount_label {
+          font-size: 14px;
+          text-transform: uppercase;
+        }
+      }
+
+      .coupon_info {
+        flex: 1;
+
+        .coupon_code {
+          font-size: 20px;
+          font-weight: 600;
+          color: #1a237e;
+          margin-bottom: 5px;
+        }
+
+        .coupon_description {
+          color: #666;
+          margin-bottom: 10px;
+          font-size: 14px;
+        }
+
+        .coupon_expiry {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          color: #ff6b6b;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .copy_button {
+      width: 100%;
+      padding: 15px;
+      background: #1a237e;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #0d47a1;
       }
     }
   }

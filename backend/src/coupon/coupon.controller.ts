@@ -25,6 +25,7 @@ import { Coupon } from './entity/coupon.entity';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 import { Response } from 'express';
 import { of } from 'rxjs';
+import { Multer } from 'multer';
 
 @Controller('coupon')
 export class CouponController {

@@ -66,26 +66,26 @@ export class CustomerSignInDto {
 // DTO for Customer update
 export class CustomerUpdateDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   username: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   postal_code: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   prefecture: string;
 
   @IsEnum(Gender)
-  @IsNotEmpty()
+  @IsOptional()
   gender: Gender;
 
   @Transform(({ value }) => new Date(value))
   @MaxDate(new Date(new Date().setFullYear(new Date().getFullYear() - 5)))
   @MinDate(new Date(new Date().setFullYear(new Date().getFullYear() - 100)))
   @IsDate()
-  @IsNotEmpty()
+  @IsOptional()
   dob: Date;
 }
 

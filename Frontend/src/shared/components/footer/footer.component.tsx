@@ -18,7 +18,8 @@ const Footer = () => {
     pathName === RouterPath.CUSTOMER_SIGNIN ||
     pathName === RouterPath.COMPANY_SIGNIN ||
     pathName === RouterPath.SIGNUP ||
-    pathName === RouterPath.DASHBOARD
+    pathName === RouterPath.DASHBOARD ||
+    pathName === RouterPath.DASHBOARD_INPUT_SCORE
   )
     return null;
 

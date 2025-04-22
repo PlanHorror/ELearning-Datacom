@@ -11,7 +11,9 @@ const ProfilePage = () => {
           <p className={styles.sub_title}>Profile</p>
           <h1 className={styles.title}>Profile</h1>
         </div>
-        <ProfileComponent />
+        <div className={styles.profile_component_wrapper}>
+          <ProfileComponent />
+        </div>
       </div>
     </div>
   );

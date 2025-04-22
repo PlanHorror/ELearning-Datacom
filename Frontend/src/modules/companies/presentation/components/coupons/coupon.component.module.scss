@@ -1,0 +1,52 @@
+.coupon_card {
+  width: 100%;
+  max-width: 400px;
+  margin: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .coupon_header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .coupon_icon {
+      font-size: 24px;
+      color: #1890ff;
+      margin-right: 12px;
+    }
+
+    .coupon_code {
+      margin: 0;
+      flex: 1;
+    }
+  }
+
+  .coupon_body {
+    .coupon_discount {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      color: #1890ff;
+      margin-bottom: 8px;
+    }
+
+    .coupon_description {
+      display: block;
+      margin-bottom: 16px;
+      color: #666;
+    }
+
+    .coupon_dates {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+}

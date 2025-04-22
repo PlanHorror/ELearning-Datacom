@@ -1,5 +1,5 @@
 import { LoginPayLoad } from "../dto/login.dto";
-import { AuthService } from "../../services/authService";
+import { AuthService } from "../../services/auth.service";
 import { CompanySignUpPayLoad, UserSignUpPayLoad } from "../dto/register.dto";
 
 export class AuthUseCase {

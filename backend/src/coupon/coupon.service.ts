@@ -11,6 +11,7 @@ import { Repository } from 'typeorm';
 import { CouponDto } from 'src/common/dtos';
 import { Company } from 'src/auth/entity/company.entity';
 import { Express } from 'express';
+import type { Multer } from 'multer';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
@@ -156,7 +157,6 @@ export class CouponService {
       }
     }
   }
-
   // Save coupon image
   saveCouponImage(image: Express.Multer.File): string {
     const ext = path.extname(image.originalname);

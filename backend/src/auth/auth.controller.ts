@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -55,7 +56,7 @@ export class AuthController {
     return this.authService.getAllDeletedCompanies();
   }
 
-  @Get('customer/profile')
+  @Get('customers/profile')
   @Roles(Role.CUSTOMER)
   @UseGuards(AuthGuard(), RolesGuard)
   async getCustomerProfile(@GetUser() user: Customer): Promise<Customer> {
@@ -90,7 +91,7 @@ export class AuthController {
 
   @Roles(Role.CUSTOMER)
   @UseGuards(AuthGuard(), RolesGuard)
-  @Post('customer/update')
+  @Put('customers/update')
   async update(
     @Body() customerUpdateDto: CustomerUpdateDto,
     @GetUser() user: Customer,

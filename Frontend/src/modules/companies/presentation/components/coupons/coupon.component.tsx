@@ -1,41 +1,51 @@
-import { DatePicker, Form, Input } from "antd";
-import { Button } from "@/shared/components/button/button.component";
+"use client";
 
-const CouponComponent = () => {
+import { Card, Tag, Typography } from "antd";
+import { Coupon } from "../../domain/dto/coupon.dto";
+import styles from "./coupon.component.module.scss";
+import { GiftOutlined } from "@ant-design/icons";
+
+const { Title, Text } = Typography;
+
+interface CouponCardProps {
+  coupon: Coupon;
+}
+
+export const CouponCard = ({ coupon }: CouponCardProps) => {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active":
+        return "success";
+      case "inactive":
+        return "default";
+      case "expired":
+        return "error";
+      default:
+        return "default";
+    }
+  };
+
   return (
-    <Form
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 14 }}
-      layout="horizontal"
-      style={{ maxWidth: 600 }}
-    >
-      <Form.Item label="Title">
-        <Input />
-      </Form.Item>
-      <Form.Item label="Period Start">
-        <DatePicker />
-      </Form.Item>
-      <Form.Item label="Period End">
-        <DatePicker />
-      </Form.Item>
-      <Form.Item label="Points">
-        <Input />
-      </Form.Item>
-      <Form.Item label="Code">
-        <Input />
-      </Form.Item>
-      <Form.Item label="Details">
-        <Input />
-      </Form.Item>
-      <Form.Item label="Comment">
-        <Input />
-      </Form.Item>
-      <Form.Item label="Label">
-        <Input />
-      </Form.Item>
-      <Button name="Create"></Button>
-    </Form>
+    <Card className={styles.coupon_card} hoverable>
+      <div className={styles.coupon_header}>
+        <GiftOutlined className={styles.coupon_icon} />
+        <Title level={4} className={styles.coupon_code}>
+          {coupon.code}
+        </Title>
+        <Tag color={getStatusColor(coupon.status)}>{coupon.status}</Tag>
+      </div>
+      <div className={styles.coupon_body}>
+        <Text className={styles.coupon_discount}>
+          {coupon.type === "percentage"
+            ? `${coupon.discount}% OFF`
+            : `$${coupon.discount} OFF`}
+        </Text>
+        <Text className={styles.coupon_description}>{coupon.description}</Text>
+        <div className={styles.coupon_dates}>
+          <Text type="secondary">Valid from: {coupon.startDate}</Text>
+          <Text type="secondary">to: {coupon.endDate}</Text>
+        </div>
+      </div>
+    </Card>
   );
 };
-
-export default CouponComponent;
