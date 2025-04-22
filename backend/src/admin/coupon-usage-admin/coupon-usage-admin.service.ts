@@ -29,7 +29,7 @@ export class CouponUsageAdminService {
   // Get all coupon usage
   async getAllCouponUsage(): Promise<CouponUsage[]> {
     return await this.couponUsageRepository.find({
-      relations: ['customer', 'coupon'],
+      relations: ['customer'],
     });
   }
 
@@ -105,6 +105,9 @@ export class CouponUsageAdminService {
       });
       return await this.couponUsageRepository.save(newCouponUsage);
     } catch (error) {
+      if (error.code === '23505') {
+        throw new BadRequestException('Coupon usage already exists');
+      }
       throw new BadRequestException('Error creating coupon usage');
     }
   }
@@ -125,6 +128,9 @@ export class CouponUsageAdminService {
         id,
       });
     } catch (error) {
+      if (error.code === '23505') {
+        throw new BadRequestException('Coupon usage already exists');
+      }
       throw new BadRequestException('Error updating coupon usage');
     }
   }
@@ -175,6 +181,7 @@ export class CouponUsageAdminService {
     const customer = await this.customerAdminService.getCustomerById(
       couponUsage.customer_id,
     );
+    const result = await this.createCouponUsage(coupon, customer, couponUsage);
     if (subtract_points) {
       await this.customerAdminService.updateCustomerPoints(
         couponUsage.customer_id,
@@ -183,7 +190,7 @@ export class CouponUsageAdminService {
       );
     }
 
-    return await this.createCouponUsage(coupon, customer, couponUsage);
+    return result;
   }
 
   // Update coupon usage

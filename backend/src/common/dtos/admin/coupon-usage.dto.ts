@@ -45,7 +45,7 @@ export class CouponUsageDto {
   @IsNotEmpty()
   @IsOptional()
   @Transform(({ value }) => new Date(value))
-  create_at?: Date;
+  created_at: Date;
 
   @ApiProperty({
     description: 'Subtract points from the customer or not',
@@ -54,5 +54,5 @@ export class CouponUsageDto {
   })
   @IsBoolean()
   @Transform(({ value }) => Boolean(value))
-  subtract_points?: boolean;
+  subtract_points: boolean;
 }
