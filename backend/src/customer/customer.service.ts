@@ -27,7 +27,7 @@ export class CustomerService {
   // Get all customers
   async getAllCustomers(): Promise<Customer[]> {
     return await this.customerRepository.find({
-      relations: ['favorites', 'couponUsages', 'pointsHistories'],
+      relations: ['favourites', 'couponUsages', 'pointsHistories'],
     });
   }
 
@@ -39,7 +39,7 @@ export class CustomerService {
     try {
       const customer = await this.customerRepository.findOne({
         where: { id: id },
-        relations: ['favorites', 'couponUsages', 'pointsHistories'],
+        relations: ['favourites', 'couponUsages', 'pointsHistories'],
       });
       if (!customer) {
         throw new NotFoundException('Customer not found');
@@ -58,13 +58,14 @@ export class CustomerService {
     try {
       const customer = await this.customerRepository.findOne({
         where: { email: email },
-        relations: ['favorites', 'couponUsages', 'pointsHistories'],
+        relations: ['favourites', 'couponUsages', 'pointsHistories'],
       });
       if (!customer) {
         throw new NotFoundException('Customer not found');
       }
       return customer;
     } catch (error) {
+      console.log('error', error);
       throw new NotFoundException('Customer not found');
     }
   }
