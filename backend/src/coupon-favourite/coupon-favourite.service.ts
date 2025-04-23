@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CouponFavourite } from './entity/coupon-favourite.entity';
 import { Repository } from 'typeorm';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { CouponService } from 'src/coupon/coupon.service';
 
 @Injectable()

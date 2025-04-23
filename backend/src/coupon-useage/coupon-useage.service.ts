@@ -6,11 +6,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CouponUsage } from './entity/coupon-usage.entity';
 import { Repository } from 'typeorm';
-import { Customer } from 'src/auth/entity/customer.entity';
+import { Customer } from 'src/customer/entity/customer.entity';
 import { CouponService } from 'src/coupon/coupon.service';
 import { AuthService } from 'src/auth/auth.service';
 import { PointsHistoryService } from 'src/points-history/points-history.service';
-import { CouponHistoryType } from 'src/common/enums';
+import { PointsHistoryType } from 'src/common/enums';
 
 @Injectable()
 export class CouponUseageService {
@@ -87,12 +87,13 @@ export class CouponUseageService {
     });
     try {
       await this.couponUsageRepository.save(newCouponUsage);
-      await this.authSercive.subtractPoints(customer, coupon.use_point);
+      // await this.authSercive.subtractPoints(customer, coupon.use_point);
+
       await this.pointsHistoryService.createPointsHistory(
         customer,
         coupon.use_point,
         'Redeem coupon',
-        CouponHistoryType.SUBTRACT,
+        PointsHistoryType.SUBTRACT,
       );
       return newCouponUsage;
     } catch (error) {

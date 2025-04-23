@@ -1,4 +1,4 @@
-import { Company } from 'src/auth/entity/company.entity';
+import { Company } from 'src/company/entity/company.entity';
 import { Classification, CouponStatus } from 'src/common/enums';
 import {
   Column,
@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { CouponLabel } from '../../coupon-label/entity/coupon-label.entity';
 import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponUsage } from 'src/coupon-useage/entity/coupon-usage.entity';
 
 @Entity()
 @Unique(['use_code', 'company'])
@@ -75,5 +76,5 @@ export class Coupon {
   @OneToOne(() => Coupon, (coupon) => coupon.coupon_usage, {
     onDelete: 'SET NULL',
   })
-  coupon_usage: Coupon;
+  coupon_usage: CouponUsage;
 }

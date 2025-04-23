@@ -12,5 +12,4 @@ export class Admin {
 
   @Column()
   password: string;
-
 }

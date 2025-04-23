@@ -4,21 +4,22 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Status } from 'src/common/enums';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 
 // Company entity class
 @Entity()
-export class CompanyDelete {
+export class Company {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid')
-  old_id: string;
-
   @Column({ unique: true })
   email: string;
+
+  @Column()
+  password: string;
 
   @Column()
   address: string;
@@ -26,15 +27,18 @@ export class CompanyDelete {
   @Column()
   company_name: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   last_updated: Date;
 
-  @Column()
+  @Column({ nullable: true })
   last_login: Date;
 
-  @CreateDateColumn()
-  deleted_at: Date;
+  @Column({ type: 'enum', enum: Status, default: Status.INACTIVE })
+  status: Status;
+
+  @OneToMany((_type) => Coupon, (coupon) => coupon.company)
+  coupons: Coupon[];
 }
