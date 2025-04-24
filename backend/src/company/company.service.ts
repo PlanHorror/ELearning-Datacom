@@ -128,6 +128,18 @@ export class CompanyService {
     }
   }
 
+  // Check email existence
+  async checkEmailExists(email: string): Promise<boolean> {
+    try {
+      const company = await this.companyRepository.findOneByOrFail({
+        email: email,
+      });
+      return !!company;
+    } catch (error) {
+      return false;
+    }
+  }
+
   /*
    * Service methods
    */
