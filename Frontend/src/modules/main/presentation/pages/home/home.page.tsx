@@ -32,11 +32,13 @@ import {
   Rate,
   Typography,
 } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import LessonComponent from "@/modules/lessons/presentation/components/lesson.component";
 import Image from "next/image";
 import { useRouter } from "@/i18n/navigation";
 import { RouterPath } from "@/shared/constants/router.const";
+import { useTranslations } from "next-intl";
 
 const { Title, Text, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -44,6 +46,7 @@ const { TabPane } = Tabs;
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("popular");
   const router = useRouter();
+  const t = useTranslations();
 
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -60,30 +63,42 @@ const HomePage = () => {
   const features = [
     {
       icon: <FaRocket />,
-      title: "Fast Learning",
-      description: "Access knowledge anytime, anywhere",
+      title: t("home.features.fastLearning.title"),
+      description: t("home.features.fastLearning.description"),
     },
     {
       icon: <FaLightbulb />,
-      title: "Quality Content",
-      description: "Expert-crafted lessons and materials",
+      title: t("home.features.qualityContent.title"),
+      description: t("home.features.qualityContent.description"),
     },
     {
       icon: <FaGlobe />,
-      title: "Global Community",
-      description: "Connect with learners worldwide",
+      title: t("home.features.globalCommunity.title"),
+      description: t("home.features.globalCommunity.description"),
     },
     {
       icon: <FaGift />,
-      title: "Real Rewards",
-      description: "Earn points and redeem valuable coupons",
+      title: t("home.features.realRewards.title"),
+      description: t("home.features.realRewards.description"),
     },
   ];
 
   const stats = [
-    { number: "1000+", label: "Active Students", icon: <FaUsers /> },
-    { number: "50+", label: "Variety Lectures", icon: <FaGraduationCap /> },
-    { number: "100+", label: "Available Coupons", icon: <FaTicketAlt /> },
+    {
+      number: "1000+",
+      label: t("home.trust.stats.students"),
+      icon: <FaUsers />,
+    },
+    {
+      number: "50+",
+      label: t("home.trust.stats.lectures"),
+      icon: <FaGraduationCap />,
+    },
+    {
+      number: "100+",
+      label: t("home.trust.stats.coupons"),
+      icon: <FaTicketAlt />,
+    },
   ];
 
   const testimonials = [
@@ -118,10 +133,10 @@ const HomePage = () => {
     {
       id: 1,
       name: "Starbucks ¥1000 Gift Card",
-      image: "/public/slider/slider_1.jpg",
+      image: "/public/Starbucks.svg",
       points: 500,
       expiry: "2023-12-31",
-      linkedCourse: "Introduction to Digital Marketing",
+      linkedCourse: "Introduction to Math Secondary",
       pointsToComplete: 150,
       provider: "Starbucks Japan",
       category: "popular",
@@ -143,42 +158,42 @@ const HomePage = () => {
       image: "/public/slider/slider_3.jpg",
       points: 750,
       expiry: "2023-11-30",
-      linkedCourse: "Business Japanese N3",
+      linkedCourse: "Japanese Primary",
       pointsToComplete: 200,
       provider: "UNIQLO Japan",
       category: "popular",
     },
     {
       id: 4,
-      name: "Lawson Free Coffee",
+      name: "Toshiba 10% Discount",
       image: "/public/slider/slider_1.jpg",
       points: 250,
       expiry: "2023-12-31",
-      linkedCourse: "Introduction to Data Analysis",
+      linkedCourse: "Introduction to History Of Japan",
       pointsToComplete: 100,
-      provider: "Lawson Japan",
+      provider: "Toshiba",
       category: "recommended",
     },
     {
       id: 5,
-      name: "Rakuten Points (500pts)",
+      name: "Datacom Points (500pts)",
       image: "/public/slider/slider_2.jpg",
       points: 600,
       expiry: "2023-12-31",
-      linkedCourse: "Project Management Fundamentals",
+      linkedCourse: "Physical High School",
       pointsToComplete: 180,
-      provider: "Rakuten",
+      provider: "Datacom",
       category: "new",
     },
     {
       id: 6,
-      name: "JR East 10% Discount",
+      name: "Vin Group 10% Discount",
       image: "/public/slider/slider_3.jpg",
       points: 800,
       expiry: "2023-11-30",
       linkedCourse: "English Conversation Skills",
       pointsToComplete: 250,
-      provider: "JR East Japan",
+      provider: "Vin Group",
       category: "recommended",
     },
   ];
@@ -215,7 +230,7 @@ const HomePage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              Learn and earn what you love.
+              {t("home.hero.title")}
             </motion.h1>
             <motion.p
               className={styles.hero_description}
@@ -223,8 +238,7 @@ const HomePage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Earn coupons and rewards by studying. Real learning, real
-              benefits.
+              {t("home.hero.description")}
             </motion.p>
             <motion.div
               className={styles.hero_buttons}
@@ -234,12 +248,12 @@ const HomePage = () => {
             >
               <Button
                 className={styles.primary_button}
-                name="Start Learning"
+                name={t("home.hero.startLearning")}
                 onClick={handleStartLearning}
               />
               <Button
                 className={styles.secondary_button}
-                name="Explore Rewards"
+                name={t("home.hero.exploreRewards")}
                 onClick={handleExploreRewards}
               />
             </motion.div>
@@ -249,7 +263,7 @@ const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.8 }}
             >
-              <p>Check out this week&apos;s top coupons</p>
+              <p>{t("home.hero.scrollHint")}</p>
               <FaChevronDown className={styles.chevron_icon} />
             </motion.div>
           </div>
@@ -286,9 +300,9 @@ const HomePage = () => {
           transition={{ delay: 0.8, duration: 0.8 }}
         >
           <div className={styles.rewards_header}>
-            <h2 className={styles.rewards_title}>Rewards Gallery</h2>
+            <h2 className={styles.rewards_title}>{t("home.rewards.title")}</h2>
             <p className={styles.rewards_subtitle}>
-              Study hard, earn points, claim real rewards
+              {t("home.rewards.subtitle")}
             </p>
           </div>
 
@@ -300,7 +314,7 @@ const HomePage = () => {
             <TabPane
               tab={
                 <span>
-                  <FaStar /> Popular Now
+                  <FaStar /> {t("home.rewards.tabs.popular")}
                 </span>
               }
               key="popular"
@@ -308,7 +322,7 @@ const HomePage = () => {
             <TabPane
               tab={
                 <span>
-                  <FaGift /> New Arrivals
+                  <FaGift /> {t("home.rewards.tabs.new")}
                 </span>
               }
               key="new"
@@ -316,7 +330,7 @@ const HomePage = () => {
             <TabPane
               tab={
                 <span>
-                  <FaHeart /> Recommended for You
+                  <FaHeart /> {t("home.rewards.tabs.recommended")}
                 </span>
               }
               key="recommended"
@@ -324,7 +338,7 @@ const HomePage = () => {
             <TabPane
               tab={
                 <span>
-                  <FaGlobe /> All Rewards
+                  <FaGlobe /> {t("home.rewards.tabs.all")}
                 </span>
               }
               key="all"
@@ -342,7 +356,12 @@ const HomePage = () => {
                 }}
                 transition={{ duration: 0.3 }}
               >
-                <Badge.Ribbon text={`${reward.points} Points`} color="#ff6b6b">
+                <Badge.Ribbon
+                  text={`${reward.points} ${t(
+                    "home.rewards.card.pointsLabel"
+                  )}`}
+                  color="#ff6b6b"
+                >
                   <Card
                     className={styles.reward_card_inner}
                     cover={
@@ -359,7 +378,10 @@ const HomePage = () => {
                   >
                     <div className={styles.reward_provider}>
                       <span>{reward.provider}</span>
-                      <Badge status="processing" text="Available" />
+                      <Badge
+                        status="processing"
+                        text={t("home.rewards.card.available")}
+                      />
                     </div>
                     <Title level={4} className={styles.reward_name}>
                       {reward.name}
@@ -367,14 +389,17 @@ const HomePage = () => {
                     <div className={styles.reward_expiry}>
                       <FaClock />
                       <span>
-                        Expires: {new Date(reward.expiry).toLocaleDateString()}
+                        {t("home.rewards.card.expiresOn")}:{" "}
+                        {new Date(reward.expiry).toLocaleDateString()}
                       </span>
                     </div>
                     <Divider className={styles.reward_divider} />
 
                     {/* 3. Link Between Learning and Rewards */}
                     <div className={styles.linked_course}>
-                      <Title level={5}>Get this reward by completing:</Title>
+                      <Title level={5}>
+                        {t("home.rewards.card.getRewardBy")}
+                      </Title>
                       <Text strong className={styles.course_name}>
                         <FaGraduationCap /> {reward.linkedCourse}
                       </Text>
@@ -382,16 +407,21 @@ const HomePage = () => {
                         <Progress
                           percent={30}
                           strokeColor="#1a237e"
-                          format={() => `${reward.pointsToComplete} pts needed`}
+                          format={() =>
+                            `${reward.pointsToComplete} ${t(
+                              "home.rewards.card.pointsNeeded"
+                            )}`
+                          }
                         />
                         <Text className={styles.points_away}>
-                          You&apos;re only {reward.pointsToComplete - 75} points
-                          away!
+                          {t("home.rewards.card.pointsAway", {
+                            count: reward.pointsToComplete - 75,
+                          })}
                         </Text>
                       </div>
                       <Button
                         className={styles.start_course_button}
-                        name="Start Course"
+                        name={t("home.rewards.card.startCourse")}
                         icon={<FaArrowRight />}
                       />
                     </div>
@@ -406,10 +436,9 @@ const HomePage = () => {
         <div className={styles.body_wrapper}>
           {/* 4. Trust & Motivation Section */}
           <div className={styles.trust_section}>
-            <h2 className={styles.section_title}>Success Stories</h2>
+            <h2 className={styles.section_title}>{t("home.trust.title")}</h2>
             <p className={styles.section_description}>
-              Hear from learners who have earned real rewards through our
-              platform
+              {t("home.trust.description")}
             </p>
 
             <div className={styles.testimonials_container}>
@@ -421,7 +450,11 @@ const HomePage = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className={styles.testimonial_header}>
-                    <Avatar size={64} src={testimonial.avatar} />
+                    <Avatar
+                      size={64}
+                      style={{ backgroundColor: "#87d068" }}
+                      icon={<UserOutlined />}
+                    />
                     <div className={styles.testimonial_author}>
                       <Text strong>{testimonial.name}</Text>
                       <Text type="secondary">{testimonial.role}</Text>
@@ -436,7 +469,9 @@ const HomePage = () => {
             </div>
 
             <div className={styles.stats_wrapper}>
-              <h3 className={styles.stats_title}>Our Impact</h3>
+              <h3 className={styles.stats_title}>
+                {t("home.trust.stats.title")}
+              </h3>
               <div className={styles.stats_grid}>
                 {stats.map((stat, index) => (
                   <div key={index} className={styles.stat_card}>
@@ -449,29 +484,50 @@ const HomePage = () => {
             </div>
 
             <div className={styles.recent_activity}>
-              <h3 className={styles.activity_title}>Recent Activity</h3>
+              <h3 className={styles.activity_title}>
+                {t("home.trust.activity.title")}
+              </h3>
               <div className={styles.activity_list}>
                 <div className={styles.activity_item}>
                   <FaTrophy className={styles.activity_icon} />
                   <div className={styles.activity_content}>
-                    <Text strong>Tanaka S. earned a Starbucks coupon</Text>
-                    <Text type="secondary">2 hours ago</Text>
+                    <Text strong>
+                      {t("home.trust.activity.earnedCoupon", {
+                        name: "Tanaka S.",
+                        coupon: "Starbucks",
+                      })}
+                    </Text>
+                    <Text type="secondary">
+                      {t("home.trust.activity.timeAgo.hours", { count: 2 })}
+                    </Text>
                   </div>
                 </div>
                 <div className={styles.activity_item}>
                   <FaGraduationCap className={styles.activity_icon} />
                   <div className={styles.activity_content}>
                     <Text strong>
-                      Yamada K. completed &quot;Business English&quot; course
+                      {t("home.trust.activity.completedCourse", {
+                        name: "Yamada K.",
+                        course: "Business English",
+                      })}
                     </Text>
-                    <Text type="secondary">4 hours ago</Text>
+                    <Text type="secondary">
+                      {t("home.trust.activity.timeAgo.hours", { count: 4 })}
+                    </Text>
                   </div>
                 </div>
                 <div className={styles.activity_item}>
                   <FaGift className={styles.activity_icon} />
                   <div className={styles.activity_content}>
-                    <Text strong>Suzuki H. redeemed Amazon Japan voucher</Text>
-                    <Text type="secondary">Yesterday</Text>
+                    <Text strong>
+                      {t("home.trust.activity.redeemedVoucher", {
+                        name: "Suzuki H.",
+                        voucher: "Amazon Japan",
+                      })}
+                    </Text>
+                    <Text type="secondary">
+                      {t("home.trust.activity.timeAgo.yesterday")}
+                    </Text>
                   </div>
                 </div>
               </div>
@@ -479,65 +535,135 @@ const HomePage = () => {
           </div>
 
           <div className={styles.lesson_wrapper}>
-            <h2 className={styles.title}>Featured Courses</h2>
+            <h2 className={styles.title}>{t("home.lessons.title")}</h2>
             <LessonComponent />
+          </div>
+
+          {/* Sponsors Section */}
+          <div className={styles.sponsors_section}>
+            <h2 className={styles.section_title}>
+              {t("home.sponsors.title") || "Our Sponsors"}
+            </h2>
+            <p className={styles.section_description}>
+              {t("home.sponsors.description") ||
+                "These trusted businesses provide special discounts and coupons for our learners."}
+            </p>
+
+            <div className={styles.sponsors_grid}>
+              <div className={styles.sponsor_card}>
+                <div className={styles.sponsor_logo}>
+                  <Image
+                    src="/public/Starbucks.svg"
+                    alt="Starbucks"
+                    width={120}
+                    height={120}
+                  />
+                </div>
+                <h3 className={styles.sponsor_name}>Starbucks Japan</h3>
+                <p className={styles.sponsor_description}>
+                  Offering coffee discount coupons for our top learners.
+                </p>
+              </div>
+
+              <div className={styles.sponsor_card}>
+                <div className={styles.sponsor_logo}>
+                  <FaGift className={styles.placeholder_logo} />
+                </div>
+                <h3 className={styles.sponsor_name}>Amazon Japan</h3>
+                <p className={styles.sponsor_description}>
+                  Providing shopping vouchers for course completions.
+                </p>
+              </div>
+
+              <div className={styles.sponsor_card}>
+                <div className={styles.sponsor_logo}>
+                  <FaGift className={styles.placeholder_logo} />
+                </div>
+                <h3 className={styles.sponsor_name}>UNIQLO</h3>
+                <p className={styles.sponsor_description}>
+                  Special discounts for students who complete our courses.
+                </p>
+              </div>
+
+              <div className={styles.sponsor_card}>
+                <div className={styles.sponsor_logo}>
+                  <FaGift className={styles.placeholder_logo} />
+                </div>
+                <h3 className={styles.sponsor_name}>Toshiba</h3>
+                <p className={styles.sponsor_description}>
+                  Tech discounts for students in IT-related courses.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* 5. Footer & Support Area */}
           <div className={styles.footer_support}>
             <div className={styles.footer_grid}>
               <div className={styles.footer_section}>
-                <h3>Language</h3>
-                <div className={styles.language_switcher}>
-                  <button className={`${styles.lang_button} ${styles.active}`}>
-                    English
-                  </button>
-                  <button className={styles.lang_button}>日本語</button>
-                </div>
-              </div>
-
-              <div className={styles.footer_section}>
-                <h3>Quick Links</h3>
-                <ul className={styles.footer_links}>
-                  <li>
-                    <FaBook /> Learning Resources
-                  </li>
-                  <li>
-                    <FaGift /> Rewards Catalog
-                  </li>
-                  <li>
-                    <FaUsers /> Community
-                  </li>
-                  <li>
-                    <FaPhoneAlt /> Contact Support
-                  </li>
-                </ul>
-              </div>
-
-              <div className={styles.footer_section}>
-                <h3>Help Center</h3>
-                <ul className={styles.footer_links}>
-                  <li>FAQ</li>
-                  <li>Terms of Use</li>
-                  <li>Privacy Policy</li>
-                  <li>Cookie Policy</li>
-                </ul>
-              </div>
-
-              <div className={styles.footer_section}>
-                <h3>Stay Connected</h3>
+                <h3>{t("home.footer.stayConnected")}</h3>
                 <div className={styles.newsletter_form}>
                   <input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={t("home.footer.emailPlaceholder")}
                     className={styles.newsletter_input}
                   />
                   <Button
                     className={styles.newsletter_button}
-                    name="Subscribe"
+                    name={t("home.footer.subscribe")}
                     icon={<FaEnvelope />}
                   />
                 </div>
+              </div>
+
+              <div className={styles.footer_section}>
+                <h3>INFORMATION</h3>
+                <ul className={styles.footer_links}>
+                  <li>
+                    <strong>Address</strong>
+                    <p>Tokyo</p>
+                  </li>
+                  <li>
+                    <strong>Email</strong>
+                    <p>datacom@gmail.com</p>
+                  </li>
+                  <li>
+                    <strong>Hotline</strong>
+                    <p>+84961436448</p>
+                  </li>
+                  <li>
+                    <strong>Support Time</strong>
+                    <p>8:00 AM - 6:00 PM</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div className={styles.footer_section}>
+                <h3>{t("home.footer.quickLinks")}</h3>
+                <ul className={styles.footer_links}>
+                  <li>
+                    <FaBook /> {t("home.footer.learningResources")}
+                  </li>
+                  <li>
+                    <FaGift /> {t("home.footer.rewardsCatalog")}
+                  </li>
+                  <li>
+                    <FaUsers /> {t("home.footer.community")}
+                  </li>
+                  <li>
+                    <FaPhoneAlt /> {t("home.footer.contactSupport")}
+                  </li>
+                </ul>
+              </div>
+
+              <div className={styles.footer_section}>
+                <h3>{t("home.footer.helpCenter")}</h3>
+                <ul className={styles.footer_links}>
+                  <li>{t("home.footer.faq")}</li>
+                  <li>{t("home.footer.termsOfUse")}</li>
+                  <li>{t("home.footer.privacyPolicy")}</li>
+                  <li>{t("home.footer.cookiePolicy")}</li>
+                </ul>
               </div>
             </div>
           </div>

@@ -21,5 +21,132 @@
   },
   "page_loading": {
     "content": "Loading"
+  },
+  "home": {
+    "hero": {
+      "title": "Learn and earn what you love.",
+      "description": "Earn coupons and rewards by studying. Real learning, real benefits.",
+      "startLearning": "Start Learning",
+      "exploreRewards": "Explore Rewards",
+      "scrollHint": "Check out this week's top coupons"
+    },
+    "features": {
+      "fastLearning": {
+        "title": "Fast Learning",
+        "description": "Access knowledge anytime, anywhere"
+      },
+      "qualityContent": {
+        "title": "Quality Content",
+        "description": "Expert-crafted lessons and materials"
+      },
+      "globalCommunity": {
+        "title": "Global Community",
+        "description": "Connect with learners worldwide"
+      },
+      "realRewards": {
+        "title": "Real Rewards",
+        "description": "Earn points and redeem valuable coupons"
+      }
+    },
+    "rewards": {
+      "title": "Rewards Gallery",
+      "subtitle": "Study hard, earn points, claim real rewards",
+      "tabs": {
+        "popular": "Popular Now",
+        "new": "New Arrivals",
+        "recommended": "Recommended for You",
+        "all": "All Rewards"
+      },
+      "card": {
+        "pointsLabel": "Points",
+        "available": "Available",
+        "expiresOn": "Expires",
+        "getRewardBy": "Get this reward by completing:",
+        "pointsNeeded": "pts needed",
+        "pointsAway": "You're only {count} points away!",
+        "startCourse": "Start Course"
+      }
+    },
+    "trust": {
+      "title": "Success Stories",
+      "description": "Hear from learners who have earned real rewards through our platform",
+      "stats": {
+        "title": "Our Impact",
+        "students": "Active Students",
+        "lectures": "Variety Lectures",
+        "coupons": "Available Coupons"
+      },
+      "activity": {
+        "title": "Recent Activity",
+        "timeAgo": {
+          "hours": "{count} hours ago",
+          "yesterday": "Yesterday"
+        },
+        "earnedCoupon": "{name} earned a {coupon} coupon",
+        "completedCourse": "{name} completed \"{course}\" course",
+        "redeemedVoucher": "{name} redeemed {voucher} voucher"
+      }
+    },
+    "lessons": {
+      "title": "Featured Courses"
+    },
+    "footer": {
+      "language": "Language",
+      "quickLinks": "Quick Links",
+      "learningResources": "Learning Resources",
+      "rewardsCatalog": "Rewards Catalog",
+      "community": "Community",
+      "contactSupport": "Contact Support",
+      "helpCenter": "Help Center",
+      "faq": "FAQ",
+      "termsOfUse": "Terms of Use",
+      "privacyPolicy": "Privacy Policy",
+      "cookiePolicy": "Cookie Policy",
+      "stayConnected": "Stay Connected",
+      "emailPlaceholder": "Enter your email",
+      "subscribe": "Subscribe"
+    }
+  },
+  "points": {
+    "title": "Your Points",
+    "availablePoints": "Available Points",
+    "pointsHistory": "Points History",
+    "type": {
+      "earned": "Earned",
+      "used": "Used",
+      "expired": "Expired"
+    }
+  },
+  "lessons": {
+    "popularLessons": "Popular Lessons",
+    "newLessons": "New Lessons",
+    "enrollNow": "Enroll Now",
+    "lessonDetails": {
+      "duration": "Duration",
+      "level": "Level",
+      "instructor": "Instructor",
+      "rating": "Rating",
+      "startLearning": "Start Learning"
+    }
+  },
+  "coupons": {
+    "availableCoupons": "Available Coupons",
+    "redeemPoints": "Redeem Points",
+    "code": "Code",
+    "copyCode": "Copy Code",
+    "off": "OFF"
+  },
+  "auth": {
+    "welcome": "Welcome",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "login": "Login",
+    "register": "Register",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "createAccount": "Create Account",
+    "username": "Username",
+    "confirmPassword": "Confirm Password"
   }
 }

@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -18,6 +19,7 @@ export class CouponUsage {
   @OneToOne(() => Coupon, (coupon) => coupon.coupon_usage, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn()
   coupon: Coupon;
 
   @ManyToOne(() => Customer, (customer) => customer.couponUsages, {

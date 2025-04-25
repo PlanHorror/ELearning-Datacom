@@ -5,7 +5,6 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,11 +17,8 @@ import * as bcrypt from 'bcrypt';
 import {
   CustomerSignInDto,
   CustomerSignUpDto,
-  CustomerUpdateDto,
-  ResetPasswordDto,
   CompanySignInDto,
   CompanySignUpDto,
-  CompanyUpdateDto,
   UserVerificationDto,
   AdminSignInDto,
   SignInDto,
@@ -30,8 +26,6 @@ import {
 import { Role, Status } from 'src/common/enums';
 import { JwtStatusPayload } from 'src/common/interfaces';
 import { EmailService } from 'src/email/email.service';
-import { CompanyDelete } from '../company/entity/comany-delete.entity';
-import { CustomerDelete } from '../customer/entity/customer-delete.entity';
 import { CustomerService } from 'src/customer/customer.service';
 import { CompanyService } from 'src/company/company.service';
 
@@ -293,7 +287,7 @@ export class AuthService {
     }
   }
 
-  // Delete account when not verified in 30 seconds
+  // Delete account when not verified
   async deleteUnverifiedAccount(email: string, role: Role): Promise<void> {
     if (role === Role.CUSTOMER) {
       const user = await this.customerService.getCustomerByEmail(email);

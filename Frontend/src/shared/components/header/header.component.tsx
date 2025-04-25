@@ -13,26 +13,27 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import UserIconComponent from "@/shared/icons/user-icon/user.icon.component";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState, useTransition } from "react";
 import { signOut, useSession } from "next-auth/react";
 import AlertIcon from "@/shared/icons/alert-icon/alert.icon";
 import { Medal, Tickets, Trophy } from "lucide-react";
 import type { MenuProps } from "antd";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import IsLoadingProps from "@/shared/bases/interface/isLoading";
+import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { LoadingComponent } from "../loading/loading.component";
+import { usePathname, useRouter } from "next/navigation";
 
-const Header = ({ onLoadingChange }: IsLoadingProps) => {
+const Header = () => {
   const t = useTranslations();
   const router = useRouter();
   const { data: session } = useSession();
   const pathName = usePathname();
+  const locale = useLocale();
+  const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
 
   const goProfilePage = () => {
     setIsLoading(true);
-    onLoadingChange(true);
     if (session?.user?.role === "Customer") {
       router.push(RouterPath.CUSTOMER_PROFILE);
     }
@@ -102,15 +103,23 @@ const Header = ({ onLoadingChange }: IsLoadingProps) => {
   )
     return null;
 
+  const handleChangeLanguage = (value: string) => {
+    console.log("Check value", value);
+    startTransition(() => {
+      console.log("Check pathname:", pathName);
+      const newPathname = pathName.replace(`/${locale}`, "");
+      console.log("Check newPathname", newPathname);
+      router.replace(`/${value}${newPathname}`);
+    });
+  };
+
   const goSignIn = () => {
     setIsLoading(true);
-    onLoadingChange(true);
     router.push(RouterPath.OPTIONAL_SIGNIN);
   };
 
   const goSignUp = () => {
     setIsLoading(true);
-    onLoadingChange(true);
     router.push(RouterPath.SIGNUP);
   };
 
@@ -176,14 +185,16 @@ const Header = ({ onLoadingChange }: IsLoadingProps) => {
               <div className={styles.change_language}>
                 <Select
                   defaultValue="US"
+                  value={locale}
                   style={{ width: 60 }}
+                  onChange={handleChangeLanguage}
                   options={[
                     {
-                      value: "US",
+                      value: "en",
                       label: `${t("header.english")}`,
                     },
                     {
-                      value: "JP",
+                      value: "jp",
                       label: `${t("header.japanese")}`,
                     },
                   ]}
