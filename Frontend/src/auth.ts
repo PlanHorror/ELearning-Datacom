@@ -34,6 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: decoded.email,
             role: decoded.role,
             username: decoded.username,
+            company_name: decoded.company_name,
             accessToken,
             refreshToken: decoded.refreshToken,
           };
@@ -59,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token._id = user._id;
         token.email = user.email;
         token.username = user.username;
+        token.username = user.company_name;
         token.role = user.role;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
@@ -69,13 +71,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user = {
           ...session.user,
-          _id: token._id,
-          email: token.email,
-          username: token.username,
-          role: token.role,
+          _id: token._id as string,
+          email: token.email as string,
+          username: token.username as string,
+          company_name: token.company_name as string,
+          role: token.role as string,
         };
-        session.accessToken = token.accessToken;
-        session.refreshToken = token.refreshToken;
+        session.accessToken = token.accessToken as string;
+        session.refreshToken = token.refreshToken as string;
         return session;
       }
       return null;

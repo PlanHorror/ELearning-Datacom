@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo-bgwhite.svg";
 import elearning from "@/public/elearning_1.png";
-import CustomerLoginForm from "@/modules/customers/presentation/components/login-form/login-form.component";
+import LoginFormComponent from "@/shared/components/login-form/login.form";
 
 
 const CompanyLoginPage = () => {
@@ -26,7 +26,7 @@ const CompanyLoginPage = () => {
           <Image alt="" src={elearning} width={300} height={300} />
         </Col>
         <Col span={16} className={styles.form_wrapper}>
-          <CustomerLoginForm isLoading={false} />
+          <LoginFormComponent isLoading={true} />
         </Col>
       </Row>
     </div>

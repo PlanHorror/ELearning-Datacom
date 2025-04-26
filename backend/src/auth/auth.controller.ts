@@ -49,13 +49,6 @@ export class AuthController {
     return this.authService.refreshToken(undefined, user);
   }
 
-  @Post('admin/refresh-token')
-  @Roles(Role.ADMIN)
-  @UseGuards(RefreshTokenGuard, RolesGuard)
-  adminRefreshToken(@GetUser() user: Admin) {
-    return this.authService.refreshToken(undefined, undefined, user);
-  }
-
   @Get('verify/:token')
   async verify(@Param('token') token: string) {
     return this.authService.verifyEmail(token);

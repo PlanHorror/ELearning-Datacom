@@ -84,29 +84,6 @@ export class CustomerSignUpDto {
   dob: Date;
 }
 
-// DTO for Customer sign in
-export class CustomerSignInDto {
-  @ApiProperty({
-    description: 'Customer email address',
-    example: 'customer@example.com',
-  })
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
-  @ApiProperty({
-    description: 'Customer password',
-    example: 'password123',
-    minLength: 8,
-    maxLength: 14,
-  })
-  @IsString()
-  @MinLength(8)
-  @MaxLength(14)
-  @IsNotEmpty()
-  password: string;
-}
-
 // DTO for Customer update
 export class CustomerUpdateDto {
   @ApiProperty({

@@ -14,8 +14,8 @@ export const LoadingComponent = () => {
         justify="center"
         className={styles.loading_content}
       >
-        <Spin 
-          tip={t("page_loading.content")} 
+        <Spin
+          tip={t("page_loading.content")}
           size="large"
           className={styles.spin}
         >

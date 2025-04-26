@@ -1,7 +1,7 @@
 "use client";
 
 import { Form, Input as InputAntd } from "antd";
-import styles from "./login-form.module.scss";
+import styles from "./login.form.module.scss";
 import { RouterPath } from "@/shared/constants/router.const";
 import { Button } from "@/shared/components/button/button.component";
 import Link from "next/link";
@@ -15,7 +15,7 @@ interface Props {
   isLoading: boolean;
 }
 
-const CustomerLoginForm = ({ isLoading }: Props) => {
+const LoginFormComponent = ({ isLoading }: Props) => {
   // const authUseCase = new AuthUseCase();
   const router = useRouter();
   const [form] = Form.useForm();
@@ -89,4 +89,4 @@ const CustomerLoginForm = ({ isLoading }: Props) => {
   );
 };
 
-export default CustomerLoginForm;
+export default LoginFormComponent;

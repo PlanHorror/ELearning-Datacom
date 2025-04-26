@@ -15,9 +15,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import {
-  CustomerSignInDto,
   CustomerSignUpDto,
-  CompanySignInDto,
   CompanySignUpDto,
   UserVerificationDto,
   AdminSignInDto,
@@ -46,39 +44,35 @@ export class AuthService {
   async signin(
     dto: SignInDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    if (dto.role === Role.CUSTOMER) {
-      if (!dto.email || !dto.password) {
-        throw new BadRequestException('Not enough data provided');
-      }
-      return this.customerSignin({
-        email: dto.email,
-        password: dto.password,
-      } as CustomerSignInDto);
-    }
-    if (dto.role === Role.COMPANY) {
-      if (!dto.email || !dto.password) {
-        throw new BadRequestException('Not enough data provided');
-      }
-      return this.companySignin({
-        email: dto.email,
-        password: dto.password,
-      } as CompanySignInDto);
-    }
-    if (dto.role === Role.ADMIN) {
-      if (!dto.username || !dto.password) {
-        throw new BadRequestException('Not enough data provided');
-      }
-      return this.adminSignin({
-        username: dto.username,
-        password: dto.password,
-      } as AdminSignInDto);
-    } else {
+    if (!dto) {
       throw new BadRequestException('Not enough data provided');
     }
+    const companySignin = await this.companyService.checkEmailExists(dto.email);
+    const customerSignin = await this.customerService.checkEmailExists(
+      dto.email,
+    );
+    if (companySignin && customerSignin) {
+      throw new ConflictException(
+        'This account is already registered as a company and customer',
+      );
+    }
+    if (companySignin) {
+      return await this.companySignin(dto);
+    }
+    if (customerSignin) {
+      return await this.customerSignin(dto);
+    }
+    throw new UnauthorizedException('Invalid email or password');
   }
 
   // Customer signup service
   async customerSignup(user: CustomerSignUpDto): Promise<Customer> {
+    if (
+      (await this.customerService.checkEmailExists(user.email)) ||
+      (await this.companyService.checkEmailExists(user.email))
+    ) {
+      throw new ConflictException('Username or email already exists');
+    }
     const { password, ...userInfomation } = user;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -110,7 +104,7 @@ export class AuthService {
 
   // Customer signin service
   async customerSignin(
-    user: CustomerSignInDto,
+    user: SignInDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const { email, password } = user;
     const thisUser = await this.customerService.getCustomerByEmail(email);
@@ -164,6 +158,12 @@ export class AuthService {
 
   // Company signup service
   async companySignup(company: CompanySignUpDto): Promise<Company> {
+    if (
+      (await this.customerService.checkEmailExists(company.email)) ||
+      (await this.companyService.checkEmailExists(company.email))
+    ) {
+      throw new ConflictException('Email already exists');
+    }
     const { password, ...companyInformation } = company;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -194,7 +194,7 @@ export class AuthService {
 
   // Company signin service
   async companySignin(
-    company: CompanySignInDto,
+    company: SignInDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const { email, password } = company;
     const thisCompany = await this.companyService.getCompanyByEmail(email);
@@ -204,7 +204,12 @@ export class AuthService {
       } else if (thisCompany.status === Status.BANNED) {
         throw new UnauthorizedException('Account is banned');
       }
-      const payload = { email: company.email, role: Role.COMPANY };
+      const payload = {
+        _id: thisCompany.id,
+        email: company.email,
+        company_name: thisCompany.company_name,
+        role: Role.COMPANY,
+      };
       const accessToken = this.jwtService.sign(payload);
       const refreshToken = this.jwtService.sign(payload, {
         secret: process.env.JWT_REFRESH_SECRET,

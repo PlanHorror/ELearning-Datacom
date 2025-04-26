@@ -13,7 +13,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import UserIconComponent from "@/shared/icons/user-icon/user.icon.component";
-import React, { ChangeEvent, useState, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { signOut, useSession } from "next-auth/react";
 import AlertIcon from "@/shared/icons/alert-icon/alert.icon";
 import { Medal, Tickets, Trophy } from "lucide-react";
@@ -29,6 +29,7 @@ const Header = () => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const locale = useLocale();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -209,7 +210,10 @@ const Header = () => {
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <Space className={styles.user_icon_wrapper}>
                       <UserIconComponent
-                        username={`${session.user?.username}`}
+                        username={
+                          `${session.user?.username}` ||
+                          `${session.user?.company_name}`
+                        }
                         role={`@${session.user?.role}`}
                       />
                     </Space>

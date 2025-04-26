@@ -154,6 +154,18 @@ export class CustomerService {
     }
   }
 
+  // Check email exists
+  async checkEmailExists(email: string): Promise<boolean> {
+    try {
+      const customer = await this.customerRepository.findOne({
+        where: { email: email },
+      });
+      return !!customer;
+    } catch (error) {
+      throw new BadRequestException('Error checking email existence');
+    }
+  }
+
   /*
    * Service methods
    */

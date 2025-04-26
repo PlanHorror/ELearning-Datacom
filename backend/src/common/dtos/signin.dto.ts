@@ -15,17 +15,7 @@ export class SignInDto {
   })
   @IsEmail()
   @IsNotEmpty()
-  @ValidateIf((o) => !o.username)
-  email?: string;
-
-  @ApiProperty({
-    description: 'Username of the user',
-    example: 'john_doe',
-  })
-  @IsString()
-  @IsNotEmpty()
-  @ValidateIf((o) => !o.email)
-  username?: string;
+  email: string;
 
   @ApiProperty({
     description: 'Password of the user',
@@ -34,12 +24,4 @@ export class SignInDto {
   @IsString()
   @IsNotEmpty()
   password: string;
-
-  @ApiProperty({
-    description: 'Role of the user',
-    example: 'CUSTOMER',
-  })
-  @IsEnum(Role)
-  @IsNotEmpty()
-  role: Role;
 }

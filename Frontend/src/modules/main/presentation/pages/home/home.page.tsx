@@ -542,11 +542,12 @@ const HomePage = () => {
           {/* Sponsors Section */}
           <div className={styles.sponsors_section}>
             <h2 className={styles.section_title}>
-              {t("home.sponsors.title") || "Our Sponsors"}
+              {/* {t("home.sponsors.title") || "Our Sponsors"} */}
+              Company
             </h2>
             <p className={styles.section_description}>
-              {t("home.sponsors.description") ||
-                "These trusted businesses provide special discounts and coupons for our learners."}
+              {/* {t("home.sponsors.description") || */}
+                These trusted businesses provide special discounts and coupons for our learners.
             </p>
 
             <div className={styles.sponsors_grid}>

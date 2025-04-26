@@ -47,26 +47,6 @@ export class CompanySignUpDto {
 }
 
 // DTO for Company sign in
-export class CompanySignInDto {
-  @ApiProperty({
-    description: 'The email of the company',
-    example: 'example@company.com',
-  })
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
-  @ApiProperty({
-    description: 'The password of the company',
-    example: 'password123',
-    minLength: 8,
-    maxLength: 14,
-  })
-  @IsString()
-  @MinLength(8)
-  @MaxLength(14)
-  password: string;
-}
 
 // DTO for Company update
 export class CompanyUpdateDto {

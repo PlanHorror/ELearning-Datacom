@@ -4,6 +4,7 @@ interface User {
   _id: string;
   email: string;
   username: string;
+  company_name: string;
   role: string;
   accessToken: string;
   refreshToken: string;
@@ -13,6 +14,7 @@ declare module "next-auth/jwt" {
     _id: string;
     email: string;
     username: string;
+    company_name: string;
     role: string;
   }
 }
@@ -23,6 +25,7 @@ declare module "next-auth" {
     email: string;
     role: string;
     username: string;
+    company_name: string;
     accessToken: string;
     refreshToken: string;
   }

@@ -6,9 +6,17 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo-bgwhite.svg";
 import elearning from "@/public/elearning_1.png";
-import CustomerLoginForm from "../../components/login-form/login-form.component";
+import LoginFormComponent from "@/shared/components/login-form/login.form";
+import { useEffect, useState } from "react";
 
 const CustomerLoginPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Automatically set loading to false after component mounts
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
     <div className={styles.authentication_container}>
       <Row className={styles.authentication_wrapper}>
@@ -25,7 +33,7 @@ const CustomerLoginPage = () => {
           <Image alt="" src={elearning} width={300} height={300} />
         </Col>
         <Col span={16} className={styles.form_wrapper}>
-          <CustomerLoginForm isLoading={false} />
+          <LoginFormComponent isLoading={isLoading} />
         </Col>
       </Row>
     </div>
