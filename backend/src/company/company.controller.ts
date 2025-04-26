@@ -20,7 +20,7 @@ import { CompanyUpdateDto } from 'src/common/dtos';
 export class CompanyController {
   constructor(private companyService: CompanyService) {}
 
-  @Get()
+  @Get('/profile')
   async getProfile(@GetUser() company: Company): Promise<Company> {
     return await this.companyService.getCompanyProfileService(company);
   }

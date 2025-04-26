@@ -20,7 +20,7 @@ import { CustomerUpdateDto } from 'src/common/dtos';
 export class CustomerController {
   constructor(private customerService: CustomerService) {}
 
-  @Get()
+  @Get('/profile')
   async getProfile(@GetUser() customer: Customer): Promise<Customer> {
     return await this.customerService.getCustomerById(customer.id);
   }

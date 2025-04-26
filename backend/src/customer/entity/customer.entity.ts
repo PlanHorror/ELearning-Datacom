@@ -9,6 +9,7 @@ import {
 import { Status } from 'src/common/enums';
 import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
 import { PointsHistory } from 'src/points-history/entity/points-history.entity';
+import { LearningStatus } from 'src/admin/learning-status-admin/entity/learning-status.entity';
 
 // User entity class
 @Entity()
@@ -60,4 +61,7 @@ export class Customer {
 
   @OneToMany((_type) => PointsHistory, (history) => history.customer)
   pointsHistories: PointsHistory[];
+
+  @OneToMany((_type) => LearningStatus, (status) => status.customer)
+  learningStatus?: LearningStatus[];
 }
