@@ -22,7 +22,10 @@ export class LearningStatus {
   lessonId: string;
 
   @Column()
-  time: Date;
+  date: Date;
+
+  @Column()
+  time: number;
 
   @Column()
   completion: boolean;
