@@ -54,7 +54,7 @@ export class PointsHistoryDto {
   @IsNotEmpty()
   @IsOptional()
   @Transform(({ value }) => new Date(value))
-  created_at: Date;
+  created_at?: Date;
 
   @ApiProperty({
     description: 'Date when the points history was updated',
@@ -64,7 +64,7 @@ export class PointsHistoryDto {
   @IsNotEmpty()
   @IsOptional()
   @Transform(({ value }) => new Date(value))
-  updated_at: Date;
+  updated_at?: Date;
 
   @ApiProperty({
     description: 'Execute this action or not',

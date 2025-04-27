@@ -6,15 +6,19 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { LearningStatus } from './entity/learning-status.entity';
 import { Repository } from 'typeorm';
-import { LearningStatusDto } from 'src/common/dtos/admin';
+import {
+  LearningStatusDto,
+  JsonLearningStatusDto,
+  FilterLearningStatusDto,
+} from 'src/common/dtos/admin';
 import {
   convertTimeToSeconds,
   createJsonName,
   saveJson,
 } from 'src/common/utils/';
-import { JsonLearningStatusDto } from 'src/common/dtos/admin/json-learning-status.dto';
-import { FilterLearningStatusDto } from 'src/common/dtos/admin/filter-learning-status.dto';
 import { CustomerAdminService } from '../customer-admin/customer-admin.service';
+import { PointsHistoryAdminService } from '../points-history-admin/points-history-admin.service';
+import { PointsHistoryType } from 'src/common/enums';
 
 @Injectable()
 export class LearningStatusAdminService {
@@ -22,6 +26,7 @@ export class LearningStatusAdminService {
     @InjectRepository(LearningStatus)
     private learningStatusRepository: Repository<LearningStatus>,
     private customerAdminService: CustomerAdminService,
+    private pointsHistoryAdminService: PointsHistoryAdminService,
   ) {}
   /*
    * Raw method
@@ -49,40 +54,12 @@ export class LearningStatusAdminService {
     }
   }
 
-  // Filter learning status by customer id
-  async getLearningStatusByCustomerId(
-    customerId: string,
-  ): Promise<LearningStatus[]> {
-    try {
-      return await this.learningStatusRepository.find({
-        where: { customer: { id: customerId } },
-        relations: ['customer'],
-      });
-    } catch (error) {
-      throw new NotFoundException('Learning status not found');
-    }
-  }
-
-  // Filter learning status by lesson id
-  async getLearningStatusByLessonId(
-    lessonId: string,
-  ): Promise<LearningStatus[]> {
-    try {
-      return await this.learningStatusRepository.find({
-        where: { lessonId: lessonId },
-        relations: ['customer'],
-      });
-    } catch (error) {
-      throw new NotFoundException('Learning status not found');
-    }
-  }
-
   // Create a new learning status
   async createLearningStatus(
     data: LearningStatusDto,
     fileName: string,
   ): Promise<LearningStatus> {
-    const { time, customerId, ...rest } = data;
+    const { time, customerId, changePoints, ...rest } = data;
     const customer =
       await this.customerAdminService.getCustomerById(customerId);
     try {
@@ -93,6 +70,18 @@ export class LearningStatusAdminService {
         fileName,
         time: timeInSeconds,
       });
+      if (changePoints && learningStatus.completion) {
+        await this.pointsHistoryAdminService.createPointsHistory(
+          {
+            customer_id: customer.id,
+            type: PointsHistoryType.ADD,
+            points: 10000,
+            description: `Points added for completed learning lesson ${learningStatus.lessonId}`,
+            execute: true,
+          },
+          customer,
+        );
+      }
       return await this.learningStatusRepository.save(learningStatus);
     } catch (error) {
       console.log(error);
@@ -104,11 +93,37 @@ export class LearningStatusAdminService {
     data: LearningStatusDto,
     id: string,
   ): Promise<LearningStatus> {
-    const { time, customerId, ...rest } = data;
+    const oldLearningStatus = await this.getLearningStatusById(id);
+    const { time, customerId, changePoints, ...rest } = data;
     const customer =
       await this.customerAdminService.getCustomerById(customerId);
     try {
       const timeInSeconds = convertTimeToSeconds(time);
+      if (changePoints) {
+        if (oldLearningStatus.completion && !data.completion) {
+          await this.pointsHistoryAdminService.createPointsHistory(
+            {
+              customer_id: customer.id,
+              type: PointsHistoryType.SUBTRACT,
+              points: 10000,
+              description: `Points subtracted for uncompleted learning lesson ${oldLearningStatus.lessonId}`,
+              execute: true,
+            },
+            customer,
+          );
+        } else if (!oldLearningStatus.completion && data.completion) {
+          await this.pointsHistoryAdminService.createPointsHistory(
+            {
+              customer_id: customer.id,
+              type: PointsHistoryType.ADD,
+              points: 10000,
+              description: `Points added for completed learning lesson ${oldLearningStatus.lessonId}`,
+              execute: true,
+            },
+            customer,
+          );
+        }
+      }
       return await this.learningStatusRepository.save({
         id: id,
         ...rest,

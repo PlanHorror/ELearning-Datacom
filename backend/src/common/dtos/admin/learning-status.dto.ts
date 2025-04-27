@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   Matches,
@@ -33,4 +34,9 @@ export class LearningStatusDto {
   @IsNotEmpty()
   @Transform(({ value }) => value === 'true')
   completion: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => (value === undefined ? true : value === 'true'))
+  changePoints?: boolean = true;
 }

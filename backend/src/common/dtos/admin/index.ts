@@ -12,3 +12,5 @@ export * from './coupon-label.dto';
 export * from './account-admin.dto';
 export * from './points-history.dto';
 export * from './learning-status.dto';
+export * from './json-learning-status.dto';
+export * from './filter-learning-status.dto';
