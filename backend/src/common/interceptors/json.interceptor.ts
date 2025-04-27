@@ -16,7 +16,6 @@ export class JsonTransformInterceptor implements NestInterceptor {
 
   // Convert the response to JSON
   convertToJson(file: Express.Multer.File): string {
-    // Add "{ learningStatus": ' before parsing and add '}' at the end
     const jsonString = file.buffer.toString('utf-8');
     if (!this.options.property) {
       return jsonString;

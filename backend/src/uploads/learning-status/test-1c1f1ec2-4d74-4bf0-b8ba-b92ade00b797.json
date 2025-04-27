@@ -1,0 +1,16 @@
+[
+  {
+    "customerId": "1ff81a0d-4ca8-49d2-98b0-65d0fff636d1",
+    "lessonId": "lesson-123",
+    "date": "2025-04-27T11:03:00Z",
+    "time": "2:15:30",
+    "completion": true
+  },
+  {
+    "customerId": "1ff81a0d-4ca8-49d2-98b0-65d0fff636d1",
+    "lessonId": "lesson-456",
+    "date": "2025-04-28T12:30:00Z",
+    "time": "0:45:00",
+    "completion": false
+  }
+]

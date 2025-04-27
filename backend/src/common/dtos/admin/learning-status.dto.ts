@@ -11,7 +11,7 @@ import {
 export class LearningStatusDto {
   @IsUUID()
   @IsNotEmpty()
-  userId: string;
+  customerId: string;
 
   @IsString()
   @IsNotEmpty()
@@ -31,8 +31,6 @@ export class LearningStatusDto {
 
   @IsBoolean()
   @IsNotEmpty()
-  @Transform(({ value }) => {
-    return value ? true : false;
-  })
+  @Transform(({ value }) => value === 'true')
   completion: boolean;
 }
