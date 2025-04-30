@@ -27,12 +27,14 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   // The validate() method is called by Passport after the token is validated.
   // The method returns the user if the token is valid.
   async validate(payload: JwtPayload) {
+    // console.log('payload', payload);
     const { name, email, role } = payload || {};
     if (role === Role.CUSTOMER) {
       const customer = await this.customerRepository.findOneBy({ email });
       if (!customer) {
         throw new NotFoundException('Account not found');
       }
+      // console.log('customer', customer);
       return { ...customer, role: Role.CUSTOMER };
     }
     if (role === Role.COMPANY) {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CouponUseageController } from './coupon-useage.controller';
-import { CouponUseageService } from './coupon-useage.service';
+import { CouponUsageController } from './coupon-usage.controller';
+import { CouponUsageService } from './coupon-usage.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CouponUsage } from './entity/coupon-usage.entity';
 import { AuthModule } from 'src/auth/auth.module';
@@ -14,7 +14,7 @@ import { PointsHistoryModule } from 'src/points-history/points-history.module';
     CouponModule,
     PointsHistoryModule,
   ],
-  controllers: [CouponUseageController],
-  providers: [CouponUseageService],
+  controllers: [CouponUsageController],
+  providers: [CouponUsageService],
 })
-export class CouponUseageModule {}
+export class CouponUsageModule {}

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CouponUsageDto } from 'src/common/dtos/admin';
-import { CouponUsage } from 'src/coupon-useage/entity/coupon-usage.entity';
+import { CouponUsage } from 'src/coupon/coupon-usage/entity/coupon-usage.entity';
 import { Repository } from 'typeorm';
 import { CustomerAdminService } from '../customer-admin/customer-admin.service';
 import { CouponAdminService } from '../coupon-admin/coupon-admin.service';

@@ -3,7 +3,7 @@ import { CouponFavouriteAdminController } from './coupon-favourite-admin.control
 import { CouponFavouriteAdminService } from './coupon-favourite-admin.service';
 import { CouponAdminModule } from '../coupon-admin/coupon-admin.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponFavourite } from 'src/coupon/coupon-favourite/entity/coupon-favourite.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { CustomerAdminModule } from '../customer-admin/customer-admin.module';
 

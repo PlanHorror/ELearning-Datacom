@@ -35,7 +35,7 @@ export class CouponController {
     return this.couponService.getCoupons();
   }
 
-  @Get('/:id')
+  @Get('find/:id')
   getCoupon(@Param('id') id: string): Promise<Coupon> {
     return this.couponService.getCouponById(id);
   }

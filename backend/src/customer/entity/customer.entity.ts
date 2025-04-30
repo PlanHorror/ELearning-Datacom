@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Status } from 'src/common/enums';
-import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponFavourite } from 'src/coupon/coupon-favourite/entity/coupon-favourite.entity';
 import { PointsHistory } from 'src/points-history/entity/points-history.entity';
 import { LearningStatus } from 'src/admin/learning-status-admin/entity/learning-status.entity';
 

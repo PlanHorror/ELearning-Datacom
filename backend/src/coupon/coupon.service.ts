@@ -14,7 +14,7 @@ import { Express } from 'express';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
-import { CouponLabelService } from 'src/coupon-label/coupon-label.service';
+import { CouponLabelService } from 'src/coupon/coupon-label/coupon-label.service';
 import { CouponStatus } from 'src/common/enums';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 @Injectable()

@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CouponFavouriteAdminService } from './coupon-favourite-admin.service';
-import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponFavourite } from 'src/coupon/coupon-favourite/entity/coupon-favourite.entity';
 import {
   CouponFavouriteDto,
   FilterCouponFavouriteDto,

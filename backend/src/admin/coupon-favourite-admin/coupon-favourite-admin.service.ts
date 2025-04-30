@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponFavourite } from 'src/coupon/coupon-favourite/entity/coupon-favourite.entity';
 import { Repository } from 'typeorm';
 import { CouponAdminService } from '../coupon-admin/coupon-admin.service';
 import { CustomerAdminService } from '../customer-admin/customer-admin.service';
