@@ -20,7 +20,7 @@ import { Role } from 'src/common/enums';
 
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
-@Controller('admin/coupon-label')
+@Controller('admin/coupon/label')
 export class CouponLabelAdminController {
   constructor(private couponLabelAdminService: CouponLabelAdminService) {}
 

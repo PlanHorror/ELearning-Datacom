@@ -19,7 +19,7 @@ import { LearningStatus } from './entity/learning-status.entity';
 import { FilterLearningStatusDto } from 'src/common/dtos/admin/filter-learning-status.dto';
 import { LearningStatusDto } from 'src/common/dtos/admin';
 
-@Controller('learning-status-admin')
+@Controller('admin/learning-status')
 export class LearningStatusAdminController {
   constructor(private learningStatusAdminService: LearningStatusAdminService) {}
 

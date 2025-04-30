@@ -5,7 +5,7 @@ import { RefreshTokenGuard } from 'src/common/guards/refresh-token.guard';
 import { GetUser } from 'src/common/decorators';
 import { Admin } from 'src/auth/entity/admin.entity';
 
-@Controller('admin/auth-admin')
+@Controller('admin/auth')
 export class AuthAdminController {
   constructor(private authAdminService: AuthAdminService) {}
 
