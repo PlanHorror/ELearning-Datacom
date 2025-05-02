@@ -137,18 +137,16 @@ export class AuthService {
   refreshToken(
     customer?: Customer,
     company?: Company,
-    admin?: Admin,
   ): { accessToken: string } {
+    if (customer && company) {
+      throw new BadRequestException('Invalid account');
+    }
     if (customer) {
       const payload = { email: customer.email, role: Role.CUSTOMER };
       const accessToken = this.jwtService.sign(payload);
       return { accessToken };
     } else if (company) {
       const payload = { email: company.email, role: Role.COMPANY };
-      const accessToken = this.jwtService.sign(payload);
-      return { accessToken };
-    } else if (admin) {
-      const payload = { name: admin.username, role: Role.ADMIN };
       const accessToken = this.jwtService.sign(payload);
       return { accessToken };
     } else {

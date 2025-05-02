@@ -5,7 +5,7 @@ import { createImageName, removeImage, saveImage } from 'src/common/utils';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 import { Repository } from 'typeorm';
 import { CompanyAdminService } from '../company-admin/company-admin.service';
-import { CouponLabelAdminService } from '../coupon-label-admin/coupon-label-admin.service';
+import { CouponLabelAdminService } from './coupon-label-admin/coupon-label-admin.service';
 
 @Injectable()
 export class CouponAdminService {

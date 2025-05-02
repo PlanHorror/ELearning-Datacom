@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CouponFavouriteAdminService } from './coupon-favourite-admin.service';
-import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponFavourite } from 'src/coupon/coupon-favourite/entity/coupon-favourite.entity';
 import {
   CouponFavouriteDto,
   FilterCouponFavouriteDto,
@@ -23,7 +23,7 @@ import { Role } from 'src/common/enums';
 
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
-@Controller('admin/coupon-favourite')
+@Controller('admin/coupon/favourite')
 export class CouponFavouriteAdminController {
   constructor(private couponFavouriteService: CouponFavouriteAdminService) {}
 
