@@ -93,14 +93,16 @@ const Header = () => {
       key: "6",
     },
   ];
-
+  console.log(pathName);
   if (
     pathName === RouterPath.OPTIONAL_SIGNIN ||
     pathName === RouterPath.CUSTOMER_SIGNIN ||
     pathName === RouterPath.COMPANY_SIGNIN ||
     pathName === RouterPath.SIGNUP ||
     pathName === RouterPath.DASHBOARD ||
-    pathName === RouterPath.DASHBOARD_INPUT_SCORE
+    pathName === RouterPath.DASHBOARD_INPUT_SCORE ||
+    pathName === "en/dashboard" ||
+    "en/dashboard/input-score"
   )
     return null;
 
@@ -139,8 +141,7 @@ const Header = () => {
             lg={12}
             xl={12}
             xxl={12}
-            className={styles.left}
-          >
+            className={styles.left}>
             <Link href="/" className={styles.header_main_logo}>
               <Image alt="" src={logo} width={100} height={100} />
             </Link>
@@ -176,8 +177,7 @@ const Header = () => {
             lg={12}
             xl={12}
             xxl={12}
-            className={styles.right}
-          >
+            className={styles.right}>
             <div className={styles.right_left}>
               <Input
                 addonBefore={<SearchOutlined />}

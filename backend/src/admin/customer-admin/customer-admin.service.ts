@@ -32,8 +32,21 @@ export class CustomerAdminService {
       throw new BadRequestException('Not enough data provided');
     }
     try {
-      return await this.customerRepository.findOneByOrFail({ id });
+      const customer = await this.customerRepository.findOne({
+        where: { id },
+        relations: [
+          'pointsHistories',
+          'couponUsages',
+          'favourites',
+          'learningStatus',
+        ],
+      });
+      if (!customer) {
+        throw new NotFoundException('Customer not found');
+      }
+      return customer;
     } catch (error) {
+      console.log(error);
       throw new NotFoundException('Customer not found');
     }
   }
