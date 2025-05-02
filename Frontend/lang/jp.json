@@ -1,6 +1,152 @@
 {
-    "header": {
-        "home": "Home",
-        "about": "About"
+  "header": {
+    "home": "ホーム",
+    "lessons": "レッスン",
+    "about": "概要",
+    "coupons": "クーポン",
+    "points": "ポイント",
+    "search": "検索",
+    "signup": "新規登録",
+    "signin": "ログイン",
+    "english": "英語",
+    "japanese": "日本語"
+  },
+  "profile": {
+    "profile": "プロフィール",
+    "progress": "進捗状況",
+    "points": "ポイント",
+    "coupons": "クーポン",
+    "setting": "設定",
+    "logout": "ログアウト"
+  },
+  "page_loading": {
+    "content": "読み込み中"
+  },
+  "home": {
+    "hero": {
+      "title": "学んで、欲しいものを手に入れよう。",
+      "description": "学習することでクーポンや特典を獲得。本物の学び、本物の特典。",
+      "startLearning": "学習を始める",
+      "exploreRewards": "特典を見る",
+      "scrollHint": "今週のおすすめクーポンをチェック"
+    },
+    "features": {
+      "fastLearning": {
+        "title": "速習学習",
+        "description": "いつでもどこでも知識にアクセス"
+      },
+      "qualityContent": {
+        "title": "高品質コンテンツ",
+        "description": "専門家が作成したレッスンと教材"
+      },
+      "globalCommunity": {
+        "title": "グローバルコミュニティ",
+        "description": "世界中の学習者とつながる"
+      },
+      "realRewards": {
+        "title": "実用的な特典",
+        "description": "ポイントを獲得して価値あるクーポンと交換"
+      }
+    },
+    "rewards": {
+      "title": "特典ギャラリー",
+      "subtitle": "一生懸命学んで、ポイントを獲得し、特典をゲット",
+      "tabs": {
+        "popular": "人気の特典",
+        "new": "新着特典",
+        "recommended": "おすすめ特典",
+        "all": "すべての特典"
+      },
+      "card": {
+        "pointsLabel": "ポイント",
+        "available": "利用可能",
+        "expiresOn": "有効期限",
+        "getRewardBy": "以下のコースを完了して特典を獲得：",
+        "pointsNeeded": "ポイント必要",
+        "pointsAway": "あと{count}ポイントで獲得できます！",
+        "startCourse": "コースを始める"
+      }
+    },
+    "trust": {
+      "title": "成功事例",
+      "description": "当プラットフォームで特典を獲得した学習者の声",
+      "stats": {
+        "title": "当社の実績",
+        "students": "アクティブな学生",
+        "lectures": "多様な講義",
+        "coupons": "利用可能なクーポン"
+      },
+      "activity": {
+        "title": "最近のアクティビティ",
+        "timeAgo": {
+          "hours": "{count}時間前",
+          "yesterday": "昨日"
+        },
+        "earnedCoupon": "{name}さんが{coupon}クーポンを獲得しました",
+        "completedCourse": "{name}さんが「{course}」コースを完了しました",
+        "redeemedVoucher": "{name}さんが{voucher}バウチャーを交換しました"
+      }
+    },
+    "lessons": {
+      "title": "おすすめコース"
+    },
+    "footer": {
+      "language": "言語",
+      "quickLinks": "クイックリンク",
+      "learningResources": "学習リソース",
+      "rewardsCatalog": "特典カタログ",
+      "community": "コミュニティ",
+      "contactSupport": "サポートに連絡",
+      "helpCenter": "ヘルプセンター",
+      "faq": "よくある質問",
+      "termsOfUse": "利用規約",
+      "privacyPolicy": "プライバシーポリシー",
+      "cookiePolicy": "Cookieポリシー",
+      "stayConnected": "最新情報を入手",
+      "emailPlaceholder": "メールアドレスを入力",
+      "subscribe": "登録する"
     }
+  },
+  "points": {
+    "title": "あなたのポイント",
+    "availablePoints": "利用可能なポイント",
+    "pointsHistory": "ポイント履歴",
+    "type": {
+      "earned": "獲得",
+      "used": "使用済",
+      "expired": "期限切れ"
+    }
+  },
+  "lessons": {
+    "popularLessons": "人気のレッスン",
+    "newLessons": "新着レッスン",
+    "enrollNow": "今すぐ登録",
+    "lessonDetails": {
+      "duration": "期間",
+      "level": "レベル",
+      "instructor": "講師",
+      "rating": "評価",
+      "startLearning": "学習を始める"
+    }
+  },
+  "coupons": {
+    "availableCoupons": "利用可能なクーポン",
+    "redeemPoints": "ポイントを交換",
+    "code": "コード",
+    "copyCode": "コードをコピー",
+    "off": "オフ"
+  },
+  "auth": {
+    "welcome": "ようこそ",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "login": "ログイン",
+    "register": "登録",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "haveAccount": "すでにアカウントをお持ちですか？",
+    "createAccount": "アカウント作成",
+    "username": "ユーザー名",
+    "confirmPassword": "パスワード確認"
+  }
 }

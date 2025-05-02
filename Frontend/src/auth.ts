@@ -17,7 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/customer/signin`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`,
           {
             email: credentials?.email,
             password: credentials?.password,
@@ -30,10 +30,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const decoded = jwtDecode(accessToken) as any;
           console.log("Check decoded:", decoded);
           return {
+            _id: decoded.id,
             email: decoded.email,
             role: decoded.role,
             username: decoded.username,
+            company_name: decoded.company_name,
             accessToken,
+            refreshToken: decoded.refreshToken,
           };
         } else if (+res.status === 401) {
           throw new InvalidEmailPasswordError();
@@ -46,20 +49,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: (locale: string = routing.defaultLocale) =>
-      `${locale}/auth/access-account`,
-    signOut: (locale: string = routing.defaultLocale) =>
-      `${locale}/auth/access-account`,
-    error: (locale: string = routing.defaultLocale) => `${locale}/error`,
+    signIn: `${routing.defaultLocale}/auth/access-account`,
+    signOut: `${routing.defaultLocale}/auth/access-account`, 
+    error: `${routing.defaultLocale}/error`
   },
   callbacks: {
-    async jwt({ token, user, session }) {
+    async jwt({ token, user }) {
       // console.log("JWT callback: ", {token, user, session});
       if (user) {
-        token.accessToken = user.accessToken;
+        token._id = user._id;
         token.email = user.email;
         token.username = user.username;
+        token.username = user.company_name;
         token.role = user.role;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
       }
       return token;
     },
@@ -67,11 +71,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user = {
           ...session.user,
-          role: token.role,
-          email: token.email,
-          username: token.username,
+          _id: token._id as string,
+          email: token.email as string,
+          username: token.username as string,
+          company_name: token.company_name as string,
+          role: token.role as string,
         };
-        session.accessToken = token.accessToken;
+        session.accessToken = token.accessToken as string;
+        session.refreshToken = token.refreshToken as string;
         return session;
       }
       return null;
@@ -79,6 +86,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 30 days
+    maxAge: 60 * 60, // 1 day
   },
 });

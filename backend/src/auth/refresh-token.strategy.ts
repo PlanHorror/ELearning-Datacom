@@ -21,8 +21,13 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     @InjectRepository(Company) private companyRepository: Repository<Company>,
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
   ) {
+    if (!process.env.JWT_REFRESH_SECRET) {
+      throw new Error(
+        'JWT_REFRESH_SECRET is not defined in environment variables',
+      );
+    }
     super({
-      secretOrKey: process.env.JWT_REFRESH_SECRET!,
+      secretOrKey: process.env.JWT_REFRESH_SECRET,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }

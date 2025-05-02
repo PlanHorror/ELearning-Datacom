@@ -57,7 +57,7 @@ export default async function RootLayout({
                 </main>
               </Suspense>
               <Toaster position="top-right" expand={false} richColors />
-              <Footer />
+              {/* <Footer /> */}
             </AntdRegistry>
           </NextIntlClientProvider>
         </SessionProvider>

@@ -13,21 +13,28 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import UserIconComponent from "@/shared/icons/user-icon/user.icon.component";
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { signOut, useSession } from "next-auth/react";
 import AlertIcon from "@/shared/icons/alert-icon/alert.icon";
 import { Medal, Tickets, Trophy } from "lucide-react";
 import type { MenuProps } from "antd";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { LoadingComponent } from "../loading/loading.component";
+import { usePathname, useRouter } from "next/navigation";
 
 const Header = () => {
   const t = useTranslations();
   const router = useRouter();
   const { data: session } = useSession();
   const pathName = usePathname();
+  const locale = useLocale();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const goProfilePage = () => {
+    setIsLoading(true);
     if (session?.user?.role === "Customer") {
       router.push(RouterPath.CUSTOMER_PROFILE);
     }
@@ -35,6 +42,7 @@ const Header = () => {
       router.push(RouterPath.COMPANY_PROFILE);
     }
   };
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -91,17 +99,34 @@ const Header = () => {
     pathName === RouterPath.CUSTOMER_SIGNIN ||
     pathName === RouterPath.COMPANY_SIGNIN ||
     pathName === RouterPath.SIGNUP ||
-    pathName === RouterPath.DASHBOARD
+    pathName === RouterPath.DASHBOARD ||
+    pathName === RouterPath.DASHBOARD_INPUT_SCORE
   )
     return null;
 
+  const handleChangeLanguage = (value: string) => {
+    console.log("Check value", value);
+    startTransition(() => {
+      console.log("Check pathname:", pathName);
+      const newPathname = pathName.replace(`/${locale}`, "");
+      console.log("Check newPathname", newPathname);
+      router.replace(`/${value}${newPathname}`);
+    });
+  };
+
   const goSignIn = () => {
+    setIsLoading(true);
     router.push(RouterPath.OPTIONAL_SIGNIN);
   };
 
   const goSignUp = () => {
+    setIsLoading(true);
     router.push(RouterPath.SIGNUP);
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <>
@@ -137,7 +162,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className={styles.categories_item}>
-                  <Link href="" className={styles.nav_link}>
+                  <Link href="/points" className={styles.nav_link}>
                     {t("header.points")}
                   </Link>
                 </li>
@@ -154,18 +179,23 @@ const Header = () => {
             className={styles.right}
           >
             <div className={styles.right_left}>
-              <Input addonBefore={<SearchOutlined />} placeholder={`${t("header.search")}`} />
+              <Input
+                addonBefore={<SearchOutlined />}
+                placeholder={`${t("header.search")}`}
+              />
               <div className={styles.change_language}>
                 <Select
                   defaultValue="US"
+                  value={locale}
                   style={{ width: 60 }}
+                  onChange={handleChangeLanguage}
                   options={[
                     {
-                      value: "US",
+                      value: "en",
                       label: `${t("header.english")}`,
                     },
                     {
-                      value: "JP",
+                      value: "jp",
                       label: `${t("header.japanese")}`,
                     },
                   ]}
@@ -180,7 +210,10 @@ const Header = () => {
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <Space className={styles.user_icon_wrapper}>
                       <UserIconComponent
-                        username={`${session.user?.username}`}
+                        username={
+                          `${session.user?.username}` ||
+                          `${session.user?.company_name}`
+                        }
                         role={`@${session.user?.role}`}
                       />
                     </Space>

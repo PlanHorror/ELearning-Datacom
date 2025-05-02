@@ -22,7 +22,7 @@ export class AuthController {
   async signin(
     @Body() dto: SignInDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    return this.authService.signin(dto);
+    return await this.authService.signin(dto);
   }
 
   @Post('customer/signup')

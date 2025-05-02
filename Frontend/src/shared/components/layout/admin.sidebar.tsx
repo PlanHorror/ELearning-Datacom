@@ -37,7 +37,9 @@ const AdminSideBar = () => {
           {
             key: "1",
             icon: <PieChartOutlined />,
-            label: "Home",
+            label: (
+              <Link href={routerPath.DASHBOARD}>Home</Link>
+            ),
           },
           {
             key: "2",
@@ -53,9 +55,7 @@ const AdminSideBar = () => {
             key: "4",
             icon: <FileOutlined />,
             label: (
-              <Link href={routerPath.DASHBOARD_USERS_INPUT_SCORE}>
-                Input Score
-              </Link>
+              <Link href={routerPath.DASHBOARD_INPUT_SCORE}>Input Score</Link>
             ),
           },
           {

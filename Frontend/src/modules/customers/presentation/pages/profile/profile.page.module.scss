@@ -1,7 +1,6 @@
 @use "../../../../../shared/styles/variables.scss" as *;
 
 .page_container {
-//   margin: 20px 100px;
   .page_wrapper {
     .title_wrapper {
       margin-bottom: 50px;
@@ -19,6 +18,9 @@
       .sub_title {
         color: $color_text_sub;
       }
+    }
+    .profile_component_wrapper {
+      margin: 20px 100px;
     }
   }
 }

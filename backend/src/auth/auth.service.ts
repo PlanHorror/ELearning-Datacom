@@ -115,10 +115,12 @@ export class AuthService {
         throw new UnauthorizedException('Account is banned');
       }
       const payload = {
+        _id: thisUser.id,
         email: user.email,
         role: Role.CUSTOMER,
         username: thisUser.username,
       };
+      console.log('Check: ', payload);
       const accessToken = this.jwtService.sign(payload);
       const refreshToken = this.jwtService.sign(payload, {
         secret: process.env.JWT_REFRESH_SECRET,
@@ -200,7 +202,12 @@ export class AuthService {
       } else if (thisCompany.status === Status.BANNED) {
         throw new UnauthorizedException('Account is banned');
       }
-      const payload = { email: company.email, role: Role.COMPANY };
+      const payload = {
+        _id: thisCompany.id,
+        email: company.email,
+        company_name: thisCompany.company_name,
+        role: Role.COMPANY,
+      };
       const accessToken = this.jwtService.sign(payload);
       const refreshToken = this.jwtService.sign(payload, {
         secret: process.env.JWT_REFRESH_SECRET,

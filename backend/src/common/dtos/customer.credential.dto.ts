@@ -91,7 +91,7 @@ export class CustomerUpdateDto {
     example: 'johndoe_updated',
   })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   username: string;
 
   @ApiProperty({
@@ -99,7 +99,7 @@ export class CustomerUpdateDto {
     example: '234-5678',
   })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   postal_code: string;
 
   @ApiProperty({
@@ -107,7 +107,7 @@ export class CustomerUpdateDto {
     example: 'Osaka',
   })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   prefecture: string;
 
   @ApiProperty({
@@ -116,7 +116,7 @@ export class CustomerUpdateDto {
     example: 'FEMALE',
   })
   @IsEnum(Gender)
-  @IsNotEmpty()
+  @IsOptional()
   gender: Gender;
 
   @ApiProperty({
