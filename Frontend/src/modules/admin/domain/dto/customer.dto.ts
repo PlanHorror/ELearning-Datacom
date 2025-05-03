@@ -9,7 +9,7 @@ export interface CustomerInput {
   points: string;
   status: string;
   created_at: string;
-  updated_at: string;
+  last_updated: string;
   last_login: string;
 }
 
@@ -18,14 +18,14 @@ export interface MultiCustomerResponse {
   email: string;
   password: string;
   username: string;
-  postalCode: string;
+  postal_code: string;
   prefecture: string;
   gender: string;
   dob: string;
   points: string;
   status: string;
   created_at: string;
-  updated_at: string;
+  last_updated: string;
   last_login: string;
 }
 
@@ -34,14 +34,14 @@ export interface SingleCustomerResponse {
   email: string;
   password: string;
   username: string;
-  postalCode: string;
+  postal_code: string;
   prefecture: string;
   gender: string;
   dob: string;
   points: string;
   status: string;
   created_at: string;
-  updated_at: string;
+  last_updated: string;
   last_login: string;
   favourites: string[];
   pointsHistories: string[];
