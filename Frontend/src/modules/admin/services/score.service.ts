@@ -7,8 +7,7 @@ export class ScoreService {
   private baseUrl: string;
 
   private constructor() {
-    this.baseUrl =
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL!;
   }
 
   public static getInstance(): ScoreService {

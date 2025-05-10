@@ -72,6 +72,6 @@ export class CouponUsageAdminController {
 
   @Delete('/:id')
   async deleteCouponUsage(@Param('id') id: string) {
-    return await this.couponUsageService.deleteCouponUsage(id);
+    return await this.couponUsageService.deleteCouponUsageService(id);
   }
 }

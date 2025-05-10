@@ -20,9 +20,9 @@ const CustomersComponent = () => {
       try {
         const response = await CustomerService.getInstance().getCustomers();
         setCustomers(response);
-        console.log("Customers:", response);
+        // console.log("Customers:", response);
       } catch (error) {
-        console.error("Error fetching customers:", error);
+        // console.error("Error fetching customers:", error);
       }
     };
     fetchCustomers();
@@ -155,7 +155,7 @@ const CustomersComponent = () => {
     },
   ];
   return (
-    <div style={{ maxWidth: "70vw" }}>
+    <div>
       <Card title="Customers">
         <div>
           <Table

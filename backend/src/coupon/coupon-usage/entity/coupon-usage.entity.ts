@@ -9,6 +9,7 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -17,12 +18,14 @@ export class CouponUsage {
   id: string;
 
   @OneToOne(() => Coupon, (coupon) => coupon.coupon_usage, {
+    eager: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn()
   coupon: Coupon;
 
   @ManyToOne(() => Customer, (customer) => customer.couponUsages, {
+    eager: true,
     onDelete: 'CASCADE',
   })
   customer: Customer;
@@ -36,4 +39,7 @@ export class CouponUsage {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

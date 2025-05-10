@@ -186,7 +186,8 @@ const InputScoreComponent = () => {
               { required: true, message: "Please select completion status" },
             ]}
             labelCol={{ className: styles.form_label }}
-            valuePropName="checked">
+            valuePropName="checked"
+            initialValue={false}>
             <Switch
               checkedChildren={<CheckOutlined />}
               unCheckedChildren={<CloseOutlined />}

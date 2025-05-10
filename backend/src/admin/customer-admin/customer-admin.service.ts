@@ -85,6 +85,7 @@ export class CustomerAdminService {
       if (error.code === '23505') {
         throw new BadRequestException('Customer already exists');
       }
+      console.log(error);
       throw new BadRequestException('Error updating customer');
     }
   }
@@ -160,16 +161,12 @@ export class CustomerAdminService {
       throw new BadRequestException('Not enough data provided');
     }
     await this.getCustomerById(id); // Check if customer exists
-    const { password, ...rest } = data;
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return await this.updateCustomer(
-      {
-        ...rest,
-        password: hashedPassword,
-      },
-      id,
-    );
+    if (data.password) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(data.password, salt);
+      data.password = hashedPassword;
+    }
+    return await this.updateCustomer(data, id);
   }
 
   // Delete a customer from the database

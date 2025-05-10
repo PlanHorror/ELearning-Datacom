@@ -29,7 +29,7 @@ export class CouponUsageAdminService {
   // Get all coupon usage
   async getAllCouponUsage(): Promise<CouponUsage[]> {
     return await this.couponUsageRepository.find({
-      relations: ['customer'],
+      relations: ['customer', 'coupon'],
     });
   }
 

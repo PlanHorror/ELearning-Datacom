@@ -11,9 +11,8 @@ export class CustomerService {
   private baseUrl: string;
   private readonly token: string;
   private constructor() {
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-    this.token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNzQ2Mjg3NDI4LCJleHAiOjE3NDYyOTEwMjh9.lPM8WpK3KC1QeShOnxCBwXXWxTXGOnCR8SOwTphbffE";
+    this.baseUrl = process.env.NEXT_PUBLIC_API_URL!;
+    this.token = process.env.NEXT_PUBLIC_API_TOKEN!;
   }
 
   public static getInstance(): CustomerService {
@@ -81,7 +80,7 @@ export class CustomerService {
     customer: CustomerInput
   ): Promise<SingleCustomerResponse> {
     try {
-      const response = await axios.put(
+      const response = await axios.patch(
         `${this.baseUrl}/admin/customer/${id}`,
         customer,
         {

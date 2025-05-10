@@ -130,7 +130,10 @@ export class CouponAdminService {
     couponData: CouponAdminDto,
     image: Express.Multer.File,
   ) {
-    if (!couponData || !image) {
+    if (!image) {
+      throw new BadRequestException('Image not provided');
+    }
+    if (!couponData) {
       throw new BadRequestException('Not enough data provided');
     }
     try {

@@ -1,13 +1,26 @@
 "use client";
 
-import { SingleCustomerResponse } from "@/modules/admin/domain/dto/customer.dto";
+import {
+  CustomerInput,
+  SingleCustomerResponse,
+} from "@/modules/admin/domain/dto/customer.dto";
 import { CustomerService } from "@/modules/admin/services/customer.service";
 import { AccountStatus } from "@/shared/constants/account-status";
 import { Gender } from "@/shared/constants/gender";
-import { Button, Card, DatePicker, Form, Input, Select } from "antd";
+import {
+  Button,
+  Card,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Table,
+} from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styles from "./customer.component.module.scss";
+import { redirect, RedirectType } from "next/navigation";
 
 const CustomerComponent = ({ id }: { id: string }) => {
   const [customer, setCustomer] = useState<
@@ -19,7 +32,7 @@ const CustomerComponent = ({ id }: { id: string }) => {
         const response = await CustomerService.getInstance().getCustomerById(
           id
         );
-        setCustomer(response);
+        await setCustomer(response);
         console.log("Customer:", response);
       } catch (error) {
         if (error.status === 404) {
@@ -29,25 +42,231 @@ const CustomerComponent = ({ id }: { id: string }) => {
     };
     fetchCustomer();
   }, [id]);
+
+  const onFinish = async (values: any) => {
+    const data: CustomerInput = {
+      email: values.email,
+      username: values.username,
+      postal_code: values.postal_code,
+      prefecture: values.prefecture,
+      gender: values.gender,
+      dob: values.dob,
+      points: values.points,
+      status: values.status,
+    };
+    try {
+      await CustomerService.getInstance().updateCustomer(id, data);
+      return redirect("dashboard/customers", RedirectType.replace);
+    } catch (error) {
+      console.error("Error updating customer:", error);
+    }
+  };
+  const favouritesColumn = [
+    {
+      field: "coupon.title",
+      title: "Title",
+
+      key: "coupon.title",
+      dataIndex: "coupon.title",
+      render: (_, record) => record.coupon.title,
+    },
+    {
+      field: "created_at",
+      title: "Created At",
+      key: "created_at",
+      dataIndex: "created_at",
+      render: (_, record) =>
+        record.created_at
+          ? dayjs(record.created_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+    {
+      field: "updated_at",
+      title: "Last Updated",
+      key: "updated_at",
+      dataIndex: "updated_at",
+      render: (_, record) =>
+        record.updated_at
+          ? dayjs(record.updated_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+  ];
+  const pointsHistoryColumn = [
+    {
+      field: "points",
+      title: "Points",
+      key: "points",
+      dataIndex: "points",
+      render: (_, record) => record.points,
+    },
+    {
+      field: "type",
+      title: "Type",
+      key: "type",
+      dataIndex: "type",
+      render: (_, record) => record.type,
+    },
+    {
+      field: "description",
+      title: "Description",
+      key: "description",
+      dataIndex: "description",
+      render: (_, record) => record.description,
+    },
+    {
+      field: "created_at",
+      title: "Created At",
+      key: "created_at",
+      dataIndex: "created_at",
+      render: (_, record) =>
+        record.created_at
+          ? dayjs(record.created_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+    {
+      field: "updated_at",
+      title: "Last Updated",
+      key: "updated_at",
+      dataIndex: "updated_at",
+      render: (_, record) =>
+        record.updated_at
+          ? dayjs(record.updated_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+  ];
+  const couponUsagesColumn = [
+    {
+      field: "coupon.title",
+      title: "Coupon Title",
+      key: "coupon.title",
+      dataIndex: "coupon.title",
+      render: (_, record) => record.coupon.title,
+    },
+    {
+      field: "status",
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+    },
+    {
+      field: "created_at",
+      title: "Created At",
+      key: "created_at",
+      dataIndex: "created_at",
+      render: (_, record) =>
+        record.created_at
+          ? dayjs(record.created_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+    {
+      field: "updated_at",
+      title: "Last Updated",
+      key: "updated_at",
+      dataIndex: "updated_at",
+      render: (_, record) =>
+        record.updated_at
+          ? dayjs(record.updated_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+  ];
+  const learningStatusColumn = [
+    {
+      field: "lessonId",
+      title: "Lesson ID",
+      key: "lessonId",
+      dataIndex: "lessonId",
+    },
+    {
+      field: "date",
+      title: "Date",
+      key: "date",
+      dataIndex: "date",
+      render: (_, record) =>
+        record.date ? dayjs(record.date).format("YYYY-MM-DD") : "-",
+    },
+    {
+      field: "time",
+      title: "Time",
+      key: "time",
+      dataIndex: "time",
+      render: (_, record) =>
+        record.time ? dayjs(record.time).format("HH:mm:ss") : "-",
+    },
+    {
+      field: "completion",
+      title: "Completion",
+      key: "completion",
+      dataIndex: "completion",
+      render: (_, record) =>
+        record.completion ? "Completed" : "Not Completed",
+    },
+    {
+      field: "created_at",
+      title: "Created At",
+      key: "created_at",
+      dataIndex: "created_at",
+      render: (_, record) =>
+        record.created_at
+          ? dayjs(record.created_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+    {
+      field: "last_updated",
+      title: "Last Updated",
+      key: "last_updated",
+      dataIndex: "last_updated",
+      render: (_, record) =>
+        record.last_updated
+          ? dayjs(record.updated_at).format("YYYY-MM-DD HH:mm:ss")
+          : "-",
+    },
+  ];
   return (
-    <div>
+    <div className="h-full">
       {customer ? (
         <div>
-          <Card title="Customer Details" className={styles.card}>
-            <Form layout="vertical" className={styles.form}>
-              <Form.Item label="Email">
-                <Input value={customer.email} />
+          <Card
+            title="Customer Details"
+            className={styles.card}
+            style={{ marginBottom: "20px" }}>
+            <Form layout="vertical" className={styles.form} onFinish={onFinish}>
+              <Form.Item
+                label="Email"
+                name={"email"}
+                rules={[{ required: true, message: "Please input email!" }]}
+                initialValue={customer.email}>
+                <Input />
               </Form.Item>
-              <Form.Item label="Username">
-                <Input value={customer.username} />
+              <Form.Item
+                label="Username"
+                name={"username"}
+                rules={[{ required: true, message: "Please input username!" }]}
+                initialValue={customer.username}>
+                <Input />
               </Form.Item>
-              <Form.Item label="Postal Code">
-                <Input value={customer.postal_code} />
+              <Form.Item
+                label="Postal Code"
+                name={"postal_code"}
+                rules={[
+                  { required: true, message: "Please input postal code!" },
+                ]}
+                initialValue={customer.postal_code}>
+                <Input />
               </Form.Item>
-              <Form.Item label="Prefecture">
-                <Input value={customer.prefecture} />
+              <Form.Item
+                label="Prefecture"
+                name={"prefecture"}
+                rules={[
+                  { required: true, message: "Please input prefecture!" },
+                ]}
+                initialValue={customer.prefecture}>
+                <Input />
               </Form.Item>
-              <Form.Item label="Gender">
+              <Form.Item
+                label="Gender"
+                name={"gender"}
+                rules={[{ required: true, message: "Please input gender!" }]}
+                initialValue={customer.gender}>
                 <Select
                   options={[
                     {
@@ -63,20 +282,35 @@ const CustomerComponent = ({ id }: { id: string }) => {
                       label: Gender.other,
                     },
                   ]}
-                  defaultValue={customer.gender}
                 />
               </Form.Item>
-              <Form.Item label="Date of Birth">
-                <DatePicker
-                  defaultValue={customer.dob ? dayjs(customer.dob) : undefined}
-                  format="YYYY-MM-DD"
+              <Form.Item
+                label="Date of Birth"
+                name="dob"
+                rules={[
+                  { required: true, message: "Please input date of birth!" },
+                ]}
+                initialValue={dayjs(customer.dob)}
+                labelCol={{ className: styles.form_date_picker }}>
+                <DatePicker className={styles.form_date_picker} />
+              </Form.Item>
+              <Form.Item
+                label="Points"
+                name={"points"}
+                rules={[{ required: true, message: "Please input points!" }]}
+                initialValue={customer.points}>
+                <InputNumber
                   style={{ width: "100%" }}
+                  placeholder="Enter points"
+                  value={customer.points}
+                  name="points"
                 />
               </Form.Item>
-              <Form.Item label="Points">
-                <Input value={customer.points} />
-              </Form.Item>
-              <Form.Item label="Status">
+              <Form.Item
+                label="Status"
+                name={"status"}
+                rules={[{ required: true, message: "Please input status!" }]}
+                initialValue={customer.status}>
                 <Select
                   options={[
                     {
@@ -92,41 +326,46 @@ const CustomerComponent = ({ id }: { id: string }) => {
                       label: AccountStatus.BANNED,
                     },
                   ]}
-                  defaultValue={customer.status}
                 />
               </Form.Item>
-              <Form.Item label="Created At">
+              {/* <Form.Item
+                label="Created At"
+                name={"created_at"}
+                rules={[
+                  { required: true, message: "Please input created at!" },
+                ]}
+                initialValue={dayjs(customer.created_at)}>
                 <DatePicker
-                  defaultValue={
-                    customer.created_at ? dayjs(customer.created_at) : undefined
-                  }
                   format="YYYY-MM-DD HH:mm:ss"
                   showTime
                   style={{ width: "100%" }}
                 />
               </Form.Item>
-              <Form.Item label="Last Updated">
+              <Form.Item
+                label="Last Updated"
+                name={"last_updated"}
+                rules={[
+                  { required: true, message: "Please input last updated!" },
+                ]}
+                initialValue={dayjs(customer.last_updated)}>
                 <DatePicker
-                  defaultValue={
-                    customer.last_updated
-                      ? dayjs(customer.last_updated)
-                      : undefined
-                  }
                   format="YYYY-MM-DD HH:mm:ss"
                   showTime
                   style={{ width: "100%" }}
                 />
               </Form.Item>
-              <Form.Item label="Last Login">
+              <Form.Item
+                label="Last Login"
+                name={"last_login"}
+                rules={[
+                  { required: true, message: "Please input last login!" },
+                ]}>
                 <DatePicker
-                  defaultValue={
-                    customer.last_login ? dayjs(customer.last_login) : undefined
-                  }
                   format="YYYY-MM-DD HH:mm:ss"
                   showTime
                   style={{ width: "100%" }}
                 />
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item>
                 <Button
                   type="primary"
@@ -137,49 +376,78 @@ const CustomerComponent = ({ id }: { id: string }) => {
               </Form.Item>
             </Form>
           </Card>
-          <Card title="Favourites" className={styles.card}>
+          <Card
+            title="Favourites"
+            className={styles.card}
+            style={{ marginBottom: "20px" }}>
             <ul>
               {customer.favourites.length > 0 ? (
-                customer.favourites.map((favourite) => (
-                  <li key={favourite}>{favourite}</li>
-                ))
+                <Table
+                  columns={favouritesColumn}
+                  dataSource={customer.favourites}
+                  pagination={false}
+                  rowKey="id"
+                  className={styles.table}
+                  scroll={{ x: 1300 }}
+                />
               ) : (
                 <p className={styles.notFound}> No favourites found</p>
               )}
             </ul>
           </Card>
-          <Card title="Points History" className={styles.card}>
-            <ul>
+          <Card
+            title="Points History"
+            className={styles.card}
+            style={{ marginBottom: "20px" }}>
+            <div>
               {customer.pointsHistories.length > 0 ? (
-                customer.pointsHistories.map((pointsHistory) => (
-                  <li key={pointsHistory}>{pointsHistory}</li>
-                ))
+                <Table
+                  columns={pointsHistoryColumn}
+                  dataSource={customer.pointsHistories}
+                  pagination={false}
+                  rowKey="id"
+                  className={styles.table}
+                  scroll={{ x: 1300 }}
+                />
               ) : (
                 <p className={styles.notFound}>No points history found</p>
               )}
-            </ul>
+            </div>
           </Card>
-          <Card title="Coupon Usages" className={styles.card}>
-            <ul>
+          <Card
+            title="Coupon Usages"
+            className={styles.card}
+            style={{ marginBottom: "20px" }}>
+            <div>
               {customer.couponUsages.length > 0 ? (
-                customer.couponUsages.map((couponUsage) => (
-                  <li key={couponUsage}>{couponUsage}</li>
-                ))
+                <Table
+                  columns={couponUsagesColumn}
+                  dataSource={customer.couponUsages}
+                  pagination={false}
+                  rowKey="id"
+                  className={styles.table}
+                  scroll={{ x: 1300 }}
+                />
               ) : (
                 <p className={styles.notFound}>No coupon usages found</p>
               )}
-            </ul>
+            </div>
           </Card>
           <Card title="Learning Status" className={styles.card}>
-            <ul>
+            <div>
               {customer.learningStatus.length > 0 ? (
-                customer.learningStatus.map((status) => (
-                  <li key={status}>{status}</li>
-                ))
+                <Table
+                  columns={learningStatusColumn}
+                  dataSource={customer.learningStatus}
+                  pagination={false}
+                  rowKey="id"
+                  className={styles.table}
+                  scroll={{ x: 1300 }}
+                />
               ) : (
                 <p className={styles.notFound}>No learning status found</p>
               )}
-            </ul>
+            </div>
           </Card>
         </div>
       ) : customer === undefined ? (
