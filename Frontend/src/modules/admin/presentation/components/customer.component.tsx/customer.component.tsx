@@ -292,7 +292,10 @@ const CustomerComponent = ({ id }: { id: string }) => {
                 ]}
                 initialValue={dayjs(customer.dob)}
                 labelCol={{ className: styles.form_date_picker }}>
-                <DatePicker className={styles.form_date_picker} />
+                <DatePicker
+                  className={styles.form_date_picker}
+                  style={{ width: "100%" }}
+                />
               </Form.Item>
               <Form.Item
                 label="Points"
@@ -328,44 +331,7 @@ const CustomerComponent = ({ id }: { id: string }) => {
                   ]}
                 />
               </Form.Item>
-              {/* <Form.Item
-                label="Created At"
-                name={"created_at"}
-                rules={[
-                  { required: true, message: "Please input created at!" },
-                ]}
-                initialValue={dayjs(customer.created_at)}>
-                <DatePicker
-                  format="YYYY-MM-DD HH:mm:ss"
-                  showTime
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Last Updated"
-                name={"last_updated"}
-                rules={[
-                  { required: true, message: "Please input last updated!" },
-                ]}
-                initialValue={dayjs(customer.last_updated)}>
-                <DatePicker
-                  format="YYYY-MM-DD HH:mm:ss"
-                  showTime
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Last Login"
-                name={"last_login"}
-                rules={[
-                  { required: true, message: "Please input last login!" },
-                ]}>
-                <DatePicker
-                  format="YYYY-MM-DD HH:mm:ss"
-                  showTime
-                  style={{ width: "100%" }}
-                />
-              </Form.Item> */}
+
               <Form.Item>
                 <Button
                   type="primary"

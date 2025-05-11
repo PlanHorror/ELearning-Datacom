@@ -18,6 +18,7 @@ import * as fs from 'fs';
 import { CouponLabelService } from 'src/coupon/coupon-label/coupon-label.service';
 import { CouponStatus } from 'src/common/enums';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
 @Injectable()
 export class CouponService {
   constructor(
@@ -38,6 +39,7 @@ export class CouponService {
     let coupon;
     try {
       coupon = await this.coupon.findOne({ where: { id: id } });
+      await this.setCouponStatus(coupon);
     } catch (error) {
       throw new NotFoundException('Coupon not found');
     }
@@ -198,5 +200,20 @@ export class CouponService {
     }
     coupon.status = this.getCouponStatus(coupon.period_end);
     return await this.coupon.save(coupon);
+  }
+
+  @Cron(CronExpression.EVERY_9_HOURS)
+  async changeCouponStatus() {
+    console.log('Running cron job to change coupon status');
+    try {
+      const coupons = await this.coupon.find();
+      for (const coupon of coupons) {
+        if (coupon.status === CouponStatus.ACTIVE) {
+          await this.setCouponStatus(coupon);
+        }
+      }
+    } catch (error) {
+      console.error('Error changing coupon status:', error);
+    }
   }
 }
