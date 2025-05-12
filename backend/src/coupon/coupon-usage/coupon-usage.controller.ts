@@ -29,7 +29,7 @@ export class CouponUsageController {
     @Body() idString: IdDto,
   ): Promise<CouponUsage> {
     const { id } = idString;
-    return this.couponUseageService.getCouponUsageById(customer, id);
+    return this.couponUseageService.getCouponUsageByIdService(customer, id);
   }
 
   @Post()

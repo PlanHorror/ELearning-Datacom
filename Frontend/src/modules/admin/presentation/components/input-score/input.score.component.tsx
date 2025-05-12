@@ -4,12 +4,20 @@ import {
   Card,
   Form,
   Input,
-  InputNumber,
   DatePicker,
   Button,
   message,
   Table,
+  Select,
+  TimePicker,
+  Switch,
+  Upload,
 } from "antd";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import { ScoreService } from "../../../../admin/services/score.service";
 import {
@@ -25,18 +33,42 @@ const InputScoreComponent = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [scores, setScores] = useState<ScoreResponse[]>([]);
-
+  const listUser = [
+    {
+      id: "1",
+      email: "a@gmal.com",
+      username: "a",
+    },
+    {
+      id: "2",
+      email: "b@gmail.com",
+      username: "b",
+    },
+    {
+      id: "3",
+      email: "c@gmail.com",
+      username: "c",
+    },
+  ];
   const onFinish = async (values: any) => {
     try {
       setLoading(true);
+      // const scoreData: ScoreInput = {
+      //   email: values.email,
+      //   courseName: values.courseName,
+      //   score: values.score,
+      //   completionTime: values.completionTime,
+      //   completedAt: values.completedAt.format("YYYY-MM-DD"),
+      //   notes: values.notes,
+      // };
       const scoreData: ScoreInput = {
-        email: values.email,
-        courseName: values.courseName,
-        score: values.score,
-        completionTime: values.completionTime,
+        userId: values.userId,
+        lessonId: values.lessonId,
+        completionTime: values.time.format("HH:mm:ss"),
         completedAt: values.completedAt.format("YYYY-MM-DD"),
-        notes: values.notes,
+        completionStatus: values.completion ? "true" : "false",
       };
+      console.log("scoreData", scoreData);
 
       await ScoreService.getInstance().createScore(scoreData);
       message.success("Score added successfully");
@@ -61,19 +93,14 @@ const InputScoreComponent = () => {
 
   const columns = [
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "User",
+      dataIndex: "userId",
+      key: "userId",
     },
     {
-      title: "Course Name",
-      dataIndex: "courseName",
-      key: "courseName",
-    },
-    {
-      title: "Score",
-      dataIndex: "score",
-      key: "score",
+      title: "Lesson",
+      dataIndex: "lessonId",
+      key: "lessonId",
     },
     {
       title: "Completion Time (minutes)",
@@ -87,9 +114,9 @@ const InputScoreComponent = () => {
       render: (date: string) => dayjs(date).format("YYYY-MM-DD"),
     },
     {
-      title: "Notes",
-      dataIndex: "notes",
-      key: "notes",
+      title: "Completion Status",
+      dataIndex: "completionStatus",
+      key: "completionStatus",
     },
   ];
 
@@ -100,67 +127,45 @@ const InputScoreComponent = () => {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className={styles.form}
-        >
+          className={styles.form}>
           <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              { required: true, message: "Please input email" },
-              { type: "email", message: "Please input valid email" },
-            ]}
-            labelCol={{ className: styles.form_label }}
-          >
-            <Input
-              placeholder="Enter user email"
+            name="userId"
+            label="User"
+            rules={[{ required: true, message: "Please choose a user" }]}
+            labelCol={{ className: styles.form_label }}>
+            <Select
+              showSearch
+              optionFilterProp="label"
+              options={listUser.map((user) => ({
+                value: user.id,
+                label: `${user.username} (${user.email})`,
+              }))}
+              placeholder="Search by email or username"
               className={styles.form_input}
             />
           </Form.Item>
 
           <Form.Item
-            name="courseName"
-            label="Course Name"
-            rules={[{ required: true, message: "Please input course name" }]}
-            labelCol={{ className: styles.form_label }}
-          >
+            name="lessonId"
+            label="Lesson ID"
+            rules={[{ required: true, message: "Please choose a lesson id" }]}
+            labelCol={{ className: styles.form_label }}>
             <Input
-              placeholder="Enter course name"
+              placeholder="Enter lesson id"
               className={styles.form_input}
             />
           </Form.Item>
 
           <Form.Item
-            name="score"
-            label="Score"
-            rules={[
-              { required: true, message: "Please input score" },
-              {
-                type: "number",
-                min: 0,
-                max: 100,
-                message: "Score must be between 0 and 100",
-              },
-            ]}
-            labelCol={{ className: styles.form_label }}
-          >
-            <InputNumber
-              placeholder="Enter score (0-100)"
-              className={styles.form_number_input}
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="completionTime"
-            label="Completion Time (minutes)"
+            name="time"
+            label="Time"
             rules={[
               { required: true, message: "Please input completion time" },
-              { type: "number", min: 0, message: "Time must be positive" },
-            ]}
-            labelCol={{ className: styles.form_label }}
-          >
-            <InputNumber
-              placeholder="Enter completion time in minutes"
-              className={styles.form_number_input}
+            ]}>
+            <TimePicker
+              className={styles.form_time_picker}
+              placeholder="Select time"
+              format="HH:mm:ss"
             />
           </Form.Item>
 
@@ -170,20 +175,22 @@ const InputScoreComponent = () => {
             rules={[
               { required: true, message: "Please select completion date" },
             ]}
-            labelCol={{ className: styles.form_label }}
-          >
+            labelCol={{ className: styles.form_label }}>
             <DatePicker className={styles.form_date_picker} />
           </Form.Item>
 
           <Form.Item
-            name="notes"
-            label="Notes"
+            name={"completion"}
+            label="Completion"
+            rules={[
+              { required: true, message: "Please select completion status" },
+            ]}
             labelCol={{ className: styles.form_label }}
-          >
-            <TextArea
-              rows={4}
-              placeholder="Enter any additional notes"
-              className={styles.form_input}
+            valuePropName="checked"
+            initialValue={false}>
+            <Switch
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
             />
           </Form.Item>
 
@@ -192,14 +199,21 @@ const InputScoreComponent = () => {
               type="primary"
               htmlType="submit"
               loading={loading}
-              className={styles.form_button}
-            >
+              className={styles.form_button}>
               Submit
             </Button>
           </Form.Item>
         </Form>
       </Card>
-
+      <Card title="Upload score" className={styles.card}>
+        <Form layout="vertical">
+          <Upload>
+            <Button type="primary" icon={<UploadOutlined />}>
+              Upload
+            </Button>
+          </Upload>
+        </Form>
+      </Card>
       <Card title="Score History" className={styles.card}>
         <Table
           dataSource={scores}

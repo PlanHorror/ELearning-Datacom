@@ -1,54 +1,53 @@
 .container {
-    padding: 24px;
-    background: #f5f5f5;
-    min-height: 100vh;
-  
-    .card {
-      margin-bottom: 24px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-  
-      &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-    }
-  
-    .form {
-      max-width: 600px;
-      margin: 0 auto;
-  
-      .form_label {
-        font-weight: 500;
-      }
-  
-      .form_input,
-      .form_number_input,
-      .form_date_picker {
-        border-radius: 4px;
-      }
-  
-      .form_button {
-        border-radius: 4px;
-        height: 40px;
-        padding: 0 24px;
-      }
-    }
-  
-    .table {
-      border-radius: 8px;
-      overflow: hidden;
-    }
-  
-    .table_header {
-      background: #fafafa;
-      font-weight: 600;
-    }
-  
-    .table_row {
-      &:hover {
-        background: #f5f5f5;
-      }
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+
+  .card {
+    margin-bottom: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
   }
-  
+
+  .form {
+    max-width: 600px;
+    margin: 0 auto;
+
+    .form_label {
+      font-weight: 500;
+    }
+
+    .form_input,
+    .form_number_input,
+    .form_date_picker {
+      border-radius: 4px;
+    }
+
+    .form_button {
+      border-radius: 4px;
+      height: 40px;
+      padding: 0 24px;
+    }
+  }
+
+  .table {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .table_header {
+    background: #fafafa;
+    font-weight: 600;
+  }
+
+  .table_row {
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+}

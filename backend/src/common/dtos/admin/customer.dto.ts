@@ -3,6 +3,7 @@ import {
   IsDate,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
@@ -24,6 +25,7 @@ export class CustomerEntityDto {
     example: 'password123',
   })
   @IsString()
+  @IsOptional()
   @IsNotEmpty()
   password: string;
 
@@ -74,7 +76,8 @@ export class CustomerEntityDto {
     description: 'Customer points balance',
     example: '1000',
   })
-  @IsNumberString()
+  // @IsNumberString()
+  @IsNumber()
   @IsNotEmpty()
   points: number;
 

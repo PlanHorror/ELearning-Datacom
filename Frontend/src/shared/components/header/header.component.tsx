@@ -296,7 +296,10 @@ const Header = () => {
                 <div className={styles.auth_wrapper}>
                   <AlertIcon />
                   <HeartOutlined size={25} />
-                  <Link href={RouterPath.COUPONS} className={styles.points_container}>
+                  <Link
+                    href={RouterPath.COUPONS}
+                    className={styles.points_container}
+                  >
                     <Tooltip
                       title={
                         t("profile.points") + ": " + (profile?.points ?? 0)

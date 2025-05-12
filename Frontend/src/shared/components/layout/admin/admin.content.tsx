@@ -14,16 +14,14 @@ const AdminContent = ({
         margin: "24px 16px 0",
         marginLeft: collapseMenu ? 80 : 200,
         transition: "margin-left 0.2s",
-      }}
-    >
+      }}>
       <div
         style={{
           padding: 24,
           minHeight: 360,
           background: "#ccc",
           borderRadius: "#ccc",
-        }}
-      >
+        }}>
         {children}
       </div>
     </Content>
