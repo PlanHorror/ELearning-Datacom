@@ -2116,7 +2116,7 @@ babel-preset-jest@^29.6.3:
     "@types/passport-google-oauth20" "^2.0.16"
     "@types/passport-jwt" "^4.0.1"
     "@types/uuid" "^10.0.0"
-    backend "file:C:/Users/Admin/AppData/Local/Yarn/Cache/v6/npm-backend-0.0.1-67771525-1724-4296-9eed-bf33042eb6f2-1745689162242/node_modules/backend"
+    backend "file:"
     bcrypt "^5.1.1"
     class-transformer "^0.5.1"
     class-validator "^0.14.1"
