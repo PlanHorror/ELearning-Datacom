@@ -20,7 +20,7 @@ root/\
 - **Database**: PostgreSQL
 - **API**: REST API
 - **Authentication**: [JWT](https://jwt.io/) (Json web token)
-- **Styling**: [Tailwind](https://tailwindcss.com/) + [SCSS](https://sass-lang.com/)
+- **Styling**: [Tailwind](https://tailwindcss.com/) + [SCSS](https://sass-lang.com/) + [Antd]
 - **Deployment**: [AWS EC2](https://aws.amazon.com/ec2/) + [PM2](https://pm2.keymetrics.io/)
 
 ---
