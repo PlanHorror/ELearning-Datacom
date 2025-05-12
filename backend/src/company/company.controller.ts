@@ -17,10 +17,12 @@ import { CompanyUpdateDto } from 'src/common/dtos';
 @Controller('company')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.COMPANY)
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(Role.COMPANY)
 export class CompanyController {
   constructor(private companyService: CompanyService) {}
 
-  @Get('/profile')
+  @Get('profile')
   async getProfile(@GetUser() company: Company): Promise<Company> {
     return await this.companyService.getCompanyProfileService(company);
   }

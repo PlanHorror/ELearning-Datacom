@@ -4,7 +4,7 @@ import { redirect } from "@/i18n/navigation";
 const ServerSideProtectRouter = async () => {
   const session = await auth();
   if (!session) {
-    redirect({ href: "/auth/access-account", locale: "en" });
+    redirect({ href: "/auth/login", locale: "en" });
   }
 };
 

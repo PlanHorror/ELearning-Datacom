@@ -5,7 +5,6 @@ import { Gender } from "@/shared/constants/gender";
 import { DatePicker, Form, Input, Modal, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
@@ -24,7 +23,6 @@ const ModalUpdateInformation = ({
   profile,
   onProfileUpdate,
 }: Props) => {
-  const { data: session, update } = useSession();
   const [form] = useForm();
 
   const handleOkInternal = async () => {
@@ -78,56 +76,37 @@ const ModalUpdateInformation = ({
       onOk={handleOkInternal}
       onCancel={handleCancelInternal}
     >
-      {session?.user?.role === "Customer" ? (
-        <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
-          style={{ maxWidth: 600 }}
-          form={form}
+      <Form
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 14 }}
+        layout="horizontal"
+        style={{ maxWidth: 600 }}
+        form={form}
+      >
+        <Form.Item label="Email" name="email">
+          <Input disabled />
+        </Form.Item>
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Form.Item label="Email" name="email">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Postal Code" name="postal_code">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Gender" name="gender">
-            <Select>
-              <Select.Option value={Gender.male}>Male</Select.Option>
-              <Select.Option value={Gender.female}>Female</Select.Option>
-              <Select.Option value={Gender.other}>Other</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item label="DatePicker" name="dob">
-            <DatePicker />
-          </Form.Item>
-        </Form>
-      ) : (
-        <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
-          style={{ maxWidth: 600 }}
-        >
-          <Form.Item label="Email">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Name">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Address">
-            <Input />
-          </Form.Item>
-        </Form>
-      )}
+          <Input />
+        </Form.Item>
+        <Form.Item label="Postal Code" name="postal_code">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Gender" name="gender">
+          <Select>
+            <Select.Option value={Gender.male}>Male</Select.Option>
+            <Select.Option value={Gender.female}>Female</Select.Option>
+            <Select.Option value={Gender.other}>Other</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item label="DatePicker" name="dob">
+          <DatePicker />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };

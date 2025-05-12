@@ -19,6 +19,7 @@ import { CouponLabelService } from 'src/coupon/coupon-label/coupon-label.service
 import { CouponStatus } from 'src/common/enums';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { FilterCouponDto } from 'src/common/dtos/admin/filter-coupon.dto';
 @Injectable()
 export class CouponService {
   constructor(
@@ -29,6 +30,23 @@ export class CouponService {
   // Get all coupons
   async getCoupons(): Promise<Coupon[]> {
     return await this.coupon.find();
+  }
+
+  // Get coupons by filter from the database
+  async getCouponsByFilterService(filter?: FilterCouponDto): Promise<Coupon[]> {
+    if (!filter) {
+      return await this.getCoupons();
+    }
+    return await this.coupon.find({
+      relations: ['company', 'label'],
+      where: {
+        company: { id: filter.companyId },
+        label: { id: filter.labelId },
+        status: filter.status,
+        title: filter.title,
+        use_code: filter.useCode,
+      },
+    });
   }
 
   // Get coupon by id
@@ -70,12 +88,22 @@ export class CouponService {
     });
     try {
       await this.coupon.save(newCoupon);
-      const filePath = process.env.COUPON_IMAGE_URL + newCoupon.image;
-      fs.writeFile(filePath, image.buffer, (err) => {
-        if (err) {
-          throw new InternalServerErrorException();
-        }
-      });
+      const imagePath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+      const uploadDir = path.join(process.cwd(), imagePath);
+
+      // Ensure directory exists
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+
+      const filePath = path.join(uploadDir, newCoupon.image);
+      console.log('Check url ảnh: ', filePath);
+      try {
+        await fs.promises.writeFile(filePath, image.buffer);
+      } catch (error) {
+        console.error('Error writing file:', error);
+        throw new InternalServerErrorException('Failed to save image');
+      }
     } catch (error) {
       throw error.code === '23505'
         ? new ConflictException('Coupon code already exists')
@@ -113,13 +141,14 @@ export class CouponService {
       if (image) {
         const imageFilename = this.saveCouponImage(image);
         updatedCoupon.image = imageFilename;
-        const filePath = process.env.COUPON_IMAGE_URL + imageFilename;
+        const imagePath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+        const filePath = path.join(process.cwd(), imagePath, imageFilename);
         fs.writeFile(filePath, image.buffer, (err) => {
           if (err) {
             throw new InternalServerErrorException();
           }
         });
-        const oldImagePath = process.env.COUPON_IMAGE_URL + oldImage;
+        const oldImagePath = path.join(process.cwd(), imagePath, oldImage);
         fs.unlink(oldImagePath, (err) => {
           if (err) {
             throw new InternalServerErrorException();
@@ -148,7 +177,8 @@ export class CouponService {
     } else {
       await this.coupon.remove(coupon);
       try {
-        const filePath = process.env.COUPON_IMAGE_URL + coupon.image;
+        const imagePath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+        const filePath = path.join(process.cwd(), imagePath, coupon.image);
         fs.unlink(filePath, (err) => {
           if (err) {
             throw new InternalServerErrorException();
@@ -164,7 +194,7 @@ export class CouponService {
     const ext = path.extname(image.originalname);
     const name = path.basename(image.originalname, ext);
     const filename = `${name}-${uuidv4()}${ext}`;
-
+    console.log('Check filename: ', filename);
     return filename;
   }
 

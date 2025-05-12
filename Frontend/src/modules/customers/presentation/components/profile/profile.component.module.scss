@@ -202,6 +202,28 @@
           }
         }
       }
+
+      .no_data {
+        text-align: center;
+        padding: 24px;
+        color: #8c8c8c;
+        font-size: 14px;
+      }
+    }
+
+    .coupons_grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      padding: 16px 0;
+
+      .no_data {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 24px;
+        color: #8c8c8c;
+        font-size: 14px;
+      }
     }
 
     .achievements_wrapper {

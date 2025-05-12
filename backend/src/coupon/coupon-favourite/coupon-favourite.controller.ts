@@ -28,7 +28,6 @@ export class CouponFavouriteController {
   async getCouponFavourites(
     @GetUser() customer: Customer,
   ): Promise<CouponFavourite[]> {
-    // console.log(customer, 'customer');
     return this.couponFavouriteService.getCouponFavouritesByCustomer(customer);
   }
 
@@ -41,7 +40,6 @@ export class CouponFavouriteController {
     @Body() couponFavouriteDto: IdDto,
   ): Promise<CouponFavourite> {
     const { id } = couponFavouriteDto;
-    // console.log(customer, 'customer');
     return this.couponFavouriteService.createCouponFavourite(customer, id);
   }
 

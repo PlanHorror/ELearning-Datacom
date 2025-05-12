@@ -1,9 +1,9 @@
 "use client";
 
-import AdminContent from "@/shared/components/layout/admin.content";
-import AdminFooter from "@/shared/components/layout/admin.footer";
-import AdminHeader from "@/shared/components/layout/admin.header";
-import AdminSideBar from "@/shared/components/layout/admin.sidebar";
+import AdminContent from "@/shared/components/layout/admin/admin.content";
+import AdminFooter from "@/shared/components/layout/admin/admin.footer";
+import AdminHeader from "@/shared/components/layout/admin/admin.header";
+import AdminSideBar from "@/shared/components/layout/admin/admin.sidebar";
 import { AdminContextProvider } from "@/shared/hooks/admin.context";
 
 const AdminLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {

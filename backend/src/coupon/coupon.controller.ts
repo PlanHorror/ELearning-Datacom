@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Res,
   UploadedFile,
   UseGuards,
@@ -26,6 +27,7 @@ import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 import { Response } from 'express';
 import { of } from 'rxjs';
 import { Multer } from 'multer';
+import { FilterCouponDto } from 'src/common/dtos/admin/filter-coupon.dto';
 
 @Controller('coupon')
 export class CouponController {
@@ -34,6 +36,13 @@ export class CouponController {
   @Get()
   getCoupons(): Promise<Coupon[]> {
     return this.couponService.getCoupons();
+  }
+
+  @Get('filter')
+  async getCouponsByFilter(
+    @Query() filter: FilterCouponDto,
+  ): Promise<Coupon[]> {
+    return await this.couponService.getCouponsByFilterService(filter);
   }
 
   @Get('find/:id')

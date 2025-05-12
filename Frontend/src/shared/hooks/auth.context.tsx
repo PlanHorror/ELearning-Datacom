@@ -27,8 +27,6 @@
 //   const login = (username: string) => {
 //     setIsLoggedIn(true);
 //     setUsername(username);
-//     console.log("Check username", username);
-//     console.log("Check login", isLoggedIn);
 //   };
 
 //   const logout = () => {

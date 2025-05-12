@@ -3,13 +3,16 @@ $white_color: #ffffff;
 
 $primary_color_900: #FF8662;
 $primary_color_800: #F8931E;
-$primary_color_700: #ffce02;
+$primary_color_700: #1a237e;
 
 $primary_color_600: #F8F8F8;
 $primary_color_500: #D9D9D9;
 $primary_color_400: #99a2bc;
 $primary_color_300: #1E1E1E;
 
+$color_text_sub: #eee8e8;
+
+$color-navi: #124e91;
 
 $space-XXXXS: calc(0.125 * 24px);
 $space-XXXS: calc(0.25 * 24px);
@@ -26,9 +29,5 @@ $space-XL: calc(4.5 * 24px); // 108px
 $space-XXL: calc(5 * 24px); // 120px
 $space-XXXL: calc(6 * 24px); // 144px
 $space-XXXXL: calc(7 * 24px); // 168px
-
-$color_text_sub: #eee8e8;
-
-$color-navi: #124e91;
 
 $max-width-container: 1440px;

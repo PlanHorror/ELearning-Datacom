@@ -18,7 +18,9 @@ const VerifyAccountPage = () => {
   return (
     <div className={styles.page_container}>
       <div className={styles.page_wrapper}>
-        <Image alt="" src={Email} width={200} height={200} />
+        <div className={styles.page_icon}>
+          <Image alt="Email Icon" src={Email} width={90} height={90} />
+        </div>
         <div className={styles.page_content_wrapper}>
           <h1 className={styles.page_title}>Email Confirmation</h1>
           <div className={styles.page_describe}>
@@ -34,13 +36,13 @@ const VerifyAccountPage = () => {
             </p>
             <p>Please confirm the validity of our email address.</p>
             <p>
-              After receiving the email follow the link provided to complete you
-              registration.
+              After receiving the email follow the link provided to complete
+              your registration.
             </p>
           </div>
           <div className={styles.page_sub_content_wrapper}>
             <div className={styles.page_sub_content}>
-              <p>If you not got any mail,</p>
+              <p>If you did not get any mail,</p>
               <Link href={""}>Resend confirmation mail</Link>
             </div>
           </div>

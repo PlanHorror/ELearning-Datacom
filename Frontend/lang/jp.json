@@ -17,7 +17,17 @@
     "points": "ポイント",
     "coupons": "クーポン",
     "setting": "設定",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "favourite": "お気に入り",
+    "title": "顧客プロフィール",
+    "subTitle": "プロフィール",
+    "personalInfo": "個人情報",
+    "learningProgress": "学習進捗",
+    "coursesCompleted": "コース修了",
+    "availableCoupons": "利用可能なクーポン",
+    "couponUsageHistory": "クーポン利用履歴",
+    "noCouponUsageHistory": "クーポン利用履歴がありません",
+    "recentActivities": "最近のアクティビティ"
   },
   "page_loading": {
     "content": "読み込み中"
@@ -87,9 +97,7 @@
         "redeemedVoucher": "{name}さんが{voucher}バウチャーを交換しました"
       }
     },
-    "lessons": {
-      "title": "おすすめコース"
-    },
+
     "footer": {
       "language": "言語",
       "quickLinks": "クイックリンク",
@@ -104,29 +112,39 @@
       "cookiePolicy": "Cookieポリシー",
       "stayConnected": "最新情報を入手",
       "emailPlaceholder": "メールアドレスを入力",
-      "subscribe": "登録する"
+      "subscribe": "登録する",
+      "information": "インフォメーション",
+      "address": "住所",
+      "hotline": "ホットライン",
+      "supportTime": "サポート時間",
+      "email": "電子メール"
+    },
+    "sponsors": {
+      "title": "スポンサー企業",
+      "description": "これらの信頼できる企業は、学習者のために特別な割引やクーポンを提供しています。",
+      "starBucksDesc": "トップ学習者向けにコーヒー割引クーポンを提供。",
+      "amazonDesc": "コース修了者にショッピングバウチャーを提供。",
+      "uniqloDesc": "コース修了学生向けの特別割引。",
+      "toshibaDesc": "IT関連コース受講生向けの技術割引。"
     }
   },
   "points": {
     "title": "あなたのポイント",
-    "availablePoints": "利用可能なポイント",
+    "totalPoints": "合計ポイント",
+    "availablePoints": "利用可能ポイント",
+    "usedPoints": "使用済みポイント",
     "pointsHistory": "ポイント履歴",
+    "errorGetProfile": "プロフィールの取得に失敗しました！",
+    "table": {
+      "points": "ポイント",
+      "type": "タイプ",
+      "description": "説明",
+      "user": "ユーザー",
+      "date": "日付"
+    },
     "type": {
       "earned": "獲得",
-      "used": "使用済",
-      "expired": "期限切れ"
-    }
-  },
-  "lessons": {
-    "popularLessons": "人気のレッスン",
-    "newLessons": "新着レッスン",
-    "enrollNow": "今すぐ登録",
-    "lessonDetails": {
-      "duration": "期間",
-      "level": "レベル",
-      "instructor": "講師",
-      "rating": "評価",
-      "startLearning": "学習を始める"
+      "used": "使用"
     }
   },
   "coupons": {
@@ -134,9 +152,18 @@
     "redeemPoints": "ポイントを交換",
     "code": "コード",
     "copyCode": "コードをコピー",
-    "off": "オフ"
+    "off": "オフ",
+    "subTitle": "限定特典",
+    "title": "お得なクーポンを発見しよう",
+    "description": "学習してポイントを貯め、限定割引と交換しよう",
+    "tabAll": "すべて",
+    "tabPopular": "人気",
+    "tabNew": "新着",
+    "empty": "現在利用可能なクーポンはありません",
+    "errorTitle": "エラー"
   },
   "auth": {
+    "signup": "サインアップ",
     "welcome": "ようこそ",
     "email": "メールアドレス",
     "password": "パスワード",
@@ -144,9 +171,56 @@
     "login": "ログイン",
     "register": "登録",
     "noAccount": "アカウントをお持ちでないですか？",
-    "haveAccount": "すでにアカウントをお持ちですか？",
     "createAccount": "アカウント作成",
     "username": "ユーザー名",
-    "confirmPassword": "パスワード確認"
+    "confirmPassword": "パスワード確認",
+    "loginSuccess": "ログインに成功しました！",
+    "loginFailed": "ログインに失敗しました。もう一度お試しください！",
+    "emailRequired": "メールアドレスを入力してください！",
+    "emailInvalid": "有効なメールアドレスを入力してください！",
+    "passwordRequired": "パスワードを入力してください！",
+    "postalCode": "郵便番号",
+    "postalCodeRequired": "郵便番号を入力してください！",
+    "gender": "性別",
+    "genderRequired": "性別を選択してください！",
+    "genderPlaceholder": "性別を選択",
+    "dob": "生年月日",
+    "dobRequired": "生年月日を入力してください！",
+    "address": "住所",
+    "addressRequired": "住所を入力してください！",
+    "return": "戻る",
+    "registerWelcome": "イーラーニングDatacomへようこそ",
+    "registerSubTitle": "学びの旅を始めるために登録しましょう！",
+    "registerSlogan": "知識を高めよう。つながる。成長する。成功する。",
+    "createBusinessAccount": "ビジネス用の新しいアカウントを作成",
+    "companyName": "会社名",
+    "companyNameRequired": "会社名を入力してください！",
+    "selectAccountType": "登録したいアカウントの種類を選択してください！",
+    "user": "ユーザー",
+    "company": "企業",
+    "haveAccount": "すでにアカウントをお持ちの場合、",
+    "here": "こちら"
+  },
+  "lessons": {
+    "title": "レッスン",
+    "listTitle": "リストレッスン",
+    "primary": "小学校",
+    "secondary": "中等学校",
+    "high": "高校",
+    "math": "数学",
+    "science": "科学",
+    "sociology": "社会学",
+    "english": "英語",
+    "japanese": "日本語",
+    "popularLessons": "人気のレッスン",
+    "newLessons": "新しいレッスン",
+    "enrollNow": "Enroll Now"
+  },
+  "favourite": {
+    "title": "お気に入りクーポン",
+    "empty": "まだお気に入りのクーポンがありません。",
+    "emptyTitle": "まだお気に入りのクーポンがありません",
+    "emptyDesc": "クーポンをお気に入りに追加すると、ここに表示されます！",
+    "headerDesc": "保存したクーポンを管理・発見しましょう"
   }
 }

@@ -1,0 +1,33 @@
+@import "../../../../shared/styles/variables.scss";
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background: rgba($white_color, 0.9);
+  border-radius: 12px;
+  padding: $space-L;
+  box-shadow: 0 4px 6px rgba($primary_color_300, 0.1);
+}
+
+.emptyIcon {
+  font-size: 48px;
+  color: $primary_color_800;
+}
+
+.emptyContent {
+  text-align: center;
+
+  h3 {
+    color: $primary_color_300;
+    font-size: 1.5rem;
+    margin-bottom: $space-S;
+  }
+
+  p {
+    color: $primary_color_400;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}

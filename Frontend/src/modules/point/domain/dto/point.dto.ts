@@ -6,9 +6,9 @@ export interface Point {
 
 export interface PointHistory {
   id: string;
+  type: string;
   points: number;
-  type: "EARN" | "SPEND";
   description: string;
   createdAt: string;
-  status: "PENDING" | "COMPLETED" | "FAILED";
+  customerId: string;
 }

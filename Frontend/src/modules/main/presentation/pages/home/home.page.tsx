@@ -6,57 +6,155 @@ import { Button } from "@/shared/components/button/button.component";
 import {
   FaGraduationCap,
   FaUsers,
-  FaEnvelope,
   FaTicketAlt,
   FaRocket,
   FaLightbulb,
   FaGlobe,
-  FaClock,
   FaChevronDown,
   FaTrophy,
   FaStar,
   FaHeart,
   FaGift,
-  FaArrowRight,
-  FaBook,
-  FaPhoneAlt,
 } from "react-icons/fa";
-import { CouponService } from "@/modules/companies/services/coupon.service";
-import {
-  Tabs,
-  Card,
-  Progress,
-  Badge,
-  Divider,
-  Avatar,
-  Rate,
-  Typography,
-} from "antd";
+import { Tabs, Avatar, Rate, Typography, Col, Row } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import LessonComponent from "@/modules/lessons/presentation/components/lesson.component";
-import Image from "next/image";
 import { useRouter } from "@/i18n/navigation";
 import { RouterPath } from "@/shared/constants/router.const";
 import { useTranslations } from "next-intl";
+import CouponCard from "@/shared/components/coupon-card/coupon.card.component";
+import { CouponUseCase } from "@/modules/coupons/domain/usecase/coupon.usecase";
+import { useSession } from "next-auth/react";
+import { GetCustomerByIdResponse } from "@/modules/customers/domain/dto/getCustomer.dto";
+import { CustomerUseCase } from "@/modules/customers/domain/usecases/customer.usecase";
+import { toast } from "sonner";
+import { FilterCouponDto } from "@/modules/coupons/domain/dto/coupon.dto";
+import { CouponStatus } from "@/shared/constants/coupon.status";
 
-const { Title, Text, Paragraph } = Typography;
+const { Text, Paragraph } = Typography;
 const { TabPane } = Tabs;
+
+interface Coupon {
+  id: string;
+  title: string;
+  period_start?: Date;
+  period_end: Date;
+  classification?: string;
+  use_point: number;
+  use_code?: string;
+  image: string;
+  comment: string;
+  status: string;
+  labelId: string;
+  detail: string;
+}
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("popular");
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [profile, setProfile] = useState<GetCustomerByIdResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [labels, setLabels] = useState<Label[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
   const router = useRouter();
   const t = useTranslations();
 
+  const couponUseCase = new CouponUseCase();
+  const customerUseCase = new CustomerUseCase();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.role === "Company") {
+      return;
+    }
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true);
+        const res = await customerUseCase.getCustomerById();
+        if (res.status === 200) {
+          setProfile(res.data);
+        } else {
+          toast.error("Get customer profile failed!");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Get customer profile failed!");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (status === "authenticated" && session?.user) {
+      fetchProfile();
+    }
+  }, [status]);
+
+  // Fetch labels
+  useEffect(() => {
+    const fetchLabels = async () => {
+      try {
+        const popularLabel = await couponUseCase.getLabel("", "Popular");
+        const newLabel = await couponUseCase.getLabel("", "New");
+
+        const validLabels = [
+          { id: "all", name: "All" },
+          ...(popularLabel
+            ? [{ id: popularLabel.id, name: popularLabel.name }]
+            : []),
+          ...(newLabel?.data ? [{ id: newLabel.id, name: newLabel.name }] : []),
+        ];
+
+        if (validLabels.length === 0) {
+          setError("No labels available");
+          return;
+        }
+
+        setLabels(validLabels);
+      } catch (error) {
+        console.error("Error fetching labels:", error);
+        setError("Failed to load labels. Please try again later.");
+      }
+    };
+    fetchLabels();
+  }, []);
+
   useEffect(() => {
     const fetchCoupons = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
-        await CouponService.getInstance().getCoupons();
+        const filter: FilterCouponDto = {
+          status: CouponStatus.ACTIVE,
+        };
+
+        // Only add labelId filter if not "All" tab
+        if (activeTab !== "all") {
+          const selectedLabel = labels.find((label) => label.id === activeTab);
+          if (selectedLabel) {
+            filter.labelId = selectedLabel.id;
+          }
+        }
+
+        const response = await couponUseCase.getCouponByFiller(filter);
+        if (response && Array.isArray(response)) {
+          setCoupons(response);
+        } else {
+          setCoupons([]);
+          setError("No coupons available");
+        }
       } catch (error) {
-        console.error("Failed to fetch coupons:", error);
+        console.error("Error fetching coupons:", error);
+        setError("Failed to load coupons. Please try again later.");
+        setCoupons([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
+    // if (labels.length > 0) {
+    //   fetchCoupons();
+    // }
     fetchCoupons();
   }, []);
 
@@ -128,82 +226,12 @@ const HomePage = () => {
     },
   ];
 
-  // Sample reward items with linked courses
-  const rewardItems = [
-    {
-      id: 1,
-      name: "Starbucks ¥1000 Gift Card",
-      image: "/public/Starbucks.svg",
-      points: 500,
-      expiry: "2023-12-31",
-      linkedCourse: "Introduction to Math Secondary",
-      pointsToComplete: 150,
-      provider: "Starbucks Japan",
-      category: "popular",
-    },
-    {
-      id: 2,
-      name: "Amazon Japan ¥2000 Voucher",
-      image: "/public/slider/slider_2.jpg",
-      points: 1000,
-      expiry: "2023-12-15",
-      linkedCourse: "Advanced Web Development",
-      pointsToComplete: 300,
-      provider: "Amazon Japan",
-      category: "new",
-    },
-    {
-      id: 3,
-      name: "UNIQLO ¥1500 Discount",
-      image: "/public/slider/slider_3.jpg",
-      points: 750,
-      expiry: "2023-11-30",
-      linkedCourse: "Japanese Primary",
-      pointsToComplete: 200,
-      provider: "UNIQLO Japan",
-      category: "popular",
-    },
-    {
-      id: 4,
-      name: "Toshiba 10% Discount",
-      image: "/public/slider/slider_1.jpg",
-      points: 250,
-      expiry: "2023-12-31",
-      linkedCourse: "Introduction to History Of Japan",
-      pointsToComplete: 100,
-      provider: "Toshiba",
-      category: "recommended",
-    },
-    {
-      id: 5,
-      name: "Datacom Points (500pts)",
-      image: "/public/slider/slider_2.jpg",
-      points: 600,
-      expiry: "2023-12-31",
-      linkedCourse: "Physical High School",
-      pointsToComplete: 180,
-      provider: "Datacom",
-      category: "new",
-    },
-    {
-      id: 6,
-      name: "Vin Group 10% Discount",
-      image: "/public/slider/slider_3.jpg",
-      points: 800,
-      expiry: "2023-11-30",
-      linkedCourse: "English Conversation Skills",
-      pointsToComplete: 250,
-      provider: "Vin Group",
-      category: "recommended",
-    },
-  ];
-
-  const filteredRewards = rewardItems.filter(
-    (item) => activeTab === "all" || item.category === activeTab
-  );
-
   const handleStartLearning = () => {
-    router.push(RouterPath.CUSTOMER_SIGNIN);
+    if (!session?.user) {
+      router.push(RouterPath.SIGNIN);
+    } else {
+      router.push(RouterPath.LESSONS);
+    }
   };
 
   const handleExploreRewards = () => {
@@ -211,6 +239,10 @@ const HomePage = () => {
     if (rewardsSection) {
       rewardsSection.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleCouponClick = (coupon: Coupon) => {
+    router.push(`/coupons/${coupon.id}`);
   };
 
   return (
@@ -346,89 +378,30 @@ const HomePage = () => {
           </Tabs>
 
           <div className={styles.rewards_grid}>
-            {filteredRewards.map((reward) => (
-              <motion.div
-                key={reward.id}
-                className={styles.reward_card}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: "0 10px 30px rgba(0, 0, 0, 0.15)",
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <Badge.Ribbon
-                  text={`${reward.points} ${t(
-                    "home.rewards.card.pointsLabel"
-                  )}`}
-                  color="#ff6b6b"
-                >
-                  <Card
-                    className={styles.reward_card_inner}
-                    cover={
-                      <div className={styles.reward_image_container}>
-                        <Image
-                          src={reward.image}
-                          alt={reward.name}
-                          width={300}
-                          height={200}
-                          className={styles.reward_image}
-                        />
-                      </div>
-                    }
-                  >
-                    <div className={styles.reward_provider}>
-                      <span>{reward.provider}</span>
-                      <Badge
-                        status="processing"
-                        text={t("home.rewards.card.available")}
-                      />
-                    </div>
-                    <Title level={4} className={styles.reward_name}>
-                      {reward.name}
-                    </Title>
-                    <div className={styles.reward_expiry}>
-                      <FaClock />
-                      <span>
-                        {t("home.rewards.card.expiresOn")}:{" "}
-                        {new Date(reward.expiry).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <Divider className={styles.reward_divider} />
-
-                    {/* 3. Link Between Learning and Rewards */}
-                    <div className={styles.linked_course}>
-                      <Title level={5}>
-                        {t("home.rewards.card.getRewardBy")}
-                      </Title>
-                      <Text strong className={styles.course_name}>
-                        <FaGraduationCap /> {reward.linkedCourse}
-                      </Text>
-                      <div className={styles.points_progress}>
-                        <Progress
-                          percent={30}
-                          strokeColor="#1a237e"
-                          format={() =>
-                            `${reward.pointsToComplete} ${t(
-                              "home.rewards.card.pointsNeeded"
-                            )}`
-                          }
-                        />
-                        <Text className={styles.points_away}>
-                          {t("home.rewards.card.pointsAway", {
-                            count: reward.pointsToComplete - 75,
-                          })}
-                        </Text>
-                      </div>
-                      <Button
-                        className={styles.start_course_button}
-                        name={t("home.rewards.card.startCourse")}
-                        icon={<FaArrowRight />}
-                      />
-                    </div>
-                  </Card>
-                </Badge.Ribbon>
-              </motion.div>
-            ))}
+            <Row gutter={[24, 24]}>
+              {coupons.map((coupon) => (
+                <Col xs={24} sm={12} md={8} lg={6} key={coupon.id}>
+                  <CouponCard
+                    coupon={{
+                      id: coupon.id,
+                      title: coupon.title,
+                      period_start: coupon.period_start,
+                      period_end: coupon.period_end,
+                      classification: coupon.classification,
+                      use_point: coupon.use_point,
+                      use_code: coupon.use_code,
+                      image: coupon.image,
+                      comment: coupon.comment ? coupon.comment : "",
+                      status: coupon.status,
+                      labelId: coupon.labelId,
+                      detail: coupon.detail,
+                    }}
+                    onCouponClick={(c) => handleCouponClick(c)}
+                    pointOfUser={profile?.points || 0}
+                  />
+                </Col>
+              ))}
+            </Row>
           </div>
         </motion.div>
 
@@ -541,130 +514,46 @@ const HomePage = () => {
 
           {/* Sponsors Section */}
           <div className={styles.sponsors_section}>
-            <h2 className={styles.section_title}>
-              {/* {t("home.sponsors.title") || "Our Sponsors"} */}
-              Company
-            </h2>
+            <h2 className={styles.section_title}>{t("home.sponsors.title")}</h2>
             <p className={styles.section_description}>
-              {/* {t("home.sponsors.description") || */}
-                These trusted businesses provide special discounts and coupons for our learners.
+              {t("home.sponsors.description")}
             </p>
-
             <div className={styles.sponsors_grid}>
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
-                  <Image
-                    src="/public/Starbucks.svg"
-                    alt="Starbucks"
-                    width={120}
-                    height={120}
-                  />
+                  <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>Starbucks Japan</h3>
                 <p className={styles.sponsor_description}>
-                  Offering coffee discount coupons for our top learners.
+                  {t("home.sponsors.starBucksDesc")}
                 </p>
               </div>
-
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
                   <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>Amazon Japan</h3>
                 <p className={styles.sponsor_description}>
-                  Providing shopping vouchers for course completions.
+                  {t("home.sponsors.amazonDesc")}
                 </p>
               </div>
-
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
                   <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>UNIQLO</h3>
                 <p className={styles.sponsor_description}>
-                  Special discounts for students who complete our courses.
+                  {t("home.sponsors.uniqloDesc")}
                 </p>
               </div>
-
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
                   <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>Toshiba</h3>
                 <p className={styles.sponsor_description}>
-                  Tech discounts for students in IT-related courses.
+                  {t("home.sponsors.toshibaDesc")}
                 </p>
-              </div>
-            </div>
-          </div>
-
-          {/* 5. Footer & Support Area */}
-          <div className={styles.footer_support}>
-            <div className={styles.footer_grid}>
-              <div className={styles.footer_section}>
-                <h3>{t("home.footer.stayConnected")}</h3>
-                <div className={styles.newsletter_form}>
-                  <input
-                    type="email"
-                    placeholder={t("home.footer.emailPlaceholder")}
-                    className={styles.newsletter_input}
-                  />
-                  <Button
-                    className={styles.newsletter_button}
-                    name={t("home.footer.subscribe")}
-                    icon={<FaEnvelope />}
-                  />
-                </div>
-              </div>
-
-              <div className={styles.footer_section}>
-                <h3>INFORMATION</h3>
-                <ul className={styles.footer_links}>
-                  <li>
-                    <strong>Address</strong>
-                    <p>Tokyo</p>
-                  </li>
-                  <li>
-                    <strong>Email</strong>
-                    <p>datacom@gmail.com</p>
-                  </li>
-                  <li>
-                    <strong>Hotline</strong>
-                    <p>+84961436448</p>
-                  </li>
-                  <li>
-                    <strong>Support Time</strong>
-                    <p>8:00 AM - 6:00 PM</p>
-                  </li>
-                </ul>
-              </div>
-
-              <div className={styles.footer_section}>
-                <h3>{t("home.footer.quickLinks")}</h3>
-                <ul className={styles.footer_links}>
-                  <li>
-                    <FaBook /> {t("home.footer.learningResources")}
-                  </li>
-                  <li>
-                    <FaGift /> {t("home.footer.rewardsCatalog")}
-                  </li>
-                  <li>
-                    <FaUsers /> {t("home.footer.community")}
-                  </li>
-                  <li>
-                    <FaPhoneAlt /> {t("home.footer.contactSupport")}
-                  </li>
-                </ul>
-              </div>
-
-              <div className={styles.footer_section}>
-                <h3>{t("home.footer.helpCenter")}</h3>
-                <ul className={styles.footer_links}>
-                  <li>{t("home.footer.faq")}</li>
-                  <li>{t("home.footer.termsOfUse")}</li>
-                  <li>{t("home.footer.privacyPolicy")}</li>
-                  <li>{t("home.footer.cookiePolicy")}</li>
-                </ul>
               </div>
             </div>
           </div>

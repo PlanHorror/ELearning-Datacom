@@ -82,7 +82,7 @@ export class CouponUsageService {
       throw new NotFoundException('Customer not found');
     }
     return await this.couponUsageRepository.find({
-      where: { customer },
+      where: { customer: { id: customer.id } },
       relations: ['coupon'],
     });
   }

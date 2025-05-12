@@ -1,10 +1,8 @@
 export enum RouterPath {
   HOME = "/",
   //auth
-  OPTIONAL_SIGNIN = "/auth/access-account",
+  SIGNIN = "/auth/login",
   SIGNUP = "/auth/signup",
-  CUSTOMER_SIGNIN = "/customers/signin",
-  COMPANY_SIGNIN = "/companies/signin",
   VERIFY_ACCOUNT = "/auth/verify-account",
 
   //admin
@@ -17,4 +15,16 @@ export enum RouterPath {
 
   //company
   COMPANY_PROFILE = "/companies/profile",
+
+  //coupons
+  COUPONS = "/coupons",
+
+  //lessons
+  LESSONS = "/lessons",
+
+  //points
+  POINTS = "/points",
+
+  //favourite
+  FAVOURITE = "/favourite-list",
 }

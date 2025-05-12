@@ -10,20 +10,13 @@ export class AuthUseCase {
     this.authService = new AuthService();
   }
 
-  async signin(values: LoginPayLoad) {
-    try {
-      const res = await this.authService.signin(values);
-      return res;
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      throw error.response.data || { message: "Something went wrong!" };
-    }
-  }
-
   async userSignUp(values: UserSignUpPayLoad) {
     try {
       const res = await this.authService.userSignUp(values);
+
+      if (!res) {
+        throw new Error("Something went wrong!");
+      }
       return res;
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
