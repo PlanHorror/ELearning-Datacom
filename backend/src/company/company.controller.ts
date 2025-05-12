@@ -17,6 +17,8 @@ import { CompanyUpdateDto } from 'src/common/dtos';
 @Controller('company')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.COMPANY)
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(Role.COMPANY)
 export class CompanyController {
   constructor(private companyService: CompanyService) {}
 

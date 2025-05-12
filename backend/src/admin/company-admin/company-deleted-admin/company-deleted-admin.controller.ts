@@ -17,7 +17,7 @@ import { Roles } from 'src/common/decorators';
 import { Role } from 'src/common/enums';
 import { ApiQuery } from '@nestjs/swagger';
 
-@Controller('admin/company-deleted')
+@Controller('admin/company/deleted')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
 export class CompanyDeletedAdminController {

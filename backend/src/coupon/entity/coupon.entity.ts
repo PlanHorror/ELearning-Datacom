@@ -13,9 +13,9 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { CouponLabel } from '../../coupon-label/entity/coupon-label.entity';
-import { CouponFavourite } from 'src/coupon-favourite/entity/coupon-favourite.entity';
-import { CouponUsage } from 'src/coupon-useage/entity/coupon-usage.entity';
+import { CouponLabel } from '../coupon-label/entity/coupon-label.entity';
+import { CouponFavourite } from 'src/coupon/coupon-favourite/entity/coupon-favourite.entity';
+import { CouponUsage } from 'src/coupon/coupon-usage/entity/coupon-usage.entity';
 
 @Entity()
 @Unique(['use_code', 'company'])

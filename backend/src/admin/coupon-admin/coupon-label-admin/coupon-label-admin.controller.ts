@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CouponLabelAdminService } from './coupon-label-admin.service';
-import { CouponLabel } from 'src/coupon-label/entity/coupon-label.entity';
+import { CouponLabel } from 'src/coupon/coupon-label/entity/coupon-label.entity';
 import { CouponLabelDto } from 'src/common/dtos/admin';
 import { ApiQuery } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -20,7 +20,7 @@ import { Role } from 'src/common/enums';
 
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(Role.ADMIN)
-@Controller('admin/coupon-label')
+@Controller('admin/coupon/label')
 export class CouponLabelAdminController {
   constructor(private couponLabelAdminService: CouponLabelAdminService) {}
 

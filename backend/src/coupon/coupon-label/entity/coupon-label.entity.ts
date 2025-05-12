@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Coupon } from '../../coupon/entity/coupon.entity';
+import { Coupon } from '../../entity/coupon.entity';
 
 @Entity()
 export class CouponLabel {

@@ -5,7 +5,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coupon } from 'src/coupon/entity/coupon.entity';
 import { CompanyAdminModule } from '../company-admin/company-admin.module';
-import { CouponLabelAdminModule } from '../coupon-label-admin/coupon-label-admin.module';
+import { CouponLabelAdminModule } from './coupon-label-admin/coupon-label-admin.module';
 
 @Module({
   providers: [CouponAdminService],

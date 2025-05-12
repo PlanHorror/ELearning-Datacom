@@ -8,9 +8,9 @@ import { EmailModule } from './email/email.module';
 import * as fs from 'fs';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CouponModule } from './coupon/coupon.module';
-import { CouponLabelModule } from './coupon-label/coupon-label.module';
-import { CouponUseageModule } from './coupon-useage/coupon-useage.module';
-import { CouponFavouriteModule } from './coupon-favourite/coupon-favourite.module';
+import { CouponLabelModule } from './coupon/coupon-label/coupon-label.module';
+import { CouponUsageModule } from './coupon/coupon-usage/coupon-usage.module';
+import { CouponFavouriteModule } from './coupon/coupon-favourite/coupon-favourite.module';
 import { PointsHistoryModule } from './points-history/points-history.module';
 import { AdminModule } from './admin/admin.module';
 import { CustomerModule } from './customer/customer.module';
@@ -41,7 +41,7 @@ import { CompanyModule } from './company/company.module';
     ConfigModule.forRoot(),
     CouponModule,
     CouponLabelModule,
-    CouponUseageModule,
+    CouponUsageModule,
     CouponFavouriteModule,
     PointsHistoryModule,
     AdminModule,

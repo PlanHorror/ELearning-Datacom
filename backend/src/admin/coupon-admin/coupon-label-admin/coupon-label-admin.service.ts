@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CouponLabelDto } from 'src/common/dtos/admin';
-import { CouponLabel } from 'src/coupon-label/entity/coupon-label.entity';
+import { CouponLabel } from 'src/coupon/coupon-label/entity/coupon-label.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
