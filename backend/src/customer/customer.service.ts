@@ -165,6 +165,27 @@ export class CustomerService {
       throw new BadRequestException('Error checking email existence');
     }
   }
+  // Change points customer
+  async changePointsCustomer(
+    id: string,
+    points: number,
+    type: PointsHistoryType,
+  ): Promise<Customer> {
+    if (!id || !points || !type) {
+      throw new BadRequestException('Not enough data provided');
+    }
+    try {
+      const customer = await this.getCustomerById(id);
+      if (type === PointsHistoryType.ADD) {
+        customer.points += points;
+      } else {
+        customer.points -= points;
+      }
+      return await this.customerRepository.save(customer);
+    } catch (error) {
+      throw new BadRequestException('Error changing customer points');
+    }
+  }
 
   /*
    * Service methods
