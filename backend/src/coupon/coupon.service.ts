@@ -32,21 +32,21 @@ export class CouponService {
   }
 
   // Get coupons by filter from the database
-  async getCouponsByFilterService(filter?: FilterCouponDto): Promise<Coupon[]> {
-    if (!filter) {
-      return await this.getCoupons();
-    }
-    return await this.coupon.find({
-      relations: ['company', 'label'],
-      where: {
-        company: { id: filter.companyId },
-        label: { id: filter.labelId },
-        status: filter.status,
-        title: filter.title,
-        use_code: filter.useCode,
-      },
-    });
-  }
+  // async getCouponsByFilterService(filter?: FilterCouponDto): Promise<Coupon[]> {
+  //   if (!filter) {
+  //     return await this.getCoupons();
+  //   }
+  //   return await this.coupon.find({
+  //     relations: ['company', 'label'],
+  //     where: {
+  //       company: { id: filter.companyId },
+  //       label: { id: filter.labelId },
+  //       status: filter.status,
+  //       title: filter.title,
+  //       use_code: filter.useCode,
+  //     },
+  //   });
+  // }
 
   // Get coupon by id
   async getCouponById(id: string): Promise<Coupon> {

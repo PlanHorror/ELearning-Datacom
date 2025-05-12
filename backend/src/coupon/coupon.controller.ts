@@ -38,12 +38,12 @@ export class CouponController {
     return this.couponService.getCoupons();
   }
 
-  @Get('filter')
-  async getCouponsByFilter(
-    @Query() filter: FilterCouponDto,
-  ): Promise<Coupon[]> {
-    return await this.couponService.getCouponsByFilterService(filter);
-  }
+  // @Get('filter')
+  // async getCouponsByFilter(
+  //   @Query() filter: FilterCouponDto,
+  // ): Promise<Coupon[]> {
+  //   return await this.couponService.getCouponsByFilterService(filter);
+  // }
 
   @Get('/:id')
   getCoupon(@Param('id') id: string): Promise<Coupon> {
