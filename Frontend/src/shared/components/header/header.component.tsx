@@ -216,7 +216,6 @@ const Header = () => {
     return <LoadingComponent />;
   }
 
-  console.log("Check profile", profile);
   return (
     <>
       {isPending && <LoadingComponent />}

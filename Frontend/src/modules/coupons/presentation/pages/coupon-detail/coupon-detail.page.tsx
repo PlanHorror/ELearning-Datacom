@@ -22,7 +22,7 @@ import {
   ArrowLeftOutlined,
 } from "@ant-design/icons";
 import styles from "./coupon-detail.page.module.scss";
-import { CouponUseCase } from "@/modules/coupon/domain/usecase/coupon.usecase";
+import { CouponUseCase } from "@/modules/coupons/domain/usecase/coupon.usecase";
 import Image from "next/image";
 import { getImageUrl } from "@/utils/image";
 

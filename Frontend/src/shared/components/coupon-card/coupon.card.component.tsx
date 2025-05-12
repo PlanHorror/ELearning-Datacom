@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import {
   Card,
@@ -7,7 +9,6 @@ import {
   Progress,
   Divider,
   Modal,
-  message,
 } from "antd";
 import { motion } from "framer-motion";
 import {

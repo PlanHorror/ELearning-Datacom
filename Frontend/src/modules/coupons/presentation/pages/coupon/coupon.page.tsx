@@ -11,17 +11,16 @@ import {
   Alert,
 } from "antd";
 import { useRouter } from "next/navigation";
-import { FilterCouponDto } from "../../../domain/dto/coupon.dto";
-import { CouponStatus } from "@/shared/constants/coupon.status";
 import { motion } from "framer-motion";
 import { HeartOutlined, FireOutlined, StarOutlined } from "@ant-design/icons";
 import styles from "./coupon.page.module.scss";
-import { CouponUseCase } from "@/modules/coupon/domain/usecase/coupon.usecase";
+import { CouponUseCase } from "@/modules/coupons/domain/usecase/coupon.usecase";
 import CouponCard from "@/shared/components/coupon-card/coupon.card.component";
 import { GetCustomerByIdResponse } from "@/modules/customers/domain/dto/getCustomer.dto";
 import { toast } from "sonner";
 import { CustomerUseCase } from "@/modules/customers/domain/usecases/customer.usecase";
 import { useSession } from "next-auth/react";
+import { FavouriteCouponUseCase } from "@/modules/favourite-list/domain/usecase/favourite.coupon.usecase";
 
 // const { Title, Text } = Typography;
 
@@ -38,6 +37,7 @@ interface Coupon {
   status: string;
   labelId: string;
   detail: string;
+  isFavorite: boolean;
 }
 
 interface Label {
@@ -55,6 +55,7 @@ const CouponPage: React.FC = () => {
   const [profile, setProfile] = useState<GetCustomerByIdResponse | null>(null);
   const router = useRouter();
   const couponUseCase = new CouponUseCase();
+  const favouriteCouponUseCase = new FavouriteCouponUseCase();
 
   useEffect(() => {
     if (session?.user?.role === "Company") {
@@ -81,6 +82,7 @@ const CouponPage: React.FC = () => {
       fetchProfile();
     }
   }, [status]);
+
   // Fetch labels
   useEffect(() => {
     const fetchLabels = async () => {
@@ -117,21 +119,28 @@ const CouponPage: React.FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const filter: FilterCouponDto = {
-          status: CouponStatus.ACTIVE,
-        };
+        // const filter: FilterCouponDto = {
+        //   status: CouponStatus.ACTIVE,
+        // };
 
-        // Only add labelId filter if not "All" tab
-        if (activeTab !== "all") {
-          const selectedLabel = labels.find((label) => label.id === activeTab);
-          if (selectedLabel) {
-            filter.labelId = selectedLabel.id;
-          }
-        }
+        // // Only add labelId filter if not "All" tab
+        // if (activeTab !== "all") {
+        //   const selectedLabel = labels.find((label) => label.id === activeTab);
+        //   if (selectedLabel) {
+        //     filter.labelId = selectedLabel.id;
+        //   }
+        // }
 
-        const response = await couponUseCase.getAllCoupons(filter);
-        if (response && Array.isArray(response)) {
-          setCoupons(response);
+        // const response = await couponUseCase.getAllCoupons(filter);
+        // if (response && Array.isArray(response)) {
+        //   setCoupons(response);
+        // } else {
+        //   setCoupons([]);
+        //   setError("No coupons available");
+        // }
+        const res = await couponUseCase.getAllCoupons();
+        if (res.status === 200) {
+          setCoupons(res.data);
         } else {
           setCoupons([]);
           setError("No coupons available");
@@ -145,10 +154,33 @@ const CouponPage: React.FC = () => {
       }
     };
 
-    if (labels.length > 0) {
-      fetchCoupons();
+    // if (labels.length > 0) {
+    //   fetchCoupons();
+    // }
+    fetchCoupons();
+  }, []);
+
+  const onFavoriteToggle = async (couponId: string) => {
+    try {
+      const res = await favouriteCouponUseCase.addFavouriteCoupons({
+        id: couponId,
+      });
+      if (res.status === 200) {
+        // Update the coupons list to reflect the favorite status
+        setCoupons((prevCoupons) =>
+          prevCoupons.map((coupon) =>
+            coupon.id === couponId
+              ? { ...coupon, isFavorite: !coupon.isFavorite }
+              : coupon
+          )
+        );
+        toast.success("Coupon added to favourite list!");
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      toast.error("Failed to update favorite status");
     }
-  }, [activeTab, labels]);
+  };
 
   const handleTabChange = (key: string) => {
     setActiveTab(key);
@@ -206,8 +238,10 @@ const CouponPage: React.FC = () => {
                 status: coupon.status,
                 labelId: coupon.labelId,
                 detail: coupon.detail,
+                isFavorite: coupon.isFavorite,
               }}
               onCouponClick={(c) => handleCouponClick(c)}
+              onFavoriteToggle={onFavoriteToggle}
               pointOfUser={profile?.points || 0}
             />
           </Col>

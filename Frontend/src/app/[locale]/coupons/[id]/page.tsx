@@ -1,4 +1,4 @@
-import CouponDetailPage from "@/modules/coupon/presentation/pages/coupon-detail/coupon-detail.page";
+import CouponDetailPage from "@/modules/coupons/presentation/pages/coupon-detail/coupon-detail.page";
 
 const CouponDetailMainPage = () => {
   return <CouponDetailPage />;

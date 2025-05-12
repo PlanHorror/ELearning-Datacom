@@ -1,4 +1,4 @@
-import CouponPage from "@/modules/coupon/presentation/pages/coupon/coupon.page";
+import CouponPage from "@/modules/coupons/presentation/pages/coupon/coupon.page";
 
 const CouponMainPage = () => {
   return <CouponPage />;

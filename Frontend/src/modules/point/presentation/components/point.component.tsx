@@ -10,96 +10,6 @@ import styles from "./point.component.module.scss";
 import dayjs from "dayjs";
 import { PointUseCase } from "../../domain/usecase/point.usecase";
 
-// Mock data
-const mockPoints: Point = {
-  totalPoints: 1000,
-  availablePoints: 750,
-  usedPoints: 250,
-};
-
-const mockHistory: PointHistory[] = [
-  {
-    id: "1",
-    points: 100,
-    type: "EARN",
-    description: "Completed course 'Math'",
-    createdAt: "2025-04-15T10:30:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "2",
-    points: -50,
-    type: "SPEND",
-    description: "Redeemed coupon for 'Datacom Summer'",
-    createdAt: "2025-04-14T15:45:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "3",
-    points: 200,
-    type: "EARN",
-    description: "Completed course 'History'",
-    createdAt: "2025-04-13T09:20:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "4",
-    points: -100,
-    type: "SPEND",
-    description: "Redeemed coupon for 'Datacom Merry Christmas'",
-    createdAt: "2025-04-12T14:10:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "5",
-    points: 150,
-    type: "EARN",
-    description: "Completed course 'English'",
-    createdAt: "2025-04-11T11:30:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "6",
-    points: 300,
-    type: "EARN",
-    description: "Completed course 'Japanese'",
-    createdAt: "2025-04-10T16:20:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "7",
-    points: -75,
-    type: "SPEND",
-    description: "Redeemed coupon for 'Coupons of Datacom'",
-    createdAt: "2025-04-09T13:45:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "8",
-    points: 250,
-    type: "EARN",
-    description: "Completed course 'English'",
-    createdAt: "2025-04-08T10:15:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "9",
-    points: -125,
-    type: "SPEND",
-    description: "Redeemed coupon for '50% Fresh Food'",
-    createdAt: "2025-04-07T15:30:00Z",
-    status: "COMPLETED",
-  },
-  {
-    id: "10",
-    points: 175,
-    type: "EARN",
-    description: "Completed course 'Physical'",
-    createdAt: "2025-04-06T09:40:00Z",
-    status: "COMPLETED",
-  },
-];
-
 const PointComponent = () => {
   const { status } = useSession();
   const [points, setPoints] = useState<Point | null>(null);
@@ -111,7 +21,7 @@ const PointComponent = () => {
       setIsLoading(true);
       const pointUseCase = new PointUseCase();
       const res = await pointUseCase.getPointHistory();
-      setPoints(res.data);
+      setHistory(res);
     } catch (error) {
       console.error("Error fetching point data:", error);
     } finally {

@@ -16,7 +16,6 @@ import {
   FaHeart,
   FaGift,
 } from "react-icons/fa";
-import { CouponService } from "@/modules/companies/services/coupon.service";
 import { Tabs, Avatar, Rate, Typography, Col, Row } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
@@ -25,19 +24,75 @@ import { useRouter } from "@/i18n/navigation";
 import { RouterPath } from "@/shared/constants/router.const";
 import { useTranslations } from "next-intl";
 import CouponCard from "@/shared/components/coupon-card/coupon.card.component";
+import { CouponUseCase } from "@/modules/coupons/domain/usecase/coupon.usecase";
+import { useSession } from "next-auth/react";
+import { GetCustomerByIdResponse } from "@/modules/customers/domain/dto/getCustomer.dto";
+import { CustomerUseCase } from "@/modules/customers/domain/usecases/customer.usecase";
+import { toast } from "sonner";
 
 const { Text, Paragraph } = Typography;
 const { TabPane } = Tabs;
 
+interface Coupon {
+  id: string;
+  title: string;
+  period_start?: Date;
+  period_end: Date;
+  classification?: string;
+  use_point: number;
+  use_code?: string;
+  image: string;
+  comment: string;
+  status: string;
+  labelId: string;
+  detail: string;
+}
+
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("popular");
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [profile, setProfile] = useState<GetCustomerByIdResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const t = useTranslations();
+  const couponUseCase = new CouponUseCase();
+  const customerUseCase = new CustomerUseCase();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.role === "Company") {
+      return;
+    }
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true);
+        const res = await customerUseCase.getCustomerById();
+        if (res.status === 200) {
+          setProfile(res.data);
+        } else {
+          toast.error("Get customer profile failed!");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Get customer profile failed!");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (status === "authenticated" && session?.user) {
+      fetchProfile();
+    }
+  }, [status]);
 
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        await CouponService.getInstance().getCoupons();
+        const res = await couponUseCase.getAllCoupons();
+        if (res.status === 200) {
+          setCoupons(res.data);
+        } else {
+          setCoupons([]);
+        }
       } catch (error) {
         console.error("Failed to fetch coupons:", error);
       }
@@ -114,80 +169,6 @@ const HomePage = () => {
     },
   ];
 
-  // Sample reward items with linked courses
-  const rewardItems = [
-    {
-      id: 1,
-      name: "Starbucks ¥1000 Gift Card",
-      image: "/public/Starbucks.svg",
-      points: 500,
-      expiry: "2023-12-31",
-      linkedCourse: "Introduction to Math Secondary",
-      pointsToComplete: 150,
-      provider: "Starbucks Japan",
-      category: "popular",
-    },
-    {
-      id: 2,
-      name: "Amazon Japan ¥2000 Voucher",
-      image: "/public/slider/slider_2.jpg",
-      points: 1000,
-      expiry: "2023-12-15",
-      linkedCourse: "Advanced Web Development",
-      pointsToComplete: 300,
-      provider: "Amazon Japan",
-      category: "new",
-    },
-    {
-      id: 3,
-      name: "UNIQLO ¥1500 Discount",
-      image: "/public/slider/slider_3.jpg",
-      points: 750,
-      expiry: "2023-11-30",
-      linkedCourse: "Japanese Primary",
-      pointsToComplete: 200,
-      provider: "UNIQLO Japan",
-      category: "popular",
-    },
-    {
-      id: 4,
-      name: "Toshiba 10% Discount",
-      image: "/public/slider/slider_1.jpg",
-      points: 250,
-      expiry: "2023-12-31",
-      linkedCourse: "Introduction to History Of Japan",
-      pointsToComplete: 100,
-      provider: "Toshiba",
-      category: "recommended",
-    },
-    {
-      id: 5,
-      name: "Datacom Points (500pts)",
-      image: "/public/slider/slider_2.jpg",
-      points: 600,
-      expiry: "2023-12-31",
-      linkedCourse: "Physical High School",
-      pointsToComplete: 180,
-      provider: "Datacom",
-      category: "new",
-    },
-    {
-      id: 6,
-      name: "Vin Group 10% Discount",
-      image: "/public/slider/slider_3.jpg",
-      points: 800,
-      expiry: "2023-11-30",
-      linkedCourse: "English Conversation Skills",
-      pointsToComplete: 250,
-      provider: "Vin Group",
-      category: "recommended",
-    },
-  ];
-
-  const filteredRewards = rewardItems.filter(
-    (item) => activeTab === "all" || item.category === activeTab
-  );
-
   const handleStartLearning = () => {
     router.push(RouterPath.SIGNIN);
   };
@@ -197,6 +178,10 @@ const HomePage = () => {
     if (rewardsSection) {
       rewardsSection.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleCouponClick = (coupon: Coupon) => {
+    router.push(`/coupons/${coupon.id}`);
   };
 
   return (
@@ -333,21 +318,25 @@ const HomePage = () => {
 
           <div className={styles.rewards_grid}>
             <Row gutter={[24, 24]}>
-              {filteredRewards.map((reward) => (
-                <Col xs={24} sm={12} md={8} lg={6} key={reward.id}>
+              {coupons.map((coupon) => (
+                <Col xs={24} sm={12} md={8} lg={6} key={coupon.id}>
                   <CouponCard
                     coupon={{
-                      id: reward.id.toString(),
-                      title: reward.name,
-                      image: reward.image,
-                      use_point: reward.points,
-                      period_end: reward.expiry,
-                      pointsToComplete: reward.pointsToComplete,
+                      id: coupon.id,
+                      title: coupon.title,
+                      period_start: coupon.period_start,
+                      period_end: coupon.period_end,
+                      classification: coupon.classification,
+                      use_point: coupon.use_point,
+                      use_code: coupon.use_code,
+                      image: coupon.image,
+                      comment: coupon.comment ? coupon.comment : "",
+                      status: coupon.status,
+                      labelId: coupon.labelId,
+                      detail: coupon.detail,
                     }}
-                    onCouponClick={(coupon) => {
-                      // Handle coupon click - you can add navigation or other actions here
-                      console.log("Coupon clicked:", coupon);
-                    }}
+                    onCouponClick={(c) => handleCouponClick(c)}
+                    pointOfUser={profile?.points || 0}
                   />
                 </Col>
               ))}
