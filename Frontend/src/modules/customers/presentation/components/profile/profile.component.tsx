@@ -20,7 +20,6 @@ import {
   Tickets,
   VenusAndMars,
   Award,
-  Target,
   BookOpen,
   GraduationCap,
 } from "lucide-react";

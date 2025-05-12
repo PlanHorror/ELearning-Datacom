@@ -31,7 +31,6 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
   const handleSubmit = async (values: UserSignUpPayLoad) => {
     try {
       const res = await authUseCase.userSignUp(values);
-      console.log(res);
       if (res && res.data.status === "Inactive") {
         sessionStorage.setItem("email", values.email);
         message.success("Sign up successfully!");

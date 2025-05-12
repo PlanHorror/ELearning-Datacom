@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { Medal, History } from "lucide-react";
 import styles from "./point.component.module.scss";
 import dayjs from "dayjs";
+import { PointUseCase } from "../../domain/usecase/point.usecase";
 
 // Mock data
 const mockPoints: Point = {
@@ -105,13 +106,12 @@ const PointComponent = () => {
   const [history, setHistory] = useState<PointHistory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchData = async () => {
+  const fetchPointHistory = async () => {
     try {
       setIsLoading(true);
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setPoints(mockPoints);
-      setHistory(mockHistory);
+      const pointUseCase = new PointUseCase();
+      const res = await pointUseCase.getPointHistory();
+      setPoints(res.data);
     } catch (error) {
       console.error("Error fetching point data:", error);
     } finally {
@@ -121,7 +121,7 @@ const PointComponent = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      fetchData();
+      fetchPointHistory();
     }
   }, [status]);
 

@@ -47,7 +47,7 @@ export class PointsHistoryService {
       throw new NotFoundException('Customer not found');
     }
     return await this.couponHistoryRepository.find({
-      where: { customer },
+      where: { customer: { id: customer.id } },
     });
   }
 

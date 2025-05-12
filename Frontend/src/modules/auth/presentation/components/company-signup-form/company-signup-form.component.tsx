@@ -32,7 +32,7 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
       }
     } catch (error) {
       message.error("Sign up failed!");
-      console.log(error);
+      console.error(error);
     }
   };
 

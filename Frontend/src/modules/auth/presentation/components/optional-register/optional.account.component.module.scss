@@ -12,6 +12,8 @@
 
 .card_container {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 50px;
   margin: 50px 0;
 }

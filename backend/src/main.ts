@@ -3,11 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AuthModule } from './auth/auth.module';
+import * as path from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const port = process.env.PORT ?? 3001;
-  console.log('Log cái port: ', port);
+
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
@@ -24,6 +26,13 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config, {});
   SwaggerModule.setup('api', app, documentFactory);
+
+  // Serve static files
+  const uploadPath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+  app.useStaticAssets(path.join(process.cwd(), uploadPath), {
+    prefix: '/uploads/coupons/',
+  });
+
   await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();

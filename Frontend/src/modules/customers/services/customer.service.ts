@@ -13,7 +13,7 @@ export class CustomerService {
     }
 
     return await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/customers/profile`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/customer/profile`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

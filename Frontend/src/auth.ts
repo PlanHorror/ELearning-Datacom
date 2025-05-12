@@ -7,6 +7,7 @@ import {
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { routing } from "@/i18n/routing";
+import { User } from "./types/next-auth";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -28,16 +29,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const accessToken = res.data.accessToken;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const decoded = jwtDecode(accessToken) as any;
-          console.log("Check decoded:", decoded);
-          return {
-            _id: decoded.id,
+
+          const user: User = {
+            _id: decoded._id,
             email: decoded.email,
-            role: decoded.role,
             username: decoded.username,
             company_name: decoded.company_name,
+            role: decoded.role,
             accessToken,
             refreshToken: decoded.refreshToken,
           };
+          return user;
         } else if (+res.status === 401) {
           throw new InvalidEmailPasswordError();
         } else if (+res.status === 400) {
@@ -50,17 +52,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   pages: {
     signIn: `${routing.defaultLocale}/auth/access-account`,
-    signOut: `${routing.defaultLocale}/auth/access-account`, 
-    error: `${routing.defaultLocale}/error`
+    signOut: `${routing.defaultLocale}/auth/access-account`,
+    error: `${routing.defaultLocale}/error`,
   },
   callbacks: {
     async jwt({ token, user }) {
-      // console.log("JWT callback: ", {token, user, session});
       if (user) {
         token._id = user._id;
         token.email = user.email;
         token.username = user.username;
-        token.username = user.company_name;
+        token.company_name = user.company_name;
         token.role = user.role;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
@@ -70,18 +71,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user = {
-          ...session.user,
           _id: token._id as string,
           email: token.email as string,
           username: token.username as string,
           company_name: token.company_name as string,
           role: token.role as string,
         };
+
         session.accessToken = token.accessToken as string;
         session.refreshToken = token.refreshToken as string;
         return session;
       }
-      return null;
+      return session;
     },
   },
   session: {

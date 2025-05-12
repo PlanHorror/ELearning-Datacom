@@ -87,7 +87,7 @@ export class CouponUseageService {
     });
     try {
       await this.couponUsageRepository.save(newCouponUsage);
-      // await this.authSercive.subtractPoints(customer, coupon.use_point);
+      await this.authSercive.subtractPoints(customer, coupon.use_point);
 
       await this.pointsHistoryService.createPointsHistory(
         customer,

@@ -37,7 +37,7 @@ export class CouponUseageController {
   @UseGuards(AuthGuard(), RolesGuard)
   async useCoupon(
     @GetUser() customer: Customer,
-    idString: IdDto,
+    @Body() idString: IdDto,
   ): Promise<CouponUsage> {
     const { id: couponId } = idString;
     return this.couponUseageService.createCouponUsage(customer, couponId);

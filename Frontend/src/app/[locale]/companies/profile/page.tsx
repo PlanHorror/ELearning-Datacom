@@ -1,7 +1,9 @@
-import ProfilePage from "@/modules/companies/presentation/pages/profile/profile.page";
+import CompanyProfilePage from "@/modules/companies/presentation/pages/profile/company.profile.page";
+import ServerSideProtectRouter from "@/utils/protect.router";
 
-const CompanyProfilePage = () => {
-  return <ProfilePage />;
+const CompanyProfileMainPage = async() => {
+  await ServerSideProtectRouter();
+  return <CompanyProfilePage />;
 };
 
-export default CompanyProfilePage;
+export default CompanyProfileMainPage;

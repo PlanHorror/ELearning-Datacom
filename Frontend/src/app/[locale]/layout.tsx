@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../../shared/styles/globals.scss";
-import Header from "@/shared/components/header/header.component";
-import Footer from "@/shared/components/footer/footer.component";
 import { SessionProvider } from "next-auth/react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Toaster } from "sonner";
@@ -12,6 +10,10 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { LoadingComponent } from "@/shared/components/loading/loading.component";
+import {
+  FooterWrapper,
+  HeaderWrapper,
+} from "@/shared/components/layout/hideLayout/hideLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,14 +52,14 @@ export default async function RootLayout({
         <SessionProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <AntdRegistry>
-              <Header />
+              {/* <UserContextProvider> */}
+              <HeaderWrapper />
               <Suspense fallback={<LoadingComponent />}>
-                <main className="main-content">
-                  {children}
-                </main>
+                <main className="main-content">{children}</main>
               </Suspense>
               <Toaster position="top-right" expand={false} richColors />
-              {/* <Footer /> */}
+              <FooterWrapper />
+              {/* </UserContextProvider> */}
             </AntdRegistry>
           </NextIntlClientProvider>
         </SessionProvider>
