@@ -19,6 +19,7 @@ import { CouponLabelService } from 'src/coupon/coupon-label/coupon-label.service
 import { CouponStatus } from 'src/common/enums';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { FilterCouponDto } from 'src/common/dtos/admin/filter-coupon.dto';
 @Injectable()
 export class CouponService {
   constructor(
@@ -32,21 +33,21 @@ export class CouponService {
   }
 
   // Get coupons by filter from the database
-  // async getCouponsByFilterService(filter?: FilterCouponDto): Promise<Coupon[]> {
-  //   if (!filter) {
-  //     return await this.getCoupons();
-  //   }
-  //   return await this.coupon.find({
-  //     relations: ['company', 'label'],
-  //     where: {
-  //       company: { id: filter.companyId },
-  //       label: { id: filter.labelId },
-  //       status: filter.status,
-  //       title: filter.title,
-  //       use_code: filter.useCode,
-  //     },
-  //   });
-  // }
+  async getCouponsByFilterService(filter?: FilterCouponDto): Promise<Coupon[]> {
+    if (!filter) {
+      return await this.getCoupons();
+    }
+    return await this.coupon.find({
+      relations: ['company', 'label'],
+      where: {
+        company: { id: filter.companyId },
+        label: { id: filter.labelId },
+        status: filter.status,
+        title: filter.title,
+        use_code: filter.useCode,
+      },
+    });
+  }
 
   // Get coupon by id
   async getCouponById(id: string): Promise<Coupon> {

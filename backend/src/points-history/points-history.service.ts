@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PointsHistory } from './entity/points-history.entity';
 import { Repository } from 'typeorm';
@@ -6,6 +10,7 @@ import { Customer } from 'src/customer/entity/customer.entity';
 import { CouponHistoryDto } from 'src/common/dtos/coupon-history.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { PointsHistoryType } from 'src/common/enums';
+import { CustomerService } from 'src/customer/customer.service';
 
 @Injectable()
 export class PointsHistoryService {
@@ -13,6 +18,7 @@ export class PointsHistoryService {
     @InjectRepository(PointsHistory)
     private couponHistoryRepository: Repository<PointsHistory>,
     private authService: AuthService,
+    private customerService: CustomerService,
   ) {}
 
   // Get all points history
@@ -64,6 +70,10 @@ export class PointsHistoryService {
       customer,
       type,
     });
+    if (type === PointsHistoryType.SUBTRACT && points > customer.points) {
+      throw new BadRequestException('Not enough points');
+    }
+    await this.customerService.changePointsCustomer(customer.id, points, type);
     await this.couponHistoryRepository.save(newPointsHistory);
     return newPointsHistory;
   }

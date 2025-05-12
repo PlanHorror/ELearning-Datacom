@@ -9,10 +9,12 @@ import { LoginPayLoad } from "@/modules/auth/domain/dto/login.dto";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import { RouterPath } from "@/shared/constants/router.const";
+import { useTranslations } from "next-intl";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const t = useTranslations();
 
   const onFinish = async (values: LoginPayLoad) => {
     try {
@@ -24,11 +26,11 @@ const LoginPage = () => {
         redirect: false,
       });
       if (res?.ok) {
-        toast.success("Login successfully!");
+        toast.success(t("auth.loginSuccess"));
         router.push(RouterPath.HOME);
       }
     } catch (error) {
-      toast.error("Login failed. Please try again!");
+      toast.error(t("auth.loginFailed"));
       throw error;
     } finally {
       setIsLoading(false);
@@ -40,7 +42,7 @@ const LoginPage = () => {
       <Row className={styles.login_wrapper}>
         <Col className={styles.login_form}>
           <div className={styles.form_container}>
-            <h2>Sign In</h2>
+            <h2>{t("auth.login")}</h2>
             <Form
               name="login"
               onFinish={onFinish}
@@ -50,13 +52,13 @@ const LoginPage = () => {
               <Form.Item
                 name="email"
                 rules={[
-                  { required: true, message: "Please input your email!" },
-                  { type: "email", message: "Please enter a valid email!" },
+                  { required: true, message: t("auth.emailRequired") },
+                  { type: "email", message: t("auth.emailInvalid") },
                 ]}
               >
                 <Input
                   size="large"
-                  placeholder="Email"
+                  placeholder={t("auth.email")}
                   className={styles.input}
                 />
               </Form.Item>
@@ -64,12 +66,12 @@ const LoginPage = () => {
               <Form.Item
                 name="password"
                 rules={[
-                  { required: true, message: "Please input your password!" },
+                  { required: true, message: t("auth.passwordRequired") },
                 ]}
               >
                 <Input.Password
                   size="large"
-                  placeholder="Password"
+                  placeholder={t("auth.password")}
                   className={styles.input}
                 />
               </Form.Item>
@@ -82,15 +84,15 @@ const LoginPage = () => {
                   className={styles.submit_button}
                   size="large"
                 >
-                  Sign In
+                  {t("auth.login")}
                 </Button>
               </Form.Item>
 
               <div className={styles.form_footer}>
                 <p>
-                  Don&apos;t have an account?{" "}
+                  {t("auth.noAccount")}{" "}
                   <Link href="/auth/signup" className={styles.signup_link}>
-                    Sign up
+                    {t("auth.signup")}
                   </Link>
                 </p>
               </div>

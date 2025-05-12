@@ -8,6 +8,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { CompanySignUpPayLoad } from "@/modules/auth/domain/dto/register.dto";
 import { AuthUseCase } from "@/modules/auth/domain/usecases/auth.usecase";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onSubmit: () => void;
@@ -19,6 +20,7 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
   const authUseCase = new AuthUseCase();
   const router = useRouter();
   const [form] = Form.useForm();
+  const t = useTranslations();
 
   const handleSubmit = async (values: CompanySignUpPayLoad) => {
     try {
@@ -47,70 +49,70 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
         layout="vertical"
         style={{ width: 450 }}
       >
-        <h1 className={styles.form_title}>Create a new account for business</h1>
+        <h1 className={styles.form_title}>{t("auth.createBusinessAccount")}</h1>
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Company Name</p>}
+            label={<p className={styles.label}>{t("auth.companyName")}</p>}
             name="company_name"
             rules={[
               {
                 type: "string",
                 required: true,
-                message: "Please input your company name!",
+                message: t("auth.companyNameRequired"),
               },
             ]}
           >
-            <InputAntd placeholder="Company Name" />
+            <InputAntd placeholder={t("auth.companyName")} />
           </Form.Item>
         </div>
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Address</p>}
+            label={<p className={styles.label}>{t("auth.address")}</p>}
             name="address"
             rules={[
               {
                 type: "string",
                 required: true,
-                message: "Please input your address!",
+                message: t("auth.addressRequired"),
               },
             ]}
           >
-            <InputAntd placeholder="Address" />
+            <InputAntd placeholder={t("auth.address")} />
           </Form.Item>
         </div>
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Email</p>}
+            label={<p className={styles.label}>{t("auth.email")}</p>}
             name="email"
             rules={[
               {
                 type: "email",
                 required: true,
-                message: "Please input your email!",
+                message: t("auth.emailRequired"),
               },
             ]}
           >
-            <InputAntd placeholder="Email" />
+            <InputAntd placeholder={t("auth.email")} />
           </Form.Item>
         </div>
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Password</p>}
+            label={<p className={styles.label}>{t("auth.password")}</p>}
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: t("auth.passwordRequired") }]}
           >
-            <InputAntd.Password placeholder="Password" />
+            <InputAntd.Password placeholder={t("auth.password")} />
           </Form.Item>
         </div>
 
         <div className={styles.wrapper_btn}>
           <Button className={styles.btn} onClick={goBack} type="default">
             <ArrowLeftOutlined /> {""}
-            Return
+            {t("auth.return")}
           </Button>
           <Button
             className={styles.btn}
@@ -118,7 +120,7 @@ const CompanySignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
             loading={isLoading}
             htmlType="submit"
           >
-            Sign Up
+            {t("auth.register")}
             <ArrowRightOutlined />
           </Button>
         </div>

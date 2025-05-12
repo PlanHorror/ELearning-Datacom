@@ -10,10 +10,12 @@ import personal from "@/public/authentication-card/personal.png";
 import business from "@/public/authentication-card/business.png";
 import Image from "next/image";
 import { LoadingComponent } from "@/shared/components/loading/loading.component";
+import { useTranslations } from "next-intl";
 
 const OptionalAccount = () => {
   const [selected, setSelected] = useState<"user" | "company" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations();
 
   const handleClick = () => {
     return;
@@ -25,10 +27,8 @@ const OptionalAccount = () => {
 
   return !selected ? (
     <>
-      <h1 className={styles.form_title}>Sign Up!</h1>
-      <h2 className={styles.form_sub_title}>
-        Please select kind of account that you want register!
-      </h2>
+      <h1 className={styles.form_title}>{t("auth.signup")}</h1>
+      <h2 className={styles.form_sub_title}>{t("auth.selectAccountType")}</h2>
 
       <div className={styles.card_container}>
         <div
@@ -37,7 +37,7 @@ const OptionalAccount = () => {
         >
           <div className={styles.card_main}>
             <Image alt="" src={personal} width={100} height={100} />
-            <p className={styles.prompt}>User</p>
+            <p className={styles.prompt}>{t("auth.user")}</p>
           </div>
         </div>
         <div
@@ -46,13 +46,14 @@ const OptionalAccount = () => {
         >
           <div className={styles.card_main}>
             <Image alt="" src={business} width={100} height={100} />
-            <p className={styles.prompt}>Company</p>
+            <p className={styles.prompt}>{t("auth.company")}</p>
           </div>
         </div>
       </div>
       <p className={styles.form_text}>
-        If you have an account,
-        <Link href={RouterPath.SIGNIN}> Sign in</Link> here
+        {t("auth.haveAccount")}
+        <Link href={RouterPath.SIGNIN}> {t("auth.login")}</Link>{" "}
+        {t("auth.here")}
       </p>
     </>
   ) : selected === "user" ? (

@@ -1,13 +1,15 @@
 import { Col, Row } from "antd";
 import styles from "./lesson.component.module.scss";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const LessonComponent = () => {
+  const t = useTranslations();
   return (
     <div className={styles.lesson_container}>
       <Row className={styles.lesson_wrapper} gutter={[20, 20]}>
         <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-          <p className={styles.school}>Primary School</p>
+          <p className={styles.school}>{t("lessons.primary")}</p>
           <ul className={styles.lesson_list_wrapper}>
             <li className={styles.lesson_list_item}>
               <Link
@@ -15,7 +17,7 @@ const LessonComponent = () => {
                 className={styles.math}
               >
                 <div className={styles.box_math}></div>
-                <p>Math</p>
+                <p>{t("lessons.math")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -24,7 +26,7 @@ const LessonComponent = () => {
                 className={styles.science}
               >
                 <div className={styles.box_science}></div>
-                <p>Science</p>
+                <p>{t("lessons.science")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -33,7 +35,7 @@ const LessonComponent = () => {
                 className={styles.sociology}
               >
                 <div className={styles.box_sociology}></div>
-                <p>Sociology</p>
+                <p>{t("lessons.sociology")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -42,13 +44,13 @@ const LessonComponent = () => {
                 className={styles.english}
               >
                 <div className={styles.box_english}></div>
-                <p>English</p>
+                <p>{t("lessons.english")}</p>
               </Link>
             </li>
           </ul>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-          <p className={styles.school}>Secondary School</p>
+          <p className={styles.school}>{t("lessons.secondary")}</p>
           <ul className={styles.lesson_list_wrapper}>
             <li className={styles.lesson_list_item}>
               <Link
@@ -56,7 +58,7 @@ const LessonComponent = () => {
                 className={styles.math}
               >
                 <div className={styles.box_math}></div>
-                <p>Math</p>
+                <p>{t("lessons.math")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -65,7 +67,7 @@ const LessonComponent = () => {
                 className={styles.science}
               >
                 <div className={styles.box_science}></div>
-                <p>Science</p>
+                <p>{t("lessons.science")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -74,7 +76,7 @@ const LessonComponent = () => {
                 className={styles.sociology}
               >
                 <div className={styles.box_sociology}></div>
-                <p>Sociology</p>
+                <p>{t("lessons.sociology")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -83,7 +85,7 @@ const LessonComponent = () => {
                 className={styles.japanese}
               >
                 <div className={styles.box_japanese}></div>
-                <p>Japanese</p>
+                <p>{t("lessons.japanese")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -92,13 +94,13 @@ const LessonComponent = () => {
                 className={styles.english}
               >
                 <div className={styles.box_english}></div>
-                <p>English</p>
+                <p>{t("lessons.english")}</p>
               </Link>
             </li>
           </ul>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-          <p className={styles.school}>High School</p>
+          <p className={styles.school}>{t("lessons.high")}</p>
           <ul className={styles.lesson_list_wrapper}>
             <li className={styles.lesson_list_item}>
               <Link
@@ -106,7 +108,7 @@ const LessonComponent = () => {
                 className={styles.math}
               >
                 <div className={styles.box_math}></div>
-                <p>Math</p>
+                <p>{t("lessons.math")}</p>
               </Link>
             </li>
             <li className={styles.lesson_list_item}>
@@ -115,7 +117,7 @@ const LessonComponent = () => {
                 className={styles.english}
               >
                 <div className={styles.box_english}></div>
-                <p>English</p>
+                <p>{t("lessons.english")}</p>
               </Link>
             </li>
           </ul>

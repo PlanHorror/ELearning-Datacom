@@ -18,4 +18,13 @@ export enum RouterPath {
 
   //coupons
   COUPONS = "/coupons",
+
+  //lessons
+  LESSONS = "/lessons",
+
+  //points
+  POINTS = "/points",
+
+  //favourite
+  FAVOURITE = "/favourite-list",
 }

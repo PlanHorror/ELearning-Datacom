@@ -8,7 +8,6 @@ import { RouterPath } from "@/shared/constants/router.const";
 import {
   HeartOutlined,
   LogoutOutlined,
-  RiseOutlined,
   SearchOutlined,
   SettingOutlined,
   UserOutlined,
@@ -128,11 +127,10 @@ const Header = () => {
   const handleChangeLanguage = useCallback(
     (value: string) => {
       startTransition(() => {
-        const newPathname = pathName.replace(`/${locale}`, "");
-        router.replace(`/${value}${newPathname}`);
+        router.replace(pathName, { locale: value });
       });
     },
-    [pathName, locale, router]
+    [pathName, router]
   );
 
   const goSignIn = useCallback(() => {
@@ -170,25 +168,25 @@ const Header = () => {
       },
       {
         label: (
-          <div className={styles.item_wrapper}>
-            <RiseOutlined /> {t("profile.progress")}
-          </div>
+          <Link href={RouterPath.FAVOURITE} className={styles.item_wrapper}>
+            <HeartOutlined /> {t("profile.favourite")}
+          </Link>
         ),
         key: "2",
       },
       {
         label: (
-          <div className={styles.item_wrapper}>
+          <Link href={RouterPath.POINTS} className={styles.item_wrapper}>
             <Medal size={15} /> {t("profile.points")}
-          </div>
+          </Link>
         ),
         key: "3",
       },
       {
         label: (
-          <div className={styles.item_wrapper}>
+          <Link href={RouterPath.COUPONS} className={styles.item_wrapper}>
             <Tickets size={15} /> {t("profile.coupons")}
-          </div>
+          </Link>
         ),
         key: "4",
       },
@@ -294,7 +292,6 @@ const Header = () => {
               {session?.user ? (
                 <div className={styles.auth_wrapper}>
                   <AlertIcon />
-                  <HeartOutlined size={25} />
                   <Link
                     href={RouterPath.COUPONS}
                     className={styles.points_container}

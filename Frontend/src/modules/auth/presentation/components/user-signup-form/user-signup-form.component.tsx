@@ -16,6 +16,7 @@ import { UserSignUpPayLoad } from "@/modules/auth/domain/dto/register.dto";
 import { AuthUseCase } from "@/modules/auth/domain/usecases/auth.usecase";
 import { Gender } from "@/shared/constants/gender";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onSubmit: () => void;
@@ -27,7 +28,8 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
   const authUseCase = new AuthUseCase();
   const router = useRouter();
   const [form] = Form.useForm();
-  
+  const t = useTranslations();
+
   const handleSubmit = async (values: UserSignUpPayLoad) => {
     try {
       const res = await authUseCase.userSignUp(values);
@@ -54,46 +56,46 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
         layout="vertical"
         style={{ width: 450 }}
       >
-        <h1 className={styles.form_title}>Create a new account for personal</h1>
+        <h1 className={styles.form_title}>{t("auth.createAccount")}</h1>
 
         <div className={styles.input_groups}>
           <Form.Item
-            label={<p className={styles.label}>Username</p>}
+            label={<p className={styles.label}>{t("auth.username")}</p>}
             name="username"
             rules={[
               {
                 type: "string",
                 required: true,
-                message: "Please input username!",
+                message: t("auth.usernameRequired"),
               },
-              { min: 3, message: "Username must be at least 3 characters!" },
+              { min: 3, message: t("auth.usernameMin") },
             ]}
           >
-            <InputAntd placeholder="Username" />
+            <InputAntd placeholder={t("auth.username")} />
           </Form.Item>
           <Form.Item
-            label={<p className={styles.label}>Postal code</p>}
+            label={<p className={styles.label}>{t("auth.postalCode")}</p>}
             name="postal_code"
             rules={[
               {
                 type: "string",
                 required: true,
-                message: "Please input your postal code!",
+                message: t("auth.postalCodeRequired"),
               },
             ]}
           >
-            <InputAntd placeholder="Postal code" />
+            <InputAntd placeholder={t("auth.postalCode")} />
           </Form.Item>
         </div>
 
         <div className={styles.input_groups}>
           <Form.Item
-            label={<p>Gender</p>}
+            label={<p>{t("auth.gender")}</p>}
             name="gender"
-            rules={[{ required: true, message: "Please choose your gender!" }]}
+            rules={[{ required: true, message: t("auth.genderRequired") }]}
           >
             <Select
-              placeholder="Choose your gender"
+              placeholder={t("auth.genderPlaceholder")}
               options={[
                 { value: Gender.male, label: Gender.male },
                 { value: Gender.female, label: Gender.female },
@@ -102,11 +104,9 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
             />
           </Form.Item>
           <Form.Item
-            label={<p>DOB</p>}
+            label={<p>{t("auth.dob")}</p>}
             name="dob"
-            rules={[
-              { required: true, message: "Please input your date of birth!" },
-            ]}
+            rules={[{ required: true, message: t("auth.dobRequired") }]}
           >
             <DatePicker
               className={styles.datepicker_input}
@@ -117,50 +117,50 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Address</p>}
+            label={<p className={styles.label}>{t("auth.address")}</p>}
             name="prefecture"
             rules={[
               {
                 type: "string",
                 required: true,
-                message: "Please input your address!",
+                message: t("auth.addressRequired"),
               },
             ]}
           >
-            <InputAntd placeholder="Address" />
+            <InputAntd placeholder={t("auth.address")} />
           </Form.Item>
         </div>
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Email</p>}
+            label={<p className={styles.label}>{t("auth.email")}</p>}
             name="email"
             rules={[
               {
                 type: "email",
                 required: true,
-                message: "Please input your email!",
+                message: t("auth.emailRequired"),
               },
             ]}
           >
-            <InputAntd placeholder="Email" />
+            <InputAntd placeholder={t("auth.email")} />
           </Form.Item>
         </div>
 
         <div className={styles.input_group}>
           <Form.Item
-            label={<p className={styles.label}>Password</p>}
+            label={<p className={styles.label}>{t("auth.password")}</p>}
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: t("auth.passwordRequired") }]}
           >
-            <InputAntd.Password placeholder="Password" />
+            <InputAntd.Password placeholder={t("auth.password")} />
           </Form.Item>
         </div>
 
         <div className={styles.wrapper_btn}>
           <Button className={styles.btn} onClick={goBack} type="default">
             <ArrowLeftOutlined /> {""}
-            Return
+            {t("auth.return")}
           </Button>
           <Button
             className={styles.btn}
@@ -168,7 +168,7 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
             loading={isLoading}
             htmlType="submit"
           >
-            Sign Up
+            {t("auth.register")}
             <ArrowRightOutlined />
           </Button>
         </div>

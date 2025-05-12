@@ -8,10 +8,11 @@ import logo from "@/public/logo-bgwhite.svg";
 import Link from "next/link";
 import elearning from "@/public/elearning_1.png";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 const RegisterPage = () => {
   // const [isLoading, setIsLoading] = useState(false);
-
+  const t = useTranslations();
   return (
     <div className={styles.authentication_container}>
       <Row className={styles.authentication_wrapper}>
@@ -31,15 +32,9 @@ const RegisterPage = () => {
               />
             </Link>
             <div className={styles.describe_wrapper}>
-              <h1 className={styles.form_title}>
-                Welcome to Elearning Datacom
-              </h1>
-              <h2 className={styles.sub_title}>
-                Register to unlock your learning journey!
-              </h2>
-              <p className={styles.slogan}>
-                Empower your knowledge. Connect. Grow. Succeed.
-              </p>
+              <h1 className={styles.form_title}>{t("auth.registerWelcome")}</h1>
+              <h2 className={styles.sub_title}>{t("auth.registerSubTitle")}</h2>
+              <p className={styles.slogan}>{t("auth.registerSlogan")}</p>
             </div>
             <Image
               alt="Learning Illustration"

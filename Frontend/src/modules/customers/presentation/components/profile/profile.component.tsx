@@ -26,16 +26,36 @@ import {
 import { useEffect, useState } from "react";
 import ModalUpdateInformation from "../modal-update-information/modal.update.information.component";
 import { CustomerUseCase } from "@/modules/customers/domain/usecases/customer.usecase";
+import { CouponUseCase } from "@/modules/coupons/domain/usecase/coupon.usecase";
 import { toast } from "sonner";
 import { GetCustomerByIdResponse } from "../../../domain/dto/getCustomer.dto";
 import { LoadingComponent } from "@/shared/components/loading/loading.component";
 import dayjs from "dayjs";
+import CouponUsageCard from "@/shared/components/coupon-usage-card/coupon-usage.card.component";
+import { useTranslations } from "next-intl";
+
+type CouponUsage = {
+  id: string;
+  title: string;
+  period_start?: Date;
+  period_end: Date;
+  classification?: string;
+  use_point: number;
+  use_code?: string;
+  image: string;
+  comment?: string;
+  status: string;
+  labelId?: string;
+  detail?: string;
+};
 
 const ProfileComponent = () => {
+  const t = useTranslations();
   const { data: session, status } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profile, setProfile] = useState<GetCustomerByIdResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [usedCoupons, setUsedCoupons] = useState<CouponUsage[]>([]);
 
   const fetchProfile = async () => {
     try {
@@ -55,9 +75,22 @@ const ProfileComponent = () => {
     }
   };
 
+  const fetchUsedCoupons = async () => {
+    try {
+      const couponUseCase = new CouponUseCase();
+      const res = await couponUseCase.getUsedCoupons();
+      if (res.status === 200) {
+        setUsedCoupons(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching used coupons:", error);
+    }
+  };
+
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       fetchProfile();
+      fetchUsedCoupons();
     }
   }, [status]);
 
@@ -79,6 +112,14 @@ const ProfileComponent = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleCouponClick = (coupon: CouponUsage) => {
+    console.log("Coupon clicked:", coupon);
+  };
+
+  const handleFavoriteToggle = (couponId: string) => {
+    console.log("Favorite toggled for coupon:", couponId);
   };
 
   const achievements = [
@@ -161,7 +202,7 @@ const ProfileComponent = () => {
           <Card hoverable={true}>
             <div className={styles.card_wrapper}>
               <div className={styles.title_wrapper}>
-                <h2>Personal Information</h2>
+                <h2>{t("profile.personalInfo")}</h2>
                 <EditOutlined onClick={showModal} />
               </div>
               <div className={styles.information_wrapper}>
@@ -198,10 +239,10 @@ const ProfileComponent = () => {
             <div className={styles.right_card_wrapper}>
               <RiseOutlined />
               <div className={styles.progress_info}>
-                <p className={styles.text}>Learning Progress</p>
+                <p className={styles.text}>{t("profile.learningProgress")}</p>
                 <Progress percent={65} status="active" />
                 <span className={styles.progress_text}>
-                  12 courses completed
+                  12 {t("profile.coursesCompleted")}
                 </span>
               </div>
             </div>
@@ -210,12 +251,9 @@ const ProfileComponent = () => {
             <div className={styles.right_card_wrapper}>
               <Medal size={24} />
               <div className={styles.points_info}>
-                <p className={styles.text}>Points</p>
-                <span className={styles.points_value}>
-                {/* {profile?.points} */}
-                750
-                </span>
-                <Badge count="+100" style={{ backgroundColor: "#52c41a" }} />
+                <p className={styles.text}>{t("profile.points")}</p>
+                <span className={styles.points_value}>{profile?.points}</span>
+                {/* <Badge count="+100" style={{ backgroundColor: "#52c41a" }} /> */}
               </div>
             </div>
           </Card>
@@ -223,15 +261,40 @@ const ProfileComponent = () => {
             <div className={styles.right_card_wrapper}>
               <Tickets size={24} />
               <div className={styles.coupons_info}>
-                <p className={styles.text}>Available Coupons</p>
-                <span className={styles.coupons_count}>3</span>
-                <Badge count="New" style={{ backgroundColor: "#1890ff" }} />
+                <p className={styles.text}>{t("profile.availableCoupons")}</p>
+                <span className={styles.coupons_count}>
+                  {profile?.available_coupons || 0}
+                </span>
+                {(profile?.available_coupons ?? 0) > 0 && (
+                  <Badge count="New" style={{ backgroundColor: "#1890ff" }} />
+                )}
               </div>
             </div>
           </Card>
           <Card
             hoverable={true}
-            title="Recent Activities"
+            title={t("profile.couponUsageHistory")}
+            className={styles.ant_card}
+            headStyle={{
+              borderBottom: "1px solid #f0f0f0",
+              padding: "16px 24px",
+            }}
+            bodyStyle={{ padding: "24px" }}
+          >
+            <div className={styles.coupons_grid}>
+              {usedCoupons.map((usage) => (
+                <CouponUsageCard key={usage.id} coupon={usage} />
+              ))}
+              {usedCoupons.length === 0 && (
+                <div className={styles.no_data}>
+                  {t("profile.noCouponUsageHistory")}
+                </div>
+              )}
+            </div>
+          </Card>
+          <Card
+            hoverable={true}
+            title={t("profile.recentActivities")}
             className={styles.ant_card}
             headStyle={{
               borderBottom: "1px solid #f0f0f0",

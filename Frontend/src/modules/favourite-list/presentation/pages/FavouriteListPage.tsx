@@ -13,6 +13,7 @@ import { GetCustomerByIdResponse } from "@/modules/customers/domain/dto/getCusto
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/navigation";
 import { EmptyState } from "../components/EmptyState";
+import { useTranslations } from "next-intl";
 
 interface Coupon {
   id: string;
@@ -39,6 +40,8 @@ export const FavouriteListPage: React.FC = () => {
   const { data: session, status } = useSession();
 
   const favouriteCouponUseCase = new FavouriteCouponUseCase();
+
+  const t = useTranslations();
 
   useEffect(() => {
     if (session?.user?.role === "Company") {
@@ -95,7 +98,7 @@ export const FavouriteListPage: React.FC = () => {
     <div className={styles.page_container}>
       <div className={styles.page_wrapper}>
         <div>
-          <FavouriteListHeader />
+          <FavouriteListHeader title={t("favourite.title")} />
         </div>
         <div className={styles.page_content}>
           {coupons.length > 0 ? (
@@ -126,7 +129,7 @@ export const FavouriteListPage: React.FC = () => {
               ))}
             </Row>
           ) : (
-            <EmptyState />
+            <EmptyState description={t("favourite.empty")} />
           )}
         </div>
       </div>

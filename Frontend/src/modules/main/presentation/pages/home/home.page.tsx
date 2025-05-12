@@ -29,6 +29,8 @@ import { useSession } from "next-auth/react";
 import { GetCustomerByIdResponse } from "@/modules/customers/domain/dto/getCustomer.dto";
 import { CustomerUseCase } from "@/modules/customers/domain/usecases/customer.usecase";
 import { toast } from "sonner";
+import { FilterCouponDto } from "@/modules/coupons/domain/dto/coupon.dto";
+import { CouponStatus } from "@/shared/constants/coupon.status";
 
 const { Text, Paragraph } = Typography;
 const { TabPane } = Tabs;
@@ -53,8 +55,12 @@ const HomePage = () => {
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [profile, setProfile] = useState<GetCustomerByIdResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [labels, setLabels] = useState<Label[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
   const router = useRouter();
   const t = useTranslations();
+
   const couponUseCase = new CouponUseCase();
   const customerUseCase = new CustomerUseCase();
   const { data: session, status } = useSession();
@@ -84,20 +90,71 @@ const HomePage = () => {
     }
   }, [status]);
 
+  // Fetch labels
+  useEffect(() => {
+    const fetchLabels = async () => {
+      try {
+        const popularLabel = await couponUseCase.getLabel("", "Popular");
+        const newLabel = await couponUseCase.getLabel("", "New");
+
+        const validLabels = [
+          { id: "all", name: "All" },
+          ...(popularLabel
+            ? [{ id: popularLabel.id, name: popularLabel.name }]
+            : []),
+          ...(newLabel?.data ? [{ id: newLabel.id, name: newLabel.name }] : []),
+        ];
+
+        if (validLabels.length === 0) {
+          setError("No labels available");
+          return;
+        }
+
+        setLabels(validLabels);
+      } catch (error) {
+        console.error("Error fetching labels:", error);
+        setError("Failed to load labels. Please try again later.");
+      }
+    };
+    fetchLabels();
+  }, []);
+
   useEffect(() => {
     const fetchCoupons = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
-        const res = await couponUseCase.getAllCoupons();
-        if (res.status === 200) {
-          setCoupons(res.data);
+        const filter: FilterCouponDto = {
+          status: CouponStatus.ACTIVE,
+        };
+
+        // Only add labelId filter if not "All" tab
+        if (activeTab !== "all") {
+          const selectedLabel = labels.find((label) => label.id === activeTab);
+          if (selectedLabel) {
+            filter.labelId = selectedLabel.id;
+          }
+        }
+
+        const response = await couponUseCase.getCouponByFiller(filter);
+        if (response && Array.isArray(response)) {
+          setCoupons(response);
         } else {
           setCoupons([]);
+          setError("No coupons available");
         }
       } catch (error) {
-        console.error("Failed to fetch coupons:", error);
+        console.error("Error fetching coupons:", error);
+        setError("Failed to load coupons. Please try again later.");
+        setCoupons([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
+    // if (labels.length > 0) {
+    //   fetchCoupons();
+    // }
     fetchCoupons();
   }, []);
 
@@ -170,7 +227,11 @@ const HomePage = () => {
   ];
 
   const handleStartLearning = () => {
-    router.push(RouterPath.SIGNIN);
+    if (!session?.user) {
+      router.push(RouterPath.SIGNIN);
+    } else {
+      router.push(RouterPath.LESSONS);
+    }
   };
 
   const handleExploreRewards = () => {
@@ -453,16 +514,10 @@ const HomePage = () => {
 
           {/* Sponsors Section */}
           <div className={styles.sponsors_section}>
-            <h2 className={styles.section_title}>
-              {/* {t("home.sponsors.title") || "Our Sponsors"} */}
-              Company
-            </h2>
+            <h2 className={styles.section_title}>{t("home.sponsors.title")}</h2>
             <p className={styles.section_description}>
-              {/* {t("home.sponsors.description") || */}
-              These trusted businesses provide special discounts and coupons for
-              our learners.
+              {t("home.sponsors.description")}
             </p>
-
             <div className={styles.sponsors_grid}>
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
@@ -470,37 +525,34 @@ const HomePage = () => {
                 </div>
                 <h3 className={styles.sponsor_name}>Starbucks Japan</h3>
                 <p className={styles.sponsor_description}>
-                  Offering coffee discount coupons for our top learners.
+                  {t("home.sponsors.starBucksDesc")}
                 </p>
               </div>
-
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
                   <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>Amazon Japan</h3>
                 <p className={styles.sponsor_description}>
-                  Providing shopping vouchers for course completions.
+                  {t("home.sponsors.amazonDesc")}
                 </p>
               </div>
-
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
                   <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>UNIQLO</h3>
                 <p className={styles.sponsor_description}>
-                  Special discounts for students who complete our courses.
+                  {t("home.sponsors.uniqloDesc")}
                 </p>
               </div>
-
               <div className={styles.sponsor_card}>
                 <div className={styles.sponsor_logo}>
                   <FaGift className={styles.placeholder_logo} />
                 </div>
                 <h3 className={styles.sponsor_name}>Toshiba</h3>
                 <p className={styles.sponsor_description}>
-                  Tech discounts for students in IT-related courses.
+                  {t("home.sponsors.toshibaDesc")}
                 </p>
               </div>
             </div>

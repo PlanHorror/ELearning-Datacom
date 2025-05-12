@@ -82,7 +82,7 @@ export class CouponUsageService {
       throw new NotFoundException('Customer not found');
     }
     return await this.couponUsageRepository.find({
-      where: { customer },
+      where: { customer: { id: customer.id } },
       relations: ['coupon'],
     });
   }
@@ -112,15 +112,13 @@ export class CouponUsageService {
       coupon,
     });
     try {
-      await this.couponUsageRepository.save(newCouponUsage);
-      // await this.authSercive.subtractPoints(customer, coupon.use_point);
-
       await this.pointsHistoryService.createPointsHistory(
         customer,
         coupon.use_point,
         'Redeem coupon',
         PointsHistoryType.SUBTRACT,
       );
+      await this.couponUsageRepository.save(newCouponUsage);
       return newCouponUsage;
     } catch (error) {
       throw error.code === '23505'

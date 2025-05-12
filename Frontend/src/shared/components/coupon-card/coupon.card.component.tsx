@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -25,7 +25,7 @@ import dayjs from "dayjs";
 import { toast } from "sonner";
 const { Title, Text } = Typography;
 
-interface CouponCardProps {
+export interface CouponCardProps {
   coupon: {
     id: string;
     title: string;
@@ -44,6 +44,7 @@ interface CouponCardProps {
   onCouponClick: (coupon: CouponCardProps["coupon"]) => void;
   isFavorite?: boolean;
   onFavoriteToggle?: (couponId: string) => void;
+  onExchangeCoupon?: (coupon: CouponCardProps["coupon"]) => void;
 }
 
 const CouponCard: React.FC<CouponCardProps> = ({
@@ -52,6 +53,7 @@ const CouponCard: React.FC<CouponCardProps> = ({
   pointOfUser,
   isFavorite = false,
   onFavoriteToggle,
+  onExchangeCoupon,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [copyLoading, setCopyLoading] = useState(false);
@@ -76,7 +78,11 @@ const CouponCard: React.FC<CouponCardProps> = ({
 
   const handleConfirmExchange = () => {
     setModalVisible(false);
-    onCouponClick(coupon);
+    if (onExchangeCoupon) {
+      onExchangeCoupon(coupon);
+    } else {
+      onCouponClick(coupon);
+    }
   };
 
   const handleFavoriteToggle = (e: React.MouseEvent) => {
@@ -143,7 +149,7 @@ const CouponCard: React.FC<CouponCardProps> = ({
             <Text className={styles.pointsAway}>
               {pointOfUser >= coupon.use_point
                 ? "Get coupon now!"
-                : `${coupon.use_point - pointOfUser} points away`}
+                : `Study to earn ${coupon.use_point - pointOfUser} points`}
             </Text>
           </div>
           {coupon.use_code && (

@@ -30,7 +30,14 @@ export class CompanyAdminService {
       throw new BadRequestException('Not enough data provided');
     }
     try {
-      return await this.companyRepository.findOneByOrFail({ id });
+      const company = await this.companyRepository.findOne({
+        where: { id },
+        relations: ['coupons'],
+      });
+      if (!company) {
+        throw new NotFoundException('Company not found');
+      }
+      return company;
     } catch (error) {
       throw new NotFoundException('Company not found');
     }
@@ -42,7 +49,14 @@ export class CompanyAdminService {
       throw new BadRequestException('Not enough data provided');
     }
     try {
-      return await this.companyRepository.findOneByOrFail({ email });
+      const company = await this.companyRepository.findOne({
+        where: { email },
+        relations: ['coupons'],
+      });
+      if (!company) {
+        throw new NotFoundException('Company not found');
+      }
+      return company;
     } catch (error) {
       throw new NotFoundException('Company not found');
     }

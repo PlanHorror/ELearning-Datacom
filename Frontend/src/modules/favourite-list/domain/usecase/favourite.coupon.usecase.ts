@@ -26,4 +26,14 @@ export class FavouriteCouponUseCase {
       throw error;
     }
   }
+
+  async deleteFavouriteCoupon(data: FavouriteCouponDto) {
+    try {
+      const res = await this.favouriteCouponService.deleteFavouriteCoupon(data);
+      return res.data;
+    } catch (error) {
+      console.error("Error deleting favourite coupon:", error);
+      throw error;
+    }
+  }
 }

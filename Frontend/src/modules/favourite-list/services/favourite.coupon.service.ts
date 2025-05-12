@@ -39,4 +39,22 @@ export class FavouriteCouponService {
       }
     );
   }
+
+  async deleteFavouriteCoupon(id: FavouriteCouponDto) {
+    const session = await getSession();
+    const accessToken = session?.accessToken;
+
+    if (!accessToken) {
+      throw new Error("No access token found");
+    }
+
+    return await axios.delete(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/coupon/favourite/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+  }
 }

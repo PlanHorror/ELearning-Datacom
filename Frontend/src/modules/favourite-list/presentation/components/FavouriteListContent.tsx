@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./FavouriteListContent.module.scss";
 import CouponCard from "@/shared/components/coupon-card/coupon.card.component";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface Coupon {
   id: string;
@@ -19,6 +20,7 @@ interface Coupon {
 }
 
 export const FavouriteListContent: React.FC = () => {
+  const t = useTranslations();
   // This would typically come from your data source
   const favoriteCoupons: Coupon[] = [
     {
@@ -59,7 +61,7 @@ export const FavouriteListContent: React.FC = () => {
         </div>
       ) : (
         <div className={styles.emptyState}>
-          <p>Bạn chưa có coupon yêu thích nào</p>
+          <p>{t("favourite.empty")}</p>
         </div>
       )}
     </div>

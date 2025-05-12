@@ -34,22 +34,22 @@ const Footer = () => {
         </div>
 
         <div className={styles.footer_section}>
-          <h3>INFORMATION</h3>
+          <h3>{t("home.footer.information")}</h3>
           <ul className={styles.footer_links}>
             <li>
-              <strong>Address</strong>
+              <strong>{t("home.footer.address")}</strong>
               <p>Tokyo</p>
             </li>
             <li>
-              <strong>Email</strong>
+              <strong>{t("home.footer.email")}</strong>
               <p>datacom@gmail.com</p>
             </li>
             <li>
-              <strong>Hotline</strong>
+              <strong>{t("home.footer.hotline")}</strong>
               <p>+84961436448</p>
             </li>
             <li>
-              <strong>Support Time</strong>
+              <strong>{t("home.footer.supportTime")}</strong>
               <p>8:00 AM - 6:00 PM</p>
             </li>
           </ul>
