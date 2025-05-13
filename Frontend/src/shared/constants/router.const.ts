@@ -9,6 +9,7 @@ export enum RouterPath {
   DASHBOARD = "/dashboard",
   DASHBOARD_USERS = "/dashboard/manage/users",
   DASHBOARD_INPUT_SCORE = "/dashboard/input-score",
+  ADMIN_LOGIN = "/login"
 
   //customer
   CUSTOMER_PROFILE = "/customers/profile",

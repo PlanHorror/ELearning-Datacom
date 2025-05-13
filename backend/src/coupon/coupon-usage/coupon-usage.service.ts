@@ -150,7 +150,6 @@ export class CouponUsageService {
 
   @Cron(CronExpression.EVERY_9_HOURS)
   async changeAllCouponUsageStatus() {
-    console.log('Change coupon usage staus');
     const couponUsages = await this.getAllCouponUsage();
     for (const couponUsage of couponUsages) {
       if (couponUsage.status == CouponUsageStatus.UNUSED) {

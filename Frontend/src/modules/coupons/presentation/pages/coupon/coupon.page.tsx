@@ -105,13 +105,11 @@ const CouponPage: React.FC = () => {
 
       try {
         const response = await favouriteCouponUseCase.getFavouriteCoupons();
-        console.log("Favorite coupons response:", response);
 
         if (response.status === 200 && Array.isArray(response.data)) {
           const favoriteIds = response.data.map(
             (item: FavoriteCouponResponse) => item.couponId || item.id
           );
-          console.log("Favorite coupon IDs:", favoriteIds);
           setFavoriteList(favoriteIds);
         }
       } catch (error) {
@@ -222,16 +220,8 @@ const CouponPage: React.FC = () => {
     const coupon = coupons.find((c) => c.id === couponId);
     const isFavorited = coupon?.isFavorite || favoriteList.includes(couponId);
 
-    console.log(
-      "Toggle favorite for coupon:",
-      couponId,
-      "Current status:",
-      isFavorited
-    );
-
     try {
       if (isFavorited) {
-        console.log("Attempting to remove from favorites");
         const res = await favouriteCouponUseCase.deleteFavouriteCoupon({
           id: couponId,
         });
@@ -247,7 +237,6 @@ const CouponPage: React.FC = () => {
           toast.success("Coupon removed from favourite list!");
         }
       } else {
-        console.log("Attempting to add to favorites");
         const res = await favouriteCouponUseCase.addFavouriteCoupons({
           id: couponId,
         });

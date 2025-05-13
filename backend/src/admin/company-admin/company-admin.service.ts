@@ -69,7 +69,7 @@ export class CompanyAdminService {
       return await this.companyRepository.save(company);
     } catch (error) {
       if (error.code === '23505') {
-        console.log(error);
+        console.error(error);
         throw new BadRequestException('Company already exists');
       }
       throw new BadRequestException('Error creating company');

@@ -20,7 +20,6 @@ export class CouponLabelController {
 
   @Get()
   getLabels() {
-    console.log('getLabels');
     return this.couponLabelService.getLabels();
   }
 

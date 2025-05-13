@@ -56,7 +56,7 @@ export class CouponLabelAdminService {
       if (error.code === '23505') {
         throw new BadRequestException('Coupon label already exists');
       }
-      console.log(error);
+      console.error(error);
       throw new BadRequestException('Error creating coupon label');
     }
   }

@@ -66,7 +66,7 @@ export class CustomerDeletedAdminService {
       const customer = this.customerDeletedRepository.create(data);
       return await this.customerDeletedRepository.save(customer);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new BadRequestException('Error when creating customer');
     }
   }

@@ -77,6 +77,7 @@ export const FavouriteListPage: React.FC = () => {
         if (res.status === 200) {
           setCoupons(res.data);
         }
+
       } catch (error) {
         console.error(error);
       } finally {
@@ -86,8 +87,8 @@ export const FavouriteListPage: React.FC = () => {
     getFavouriteCoupon();
   }, []);
 
-  const handleCouponClick = (coupon: Coupon) => {
-    router.push(`/coupons/${coupon.id}`);
+  const handleCouponClick = () => {
+    return
   };
 
   if (isLoading) {
@@ -98,7 +99,7 @@ export const FavouriteListPage: React.FC = () => {
     <div className={styles.page_container}>
       <div className={styles.page_wrapper}>
         <div>
-          <FavouriteListHeader title={t("favourite.title")} />
+          <FavouriteListHeader/>
         </div>
         <div className={styles.page_content}>
           {coupons.length > 0 ? (
@@ -123,7 +124,7 @@ export const FavouriteListPage: React.FC = () => {
                     onCouponClick={handleCouponClick}
                     pointOfUser={profile?.points || 0}
                     isFavorite={true}
-                    onFavoriteToggle={onFavoriteToggle}
+                    onFavoriteToggle={() => {}}
                   />
                 </Col>
               ))}

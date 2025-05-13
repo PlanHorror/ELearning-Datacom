@@ -114,13 +114,13 @@ const ProfileComponent = () => {
     setIsModalOpen(false);
   };
 
-  const handleCouponClick = (coupon: CouponUsage) => {
-    console.log("Coupon clicked:", coupon);
-  };
+  // const handleCouponClick = () => {
+  //   return
+  // };
 
-  const handleFavoriteToggle = (couponId: string) => {
-    console.log("Favorite toggled for coupon:", couponId);
-  };
+  // const handleFavoriteToggle = () => {
+  //   return
+  // };
 
   const achievements = [
     {

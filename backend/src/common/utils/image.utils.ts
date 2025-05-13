@@ -4,7 +4,6 @@ import * as fs from 'fs';
 import { NotFoundException } from '@nestjs/common';
 
 export function createImageName(avatar: Express.Multer.File): string {
-  console.log('avatar', avatar);
   const ext = path.extname(avatar.originalname);
   const name = path.basename(avatar.originalname, ext);
   const newName = `${name}-${uuidv4()}${ext}`;

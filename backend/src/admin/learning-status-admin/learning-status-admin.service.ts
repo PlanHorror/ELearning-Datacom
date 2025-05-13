@@ -84,7 +84,7 @@ export class LearningStatusAdminService {
       }
       return await this.learningStatusRepository.save(learningStatus);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new BadRequestException('Error creating learning status');
     }
   }
@@ -131,7 +131,7 @@ export class LearningStatusAdminService {
         time: timeInSeconds,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new BadRequestException('Error updating learning status');
     }
   }

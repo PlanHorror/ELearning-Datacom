@@ -33,7 +33,6 @@ const CustomerComponent = ({ id }: { id: string }) => {
           id
         );
         await setCustomer(response);
-        console.log("Customer:", response);
       } catch (error) {
         if (error.status === 404) {
           setCustomer(undefined);

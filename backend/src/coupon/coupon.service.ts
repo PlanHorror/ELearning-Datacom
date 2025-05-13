@@ -97,7 +97,6 @@ export class CouponService {
       }
 
       const filePath = path.join(uploadDir, newCoupon.image);
-      console.log('Check url ảnh: ', filePath);
       try {
         await fs.promises.writeFile(filePath, image.buffer);
       } catch (error) {
@@ -194,7 +193,6 @@ export class CouponService {
     const ext = path.extname(image.originalname);
     const name = path.basename(image.originalname, ext);
     const filename = `${name}-${uuidv4()}${ext}`;
-    console.log('Check filename: ', filename);
     return filename;
   }
 
@@ -234,7 +232,6 @@ export class CouponService {
 
   @Cron(CronExpression.EVERY_9_HOURS)
   async changeCouponStatus() {
-    console.log('Running cron job to change coupon status');
     try {
       const coupons = await this.coupon.find();
       for (const coupon of coupons) {

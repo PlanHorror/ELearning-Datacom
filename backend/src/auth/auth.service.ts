@@ -120,7 +120,6 @@ export class AuthService {
         role: Role.CUSTOMER,
         username: thisUser.username,
       };
-      console.log('Check: ', payload);
       const accessToken = this.jwtService.sign(payload);
       const refreshToken = this.jwtService.sign(payload, {
         secret: process.env.JWT_REFRESH_SECRET,
@@ -261,7 +260,6 @@ export class AuthService {
 
   // Verify email service
   async verifyEmail(token: string): Promise<{ message: string }> {
-    console.log(token);
     try {
       this.jwtService.verify(token, {
         secret: process.env.JWT_VERIFY_SECRET,

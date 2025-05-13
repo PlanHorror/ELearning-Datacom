@@ -222,5 +222,19 @@
     "emptyTitle": "まだお気に入りのクーポンがありません",
     "emptyDesc": "クーポンをお気に入りに追加すると、ここに表示されます！",
     "headerDesc": "保存したクーポンを管理・発見しましょう"
+  },
+  "admin": {
+    "title": "管理者ログイン",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "login": "ログイン",
+    "usernameRequired": "ユーザー名を入力してください！",
+    "passwordRequired": "パスワードを入力してください！",
+    "usernamePlaceholder": "管理者ユーザー名",
+    "passwordPlaceholder": "パスワード",
+    "loginSuccess": "管理者ログインに成功しました！",
+    "loginFailed": "ログインに失敗しました。もう一度お試しください！",
+    "invalidCredentials": "管理者の認証情報が正しくありません！",
+    "logout": "Logout"
   }
 }

@@ -9,7 +9,7 @@ export function HeaderWrapper() {
   const pathName = usePathname();
 
   const hideHeader =
-    pathName === RouterPath.SIGNUP || pathName === RouterPath.DASHBOARD;
+    pathName === RouterPath.SIGNUP || pathName === RouterPath.DASHBOARD || pathName === RouterPath.ADMIN_LOGIN;
 
   if (hideHeader) return null;
 
@@ -20,7 +20,7 @@ export function FooterWrapper() {
   const pathName = usePathname();
 
   const hideFooter =
-    pathName === RouterPath.SIGNUP || pathName === RouterPath.DASHBOARD;
+    pathName === RouterPath.SIGNUP || pathName === RouterPath.DASHBOARD || pathName === RouterPath.ADMIN_LOGIN;;
 
   if (hideFooter) return null;
 

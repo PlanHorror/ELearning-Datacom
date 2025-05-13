@@ -68,7 +68,6 @@ const InputScoreComponent = () => {
         completedAt: values.completedAt.format("YYYY-MM-DD"),
         completionStatus: values.completion ? "true" : "false",
       };
-      console.log("scoreData", scoreData);
 
       await ScoreService.getInstance().createScore(scoreData);
       message.success("Score added successfully");

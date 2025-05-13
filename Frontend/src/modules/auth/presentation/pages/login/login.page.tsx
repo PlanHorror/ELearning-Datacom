@@ -23,6 +23,7 @@ const LoginPage = () => {
       const res = await signIn("credentials", {
         email,
         password,
+        role: "User",
         redirect: false,
       });
       if (res?.ok) {

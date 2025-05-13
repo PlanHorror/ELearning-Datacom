@@ -36,7 +36,6 @@ export class CouponFavouriteAdminService {
 
   // Get a coupon favourite by id from the database
   async getCouponFavouriteById(id: string): Promise<CouponFavourite> {
-    console.log('id', id);
     if (!id) {
       throw new BadRequestException('Not enough data provided');
     }

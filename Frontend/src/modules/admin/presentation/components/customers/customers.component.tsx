@@ -20,9 +20,8 @@ const CustomersComponent = () => {
       try {
         const response = await CustomerService.getInstance().getCustomers();
         setCustomers(response);
-        // console.log("Customers:", response);
       } catch (error) {
-        // console.error("Error fetching customers:", error);
+        console.error("Error fetching customers:", error);
       }
     };
     fetchCustomers();
@@ -146,7 +145,6 @@ const CustomersComponent = () => {
               style={{ color: "red" }}
               onClick={() => {
                 alert("Are you sure you want to delete this customer?");
-                console.log("Delete customer with ID" + id);
               }}
             />
           </div>

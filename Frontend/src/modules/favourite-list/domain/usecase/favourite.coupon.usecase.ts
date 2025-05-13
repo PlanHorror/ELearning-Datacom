@@ -20,7 +20,7 @@ export class FavouriteCouponUseCase {
   async getFavouriteCoupons() {
     try {
       const res = await this.favouriteCouponService.getFavouriteCoupons();
-      return res.data;
+      return res;
     } catch (error) {
       console.error("Error fetching favourite coupons:", error);
       throw error;

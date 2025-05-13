@@ -46,7 +46,7 @@ export class CustomerAdminService {
       }
       return customer;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new NotFoundException('Customer not found');
     }
   }
@@ -85,7 +85,7 @@ export class CustomerAdminService {
       if (error.code === '23505') {
         throw new BadRequestException('Customer already exists');
       }
-      console.log(error);
+      console.error(error);
       throw new BadRequestException('Error updating customer');
     }
   }
