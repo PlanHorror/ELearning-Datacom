@@ -44,7 +44,19 @@ $~~~~~~~$├── points-history/ $~~~~~~~~~~~~~~~~~~~~~$# Track user points an
 $~~~~~~~$└── upload/ $~~~~~~~~~~~~~~~~~~~~~$# Upload endpoints and file handling  
 $~~~~~~~~~~~~~~$├── coupons/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Uploaded coupon images  
 $~~~~~~~~~~~~~~$└── learning-status/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Learning progress uploads  
+
 ├── Frontend/ $~~~~~~~$# Next.js frontend application  
+$~~~~~~~$└── app/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── i18n/ $~~~~~~~~~~~~~~$# config next-intl
+$~~~~~~~$└── modules/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── public/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── shared/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── types/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── utils/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── auth.middleware.ts/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── auth.ts/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── middleware.ts/ $~~~~~~~~~~~~~~$# Page Router  
+
 └── README.md $~~~~~~~$# Project documentation (you are here)
 
 ## ⚙️ Tech Stack
