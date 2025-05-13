@@ -508,11 +508,10 @@ const HomePage = () => {
           </div>
 
           <div className={styles.lesson_wrapper}>
-            <h2 className={styles.title}>{t("home.lessons.title")}</h2>
+            <h2 className={styles.title}>{t("lessons.title")}</h2>
             <LessonComponent />
           </div>
 
-          {/* Sponsors Section */}
           <div className={styles.sponsors_section}>
             <h2 className={styles.section_title}>{t("home.sponsors.title")}</h2>
             <p className={styles.section_description}>
