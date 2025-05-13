@@ -13,7 +13,7 @@ export class AuthUseCase {
   async userSignUp(values: UserSignUpPayLoad) {
     try {
       const res = await this.authService.userSignUp(values);
-
+      console.log("Check res:", res)
       if (!res) {
         throw new Error("Something went wrong!");
       }

@@ -5,14 +5,15 @@ import Email from "@/public/email.png";
 import styles from "./verify.account.module.scss";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const VerifyAccountPage = () => {
   const [userEmail, setUserEmail] = useState("");
-
+  const {data: session} = useSession();
   useEffect(() => {
-    const email = sessionStorage.getItem("email");
-    if (email) {
-      setUserEmail(email);
+
+    if (session?.user?.email) {
+      setUserEmail(session?.user?.email);
     }
   }, []);
   return (

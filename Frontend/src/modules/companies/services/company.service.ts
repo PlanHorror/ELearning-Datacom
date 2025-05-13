@@ -121,7 +121,7 @@ export class CompanyService {
   async getListLabel() {
     try {
       return await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/coupon-label/find`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/coupon/label/find`
       );
     } catch (error) {
       console.error("Error get list label on service side:", error);

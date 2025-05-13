@@ -17,6 +17,7 @@ import { AuthUseCase } from "@/modules/auth/domain/usecases/auth.usecase";
 import { Gender } from "@/shared/constants/gender";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
 interface Props {
   onSubmit: () => void;
@@ -29,12 +30,11 @@ const UserSignUpForm = ({ onSubmit, goBack, isLoading }: Props) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const t = useTranslations();
-
+  const {data: session} = useSession();
   const handleSubmit = async (values: UserSignUpPayLoad) => {
     try {
       const res = await authUseCase.userSignUp(values);
       if (res && res.data.status === "Inactive") {
-        sessionStorage.setItem("email", values.email);
         message.success("Sign up successfully!");
         onSubmit();
         router.push(RouterPath.VERIFY_ACCOUNT);

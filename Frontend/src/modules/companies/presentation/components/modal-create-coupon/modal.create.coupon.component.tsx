@@ -73,6 +73,7 @@ const ModalCreateCoupon = ({
       const companyUseCase = new CompanyUseCase();
       const res = await companyUseCase.getListLabel();
       setListLabel(res.data);
+      console.log("check label: ", res)
     } catch (error) {
       throw error;
       toast.error("Failed to get list label!");
@@ -120,7 +121,7 @@ const ModalCreateCoupon = ({
         layout="vertical"
         initialValues={{
           classification: "Coupon",
-          label: "new",
+          label: "New",
         }}
       >
         <Form.Item
