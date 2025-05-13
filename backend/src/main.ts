@@ -7,6 +7,7 @@ import * as path from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
+  console.log(process.env.DATABASE_URI);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const port = process.env.PORT ?? 3001;
 
@@ -19,10 +20,10 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Elearning API documentation')
+    .setDescription('All API endpoints and their descriptions')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('API')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config, {});
   SwaggerModule.setup('api', app, documentFactory);

@@ -6,12 +6,46 @@ A full-stack web application built with **Next.js** for the frontend and **NestJ
 
 ## 📂 Project Structure
 
-root/\
-├── backend/ # NestJS application\
-├── Frontend/ # Next.js application\
-└── README.md # Project documentation
+Below is the structure of the project repository, including both the backend (NestJS) and frontend (Next.js) applications, along with submodules and their purposes.
 
----
+root/  
+└── backend/ $~~~~~~~$# NestJS application  
+$~~~~~~~$└── admin/ $~~~~~~~~~~~~~~$# Admin panel modules  
+$~~~~~~~~~~~~~~$├── account-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Manage admin accounts  
+$~~~~~~~~~~~~~~$├── auth-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Admin authentication logic  
+$~~~~~~~~~~~~~~$├── company-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Company management (admin side)  
+$~~~~~~~~~~~~~~~~~~~~~$└── company-deleted-admin/ $~~~~~~~~~~~~~~~~~~~~~~~~$# View and restore deleted companies  
+$~~~~~~~~~~~~~~$├── coupon-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Coupon management by admins  
+$~~~~~~~~~~~~~~~~~~~~~$├── coupon-favourite-admin/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Admin favorites  
+$~~~~~~~~~~~~~~~~~~~~~$├── coupon-label-admin/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Labeling and tagging coupons  
+$~~~~~~~~~~~~~~~~~~~~~$└── coupon-usage-admin/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Usage tracking from admin view  
+$~~~~~~~~~~~~~~$├── customer-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Customer management for admins  
+$~~~~~~~~~~~~~~~~~~~~~$└── customer-deleted-admin/ $~~~~~~~~~~~~~~~~~~~~~~~~$# View and restore deleted customers  
+$~~~~~~~~~~~~~~$├── learning-status-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Monitor learning progress of customers  
+$~~~~~~~~~~~~~~$└── points-history-admin/ $~~~~~~~~~~~~~~~~~~~~~$# Admin view of point transactions  
+$~~~~~~~$├── auth/ $~~~~~~~~~~~~~~~~~~~~~$# General user authentication module  
+$~~~~~~~$├── common/ $~~~~~~~~~~~~~~~~~~~~~$# Shared modules and utilities  
+$~~~~~~~~~~~~~~$├── decorators/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Custom NestJS decorators  
+$~~~~~~~~~~~~~~$├── dtos/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Data Transfer Objects  
+$~~~~~~~~~~~~~~$├── enums/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Enum definitions  
+$~~~~~~~~~~~~~~$├── guards/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Authentication and role guards  
+$~~~~~~~~~~~~~~$├── interceptors/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Transform requests/responses  
+$~~~~~~~~~~~~~~$├── interfaces/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Shared TypeScript interfaces  
+$~~~~~~~~~~~~~~$├── utils/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Helper functions  
+$~~~~~~~~~~~~~~$└── validators/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Custom validation logic  
+$~~~~~~~$├── company/ $~~~~~~~~~~~~~~~~~~~~~$# Company-related user functionality  
+$~~~~~~~$├── coupon/ $~~~~~~~~~~~~~~~~~~~~~$# Coupon system for users  
+$~~~~~~~~~~~~~~~~~~~~~$├── coupon-favourite/ $~~~~~~~~~~~~~~~~~~~~~~~~$# User favorite coupons  
+$~~~~~~~~~~~~~~~~~~~~~$├── coupon-label/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Labels assigned by users  
+$~~~~~~~~~~~~~~~~~~~~~$└── coupon-usage/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Track usage by users  
+$~~~~~~~$├── customer/ $~~~~~~~~~~~~~~~~~~~~~$# Customer registration and features  
+$~~~~~~~$├── email/ $~~~~~~~~~~~~~~~~~~~~~$# Email service integration  
+$~~~~~~~$├── points-history/ $~~~~~~~~~~~~~~~~~~~~~$# Track user points and transactions  
+$~~~~~~~$└── upload/ $~~~~~~~~~~~~~~~~~~~~~$# Upload endpoints and file handling  
+$~~~~~~~~~~~~~~$├── coupons/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Uploaded coupon images  
+$~~~~~~~~~~~~~~$└── learning-status/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Learning progress uploads  
+├── Frontend/ $~~~~~~~$# Next.js frontend application  
+└── README.md $~~~~~~~$# Project documentation (you are here)
 
 ## ⚙️ Tech Stack
 
@@ -20,7 +54,7 @@ root/\
 - **Database**: PostgreSQL
 - **API**: REST API
 - **Authentication**: [JWT](https://jwt.io/) (Json web token)
-- **Styling**: [Tailwind](https://tailwindcss.com/) + [SCSS](https://sass-lang.com/) + [Antd]
+- **Styling**: [Tailwind](https://tailwindcss.com/) + [SCSS](https://sass-lang.com/) + [Antd](https://ant.design/)
 - **Deployment**: [AWS EC2](https://aws.amazon.com/ec2/) + [PM2](https://pm2.keymetrics.io/)
 
 ---
@@ -111,8 +145,9 @@ NEXT_PUBLIC_BACKEND_URL = BACKEND_URL
 
 ## 📌 Features
 
-For detailed system design and feature specifications, refer to the full document:  
-📄 [System Design & Feature Document](https://docs.google.com/document/d/1eIePOPaPBqDBtts3ygzrWp_XLLQacHsUoQXqklGgga0/edit?tab=t.0#heading=h.aulgn919vxeh)
+- For detailed system design and feature specifications, refer to the full document:  
+  📄 [System Design & Feature Document](https://docs.google.com/document/d/1eIePOPaPBqDBtts3ygzrWp_XLLQacHsUoQXqklGgga0/edit?tab=t.0#heading=h.aulgn919vxeh)
+- API Document and schemas [here](http://3.106.244.62:3001/api#/)
 
 ---
 
