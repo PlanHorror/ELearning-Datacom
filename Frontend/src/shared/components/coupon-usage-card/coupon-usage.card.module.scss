@@ -1,0 +1,26 @@
+.couponUsageCard {
+  .couponImageContainer {
+    text-align: center;
+    margin-bottom: 12px;
+    .couponImage {
+      border-radius: 8px;
+      object-fit: cover;
+    }
+  }
+  .couponName {
+    margin-bottom: 8px;
+  }
+  .couponExpiry {
+    margin-bottom: 8px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .couponInfoRow {
+    margin-bottom: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+}

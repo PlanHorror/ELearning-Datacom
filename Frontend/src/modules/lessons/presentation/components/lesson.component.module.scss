@@ -1,0 +1,123 @@
+@use "../../../../shared//styles/variables.scss" as *;
+
+.lesson_container {
+  margin: 0 100px;
+  .lesson_wrapper {
+    padding: 0 20px;
+  }
+}
+
+.school {
+  text-align: center;
+  border-bottom: 1px solid #dcdcdc;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 140%;
+}
+
+.lesson_list_wrapper {
+  list-style-type: none;
+  .lesson_list_item {
+    text-align: center;
+  }
+}
+
+.math {
+  color: #428bca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  .box_math {
+    background-color: #55b2ee;
+    width: 10px;
+    height: 40px;
+    border-radius: 10%;
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+  }
+}
+
+.science {
+  color: #428bca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  .box_science {
+    background-color: #60cc5f;
+    width: 10px;
+    height: 40px;
+    border-radius: 10%;
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+  }
+}
+
+.sociology {
+  color: #428bca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  .box_sociology {
+    background-color: #e0bf3a;
+    width: 10px;
+    height: 40px;
+    border-radius: 10%;
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+  }
+}
+
+.english {
+  color: #428bca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  .box_english {
+    background-color: #e97f3d;
+    width: 10px;
+    height: 40px;
+    border-radius: 10%;
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+  }
+}
+
+.japanese {
+  color: #428bca;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  .box_japanese {
+    background-color: #fa7486;
+    width: 10px;
+    height: 40px;
+    border-radius: 10%;
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+  }
+}

@@ -1,0 +1,103 @@
+@use "../../styles/variables.scss" as *;
+
+.footer_container {
+  padding: 40px 0;
+  background-color: #1a237e;
+  color: white;
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+
+  .footer_wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    .footer_section {
+      h3 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        position: relative;
+
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: -8px;
+          left: 0;
+          width: 40px;
+          height: 3px;
+          background-color: #ff6b6b;
+        }
+      }
+
+      .footer_links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 12px;
+          transition: all 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          strong {
+            font-weight: 600;
+          }
+
+          p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+          }
+
+          &:hover {
+            color: #ff6b6b;
+          }
+        }
+      }
+
+      .newsletter_form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .newsletter_input {
+          width: 100%;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 6px;
+          background-color: rgba(255, 255, 255, 0.1);
+          color: white;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+          }
+
+          &:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+          }
+        }
+
+        .newsletter_button {
+          background-color: #ff6b6b;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 10px 15px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #ff5252;
+          }
+        }
+      }
+    }
+  }
+}

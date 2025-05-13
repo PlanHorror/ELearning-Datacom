@@ -1,0 +1,15 @@
+@import "../../../../shared/styles/variables.scss";
+
+.favouriteListContainer {
+  max-width: $max-width-container;
+  margin: 0 auto;
+  padding: $space-M;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $primary_color_600 0%, $white_color 100%);
+}
+
+@media (max-width: 768px) {
+  .favouriteListContainer {
+    padding: $space-S;
+  }
+}

@@ -1,0 +1,116 @@
+@import "../../../../shared/styles/variables.scss";
+
+.content {
+  padding: $space-S 0;
+}
+
+.couponGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $space-M;
+  padding: $space-S;
+}
+
+.couponCard {
+  background: $white_color;
+  border-radius: 12px;
+  padding: $space-M;
+  box-shadow: 0 4px 6px rgba($primary_color_300, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid rgba($primary_color_500, 0.2);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba($primary_color_300, 0.15);
+  }
+}
+
+.couponHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-S;
+  padding-bottom: $space-S;
+  border-bottom: 2px dashed rgba($primary_color_500, 0.3);
+}
+
+.couponTitle {
+  color: $primary_color_300;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.discount {
+  background: $primary_color_900;
+  color: $white_color;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.couponDetails {
+  display: flex;
+  flex-direction: column;
+  gap: $space-S;
+}
+
+.expiryDate {
+  color: $primary_color_400;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.codeContainer {
+  display: flex;
+  align-items: center;
+  gap: $space-S;
+  background: $primary_color_600;
+  padding: $space-XXS;
+  border-radius: 6px;
+}
+
+.code {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: $primary_color_300;
+  font-weight: 600;
+  flex: 1;
+}
+
+.copyButton {
+  background: $primary_color_800;
+  color: $white_color;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: darken($primary_color_800, 10%);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: $space-L;
+  background: rgba($white_color, 0.9);
+  border-radius: 12px;
+  color: $primary_color_400;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba($primary_color_300, 0.1);
+}
+
+@media (max-width: 768px) {
+  .couponGrid {
+    grid-template-columns: 1fr;
+    gap: $space-S;
+  }
+
+  .couponCard {
+    padding: $space-S;
+  }
+}

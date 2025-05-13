@@ -1,0 +1,31 @@
+.card {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.form {
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.submitButton {
+  width: 100%;
+}
+
+.notFound {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.form_time_picker .form_date_picker {
+  width: 100%;
+}

@@ -1,0 +1,237 @@
+{
+  "header": {
+    "home": "Home",
+    "lessons": "Lessons",
+    "about": "About",
+    "coupons": "Coupons",
+    "points": "Points",
+    "search": "Search",
+    "signup": "Signup",
+    "signin": "Signin",
+    "english": "US",
+    "japanese": "JP"
+  },
+  "profile": {
+    "profile": "Profile",
+    "progress": "Progress",
+    "points": "Points",
+    "coupons": "Coupons",
+    "setting": "Setting",
+    "logout": "Logout",
+    "favourite": "Favourite",
+    "title": "Customer Profile",
+    "subTitle": "Profile",
+    "personalInfo": "Personal Information",
+    "learningProgress": "Learning Progress",
+    "coursesCompleted": "courses completed",
+    "availableCoupons": "Available Coupons",
+    "couponUsageHistory": "Coupon Usage History",
+    "noCouponUsageHistory": "No coupon usage history",
+    "recentActivities": "Recent Activities"
+  },
+  "page_loading": {
+    "content": "Loading"
+  },
+  "home": {
+    "hero": {
+      "title": "Learn and earn what you love.",
+      "description": "Earn coupons and rewards by studying. Real learning, real benefits.",
+      "startLearning": "Start Learning",
+      "exploreRewards": "Explore Rewards",
+      "scrollHint": "Check out this week's top coupons"
+    },
+    "features": {
+      "fastLearning": {
+        "title": "Fast Learning",
+        "description": "Access knowledge anytime, anywhere"
+      },
+      "qualityContent": {
+        "title": "Quality Content",
+        "description": "Expert-crafted lessons and materials"
+      },
+      "globalCommunity": {
+        "title": "Global Community",
+        "description": "Connect with learners worldwide"
+      },
+      "realRewards": {
+        "title": "Real Rewards",
+        "description": "Earn points and redeem valuable coupons"
+      }
+    },
+    "rewards": {
+      "title": "Rewards Gallery",
+      "subtitle": "Study hard, earn points, claim real rewards",
+      "tabs": {
+        "popular": "Popular Now",
+        "new": "New Arrivals",
+        "recommended": "Recommended for You",
+        "all": "All Rewards"
+      },
+      "card": {
+        "pointsLabel": "Points",
+        "available": "Available",
+        "expiresOn": "Expires",
+        "getRewardBy": "Get this reward by completing:",
+        "pointsNeeded": "pts needed",
+        "pointsAway": "You're only {count} points away!",
+        "startCourse": "Start Course"
+      }
+    },
+    "trust": {
+      "title": "Success Stories",
+      "description": "Hear from learners who have earned real rewards through our platform",
+      "stats": {
+        "title": "Our Impact",
+        "students": "Active Students",
+        "lectures": "Variety Lectures",
+        "coupons": "Available Coupons"
+      },
+      "activity": {
+        "title": "Recent Activity",
+        "timeAgo": {
+          "hours": "{count} hours ago",
+          "yesterday": "Yesterday"
+        },
+        "earnedCoupon": "{name} earned a {coupon} coupon",
+        "completedCourse": "{name} completed \"{course}\" course",
+        "redeemedVoucher": "{name} redeemed {voucher} voucher"
+      }
+    },
+    "lessons": {
+      "title": "Featured Courses"
+    },
+    "footer": {
+      "language": "Language",
+      "quickLinks": "Quick Links",
+      "learningResources": "Learning Resources",
+      "rewardsCatalog": "Rewards Catalog",
+      "community": "Community",
+      "contactSupport": "Contact Support",
+      "helpCenter": "Help Center",
+      "faq": "FAQ",
+      "termsOfUse": "Terms of Use",
+      "privacyPolicy": "Privacy Policy",
+      "cookiePolicy": "Cookie Policy",
+      "stayConnected": "Stay Connected",
+      "emailPlaceholder": "Enter your email",
+      "subscribe": "Subscribe",
+      "information": "Information",
+      "address": "Address",
+      "hotline": "Hotline",
+      "supportTime": "Support Time",
+      "email": "Email"
+    },
+    "sponsors": {
+      "title": "Our Sponsors",
+      "description": "These trusted businesses provide special discounts and coupons for our learners.",
+      "starBucksDesc": "Offering coffee discount coupons for our top learners.",
+      "amazonDesc": "Providing shopping vouchers for course completions.",
+      "uniqloDesc": "Special discounts for students who complete our courses.",
+      "toshibaDesc": "Tech discounts for students in IT-related courses."
+    }
+  },
+  "points": {
+    "title": "Your Points",
+    "totalPoints": "Total Points",
+    "availablePoints": "Available Points",
+    "usedPoints": "Used Points",
+    "pointsHistory": "Points History",
+    "errorGetProfile": "Get customer profile failed!",
+    "table": {
+      "points": "Points",
+      "type": "Type",
+      "description": "Description",
+      "user": "User",
+      "date": "Date"
+    },
+    "type": {
+      "earned": "Earned",
+      "used": "Used"
+    }
+  },
+  "lessons": {
+    "title": "Lessons",
+    "listTitle": "List Lesson",
+    "primary": "Primary School",
+    "secondary": "Secondary School",
+    "high": "High School",
+    "math": "Math",
+    "science": "Science",
+    "sociology": "Sociology",
+    "english": "English",
+    "japanese": "Japanese",
+    "popularLessons": "Popular Lessons",
+    "newLessons": "New Lessons",
+    "enrollNow": "Enroll Now",
+    "lessonDetails": {
+      "duration": "Duration",
+      "level": "Level",
+      "instructor": "Instructor",
+      "rating": "Rating",
+      "startLearning": "Start Learning"
+    }
+  },
+  "coupons": {
+    "availableCoupons": "Available Coupons",
+    "redeemPoints": "Redeem Points",
+    "code": "Code",
+    "copyCode": "Copy Code",
+    "off": "OFF"
+  },
+  "favourite": {
+    "title": "Favourite Coupons",
+    "empty": "You have no favourite coupons yet.",
+    "emptyTitle": "No Favorite Coupons Yet",
+    "emptyDesc": "Start adding coupons to your favorites to see them here!",
+    "headerDesc": "Discover and manage the coupons you have saved"
+  },
+  "auth": {
+    "welcome": "Welcome",
+    "login": "Sign In",
+    "signup": "Sign up",
+    "loginSuccess": "Login successfully!",
+    "loginFailed": "Login failed. Please try again!",
+    "email": "Email",
+    "password": "Password",
+    "emailRequired": "Please input your email!",
+    "emailInvalid": "Please enter a valid email!",
+    "passwordRequired": "Please input your password!",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create a new account for personal",
+    "username": "Username",
+    "usernameRequired": "Please input username!",
+    "usernameMin": "Username must be at least 3 characters!",
+    "register": "Register",
+    "postalCode": "Postal code",
+    "postalCodeRequired": "Please input your postal code!",
+    "gender": "Gender",
+    "genderRequired": "Please choose your gender!",
+    "genderPlaceholder": "Choose your gender",
+    "dob": "DOB",
+    "dobRequired": "Please input your date of birth!",
+    "address": "Address",
+    "addressRequired": "Please input your address!",
+    "return": "Return",
+    "registerWelcome": "Welcome to Elearning Datacom",
+    "registerSubTitle": "Register to unlock your learning journey!",
+    "registerSlogan": "Empower your knowledge. Connect. Grow. Succeed.",
+    "createBusinessAccount": "Create a new account for business",
+    "companyName": "Company Name",
+    "companyNameRequired": "Please input your company name!",
+    "selectAccountType": "Please select kind of account that you want register!",
+    "user": "User",
+    "company": "Company",
+    "haveAccount": "If you have an account,",
+    "here": "here"
+  },
+  "coupon": {
+    "subTitle": "Exclusive Rewards",
+    "title": "Discover Amazing Deals",
+    "description": "Earn points by learning and redeem them for exclusive discounts",
+    "tabAll": "All",
+    "tabPopular": "Popular",
+    "tabNew": "New",
+    "empty": "No coupons available at the moment",
+    "errorTitle": "Error"
+  }
+}
