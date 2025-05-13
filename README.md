@@ -48,14 +48,14 @@ $~~~~~~~~~~~~~~$└── learning-status/ $~~~~~~~~~~~~~~~~~~~~~~~~$# Learning 
 ├── Frontend/ $~~~~~~~$# Next.js frontend application  
 $~~~~~~~$└── app/ $~~~~~~~~~~~~~~$# Page Router  
 $~~~~~~~$└── i18n/ $~~~~~~~~~~~~~~$# config next-intl
-$~~~~~~~$└── modules/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── public/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── shared/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── types/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── utils/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── auth.middleware.ts/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── auth.ts/ $~~~~~~~~~~~~~~$# Page Router  
-$~~~~~~~$└── middleware.ts/ $~~~~~~~~~~~~~~$# Page Router  
+$~~~~~~~$└── modules/ $~~~~~~~~~~~~~~$# call API and handle logic for each page
+$~~~~~~~$└── public/ $~~~~~~~~~~~~~~$# Share image
+$~~~~~~~$└── shared/ $~~~~~~~~~~~~~~$# like common folder, include components, styles, hook, ...
+$~~~~~~~$└── types/ $~~~~~~~~~~~~~~$# global interface
+$~~~~~~~$└── utils/ $~~~~~~~~~~~~~~$# common function
+$~~~~~~~$└── auth.middleware.ts/ $~~~~~~~~~~~~~~$# middleware of authjs
+$~~~~~~~$└── auth.ts/ $~~~~~~~~~~~~~~$# config authjs
+$~~~~~~~$└── middleware.ts/ $~~~~~~~~~~~~~~$# middleware of next-intl 
 
 └── README.md $~~~~~~~$# Project documentation (you are here)
 
