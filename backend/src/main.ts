@@ -29,11 +29,11 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   // Serve static files
-  const uploadPath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+  const uploadPath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
   app.useStaticAssets(path.join(process.cwd(), uploadPath), {
     prefix: '/uploads/coupons/',
   });
-
+  console.log('Check root path: ', process.cwd());
   await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();

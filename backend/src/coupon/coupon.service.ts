@@ -88,15 +88,17 @@ export class CouponService {
     });
     try {
       await this.coupon.save(newCoupon);
-      const imagePath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+      const imagePath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
       const uploadDir = path.join(process.cwd(), imagePath);
-
+      console.log('Check imagePath in service: ', imagePath);
+      console.log('Check uploadDir in service: ', uploadDir);
       // Ensure directory exists
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
 
       const filePath = path.join(uploadDir, newCoupon.image);
+      console.log('Check filePath in service: ', filePath);
       try {
         await fs.promises.writeFile(filePath, image.buffer);
       } catch (error) {
@@ -140,7 +142,7 @@ export class CouponService {
       if (image) {
         const imageFilename = this.saveCouponImage(image);
         updatedCoupon.image = imageFilename;
-        const imagePath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+        const imagePath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
         const filePath = path.join(process.cwd(), imagePath, imageFilename);
         fs.writeFile(filePath, image.buffer, (err) => {
           if (err) {
@@ -176,7 +178,7 @@ export class CouponService {
     } else {
       await this.coupon.remove(coupon);
       try {
-        const imagePath = process.env.COUPON_IMAGE_URL || '/uploads/coupons/';
+        const imagePath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
         const filePath = path.join(process.cwd(), imagePath, coupon.image);
         fs.unlink(filePath, (err) => {
           if (err) {

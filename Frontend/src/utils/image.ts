@@ -6,6 +6,6 @@ export const getImageUrl = (imagePath: string | null | undefined): string => {
   }
 
   const cleanPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
-
-  return `${process.env.NEXT_PUBLIC_BACKEND_URL}/src/uploads/coupons/${cleanPath}`;
+  console.log("Check part frontend side: ", cleanPath)
+  return `${process.env.NEXT_PUBLIC_BACKEND_URL}/uploads/coupons/${cleanPath}`;
 };

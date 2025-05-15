@@ -133,7 +133,7 @@ EMAIL_PASSWORD=your_email_password                 # SMTP authentication passwor
 EMAIL_VERIFICATION_LINK=http://localhost:3000/verify-email # Link used for email verification in frontend
 
 # File upload directories
-COUPON_IMAGE_URL=src/uploads/coupons/              # Path to store uploaded coupon images
+COUPON_IMAGE_URL=uploads/coupons/              # Path to store uploaded coupon images
 JSON_LEARNING_STATUS_URL=src/uploads/learning-status/ # Path to store learning status in JSON format
 
 ```

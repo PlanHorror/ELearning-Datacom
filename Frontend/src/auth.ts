@@ -51,8 +51,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: `${routing.defaultLocale}/auth/access-account`,
-    signOut: `${routing.defaultLocale}/auth/access-account`,
+    signIn: `${routing.defaultLocale}/auth/login`,
+    signOut: `${routing.defaultLocale}/auth/login`,
     error: `${routing.defaultLocale}/error`,
   },
   callbacks: {
