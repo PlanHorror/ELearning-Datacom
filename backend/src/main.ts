@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AuthModule } from './auth/auth.module';
 import * as path from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as fs from 'fs';
 
 async function bootstrap() {
   console.log(process.env.DATABASE_URI);
@@ -30,9 +31,16 @@ async function bootstrap() {
 
   // Serve static files
   const uploadPath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
-  app.useStaticAssets(path.join(process.cwd(), uploadPath), {
+  const absoluteUploadPath = path.join(process.cwd(), uploadPath);
+
+  if (!fs.existsSync(absoluteUploadPath)) {
+    fs.mkdirSync(absoluteUploadPath, { recursive: true });
+  }
+
+  app.useStaticAssets(absoluteUploadPath, {
     prefix: '/uploads/coupons/',
   });
+
   console.log('Check root path: ', process.cwd());
   await app.listen(process.env.PORT ?? 3001);
 }
