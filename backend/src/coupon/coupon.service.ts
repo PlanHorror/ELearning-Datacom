@@ -20,11 +20,13 @@ import { CouponStatus } from 'src/common/enums';
 import { CouponUpdateDto } from 'src/common/dtos/coupon_update.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { FilterCouponDto } from 'src/common/dtos/admin/filter-coupon.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 @Injectable()
 export class CouponService {
   constructor(
     @InjectRepository(Coupon) private coupon: Repository<Coupon>,
     private labelService: CouponLabelService,
+    private cloudinaryService: CloudinaryService,
   ) {}
 
   // Get all coupons
@@ -80,31 +82,33 @@ export class CouponService {
   ): Promise<Coupon> {
     const { label, ...newCouponInfo } = couponDto;
     const labelEntity = await this.labelService.getLabelByName(label);
+    const uploadedImage = await this.cloudinaryService.uploadFile(image);
     const newCoupon = this.coupon.create({
       ...newCouponInfo,
       company,
       label: labelEntity,
-      image: this.saveCouponImage(image),
+      image: uploadedImage.secure_url,
+      // image: this.saveCouponImage(image),
     });
     try {
       await this.coupon.save(newCoupon);
-      const imagePath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
-      const uploadDir = path.join(process.cwd(), imagePath);
-      console.log('Check imagePath in service: ', imagePath);
-      console.log('Check uploadDir in service: ', uploadDir);
-      // Ensure directory exists
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
+      // const imagePath = process.env.COUPON_IMAGE_URL || 'uploads/coupons/';
+      // const uploadDir = path.join(process.cwd(), imagePath);
+      // console.log('Check imagePath in service: ', imagePath);
+      // console.log('Check uploadDir in service: ', uploadDir);
+      // // Ensure directory exists
+      // if (!fs.existsSync(uploadDir)) {
+      //   fs.mkdirSync(uploadDir, { recursive: true });
+      // }
 
-      const filePath = path.join(uploadDir, newCoupon.image);
-      console.log('Check filePath in service: ', filePath);
-      try {
-        await fs.promises.writeFile(filePath, image.buffer);
-      } catch (error) {
-        console.error('Error writing file:', error);
-        throw new InternalServerErrorException('Failed to save image');
-      }
+      // const filePath = path.join(uploadDir, newCoupon.image);
+      // console.log('Check filePath in service: ', filePath);
+      // try {
+      //   await fs.promises.writeFile(filePath, image.buffer);
+      // } catch (error) {
+      //   console.error('Error writing file:', error);
+      //   throw new InternalServerErrorException('Failed to save image');
+      // }
     } catch (error) {
       throw error.code === '23505'
         ? new ConflictException('Coupon code already exists')
