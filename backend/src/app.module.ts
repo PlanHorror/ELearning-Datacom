@@ -15,6 +15,7 @@ import { PointsHistoryModule } from './points-history/points-history.module';
 import { AdminModule } from './admin/admin.module';
 import { CustomerModule } from './customer/customer.module';
 import { CompanyModule } from './company/company.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 @Module({
   imports: [
     AuthModule,
@@ -47,6 +48,8 @@ import { CompanyModule } from './company/company.module';
     AdminModule,
     CustomerModule,
     CompanyModule,
+    // UploadModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

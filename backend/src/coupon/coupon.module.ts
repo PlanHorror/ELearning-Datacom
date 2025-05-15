@@ -7,6 +7,7 @@ import { Coupon } from './entity/coupon.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from 'src/auth/auth.module';
 import { CouponLabelModule } from 'src/coupon/coupon-label/coupon-label.module';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CouponLabelModule } from 'src/coupon/coupon-label/coupon-label.module';
     }),
     AuthModule,
     CouponLabelModule,
+    CloudinaryModule,
   ],
   providers: [CouponService],
   controllers: [CouponController],
